@@ -1,0 +1,49 @@
+<form class="lista" 
+      name="depositosForm" form-id="ac-depositos">
+    <div class="form-flex">
+
+
+        <div class="input">
+            <select name="" id="origen" ng-model="$ctrl.origen" ac-validator is-required="El campo es requerido">
+                <option value="01">Caja Chica</option>
+                <option value="11">Ahorro Local</option>
+                <option value="04">Banco Caja de Ahorro</option>
+                <option value="05">Banco Cuenta Corriente</option>
+                <option value="06">Caja General</option>
+                <option value="08">Mercado Pago</option>
+            </select>
+            <label for="origen">Origen</label>
+        </div>
+
+        <div class="input">
+            <select name="" id="destino" ng-model="$ctrl.destino" ac-validator is-required="El campo es requerido">
+                <option value="01">Caja Chica</option>
+                <option value="11">Ahorro Local</option>
+                <option value="04">Banco Caja de Ahorro</option>
+                <option value="05">Banco Cuenta Corriente</option>
+                <option value="06">Caja General</option>
+                <option value="08">Mercado Pago</option>
+            </select>
+            <label for="destino">Destino</label>
+        </div>
+
+        <div class="input">
+            <input type="number" step="0.01" ng-model="$ctrl.importe"
+                   ac-validator is-required="Debe ingresar un importe" id="importe">
+            <label for="importe">Importe</label>
+
+        </div>
+
+        <div class="botonera">
+            <!--<input type="submit"-->
+            <!--ng-disabled="depositosForm.user.$dirty && depositosForm.user.$invalid ||-->
+            <!--depositosForm.email.$dirty && depositosForm.email.$invalid">-->
+            <button ac-validator ng-click="$ctrl.save();">
+                Guardar
+            </button>
+
+        </div>
+
+
+</form>
+

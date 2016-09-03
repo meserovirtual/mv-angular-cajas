@@ -1,0 +1,45 @@
+
+    <div class="line"><h2>Saldo Inicial</h2> <span class="descr">{{abrirCerrarCajaController.saldoInicial | currency}}</span><br/>
+    </div>
+    <!--<div class="line"><h2>Entregado el día</h2> <span class="descr"-->
+                                                      <!--ng-if="pedidosCtrl.pedido.fecha_entrega !== '0000-00-00 00:00:00'">{{pedidosCtrl.pedido.fecha_entrega}}</span><br/>-->
+    <!--</div>-->
+
+
+    <!--caja cerrada-->
+    <div ng-if="!abrirCerrarCajaController.isOpen">
+
+        <label for="">Mensaje: {{abrirCerrarCajaController.detalles}}</label>
+        <!--<div>-->
+            <!--<input type="number" step="0.01" ng-model="abrirCerrarCajaController.importe"-->
+                   <!--required><br>-->
+            <!--<label for="importe">Saldo Inicial</label>-->
+
+        <!--</div>-->
+    </div>
+
+    <!--caja abierta-->
+
+    <div ng-if="abrirCerrarCajaController.isOpen">
+
+        <div class="line"><h2>Saldo Final</h2> <span class="descr">{{abrirCerrarCajaController.saldoFinal | currency}}</span><br/></div>
+        <div class="v-spacer"></div>
+        <div class="input-container">
+            <input type="text" id="detalles" name="detalles" ng-model="abrirCerrarCajaController.detalles" ng-maxlength="1000"
+                   required>
+            <label for="detalles">Detalles</label>
+        </div>
+        <div>
+            $<input type="number" id="saldoFinal" step="0.01" ng-model="abrirCerrarCajaController.saldoFinalReal"
+                   required><br>
+            <label for="saldoFinal">Saldo Real</label>
+
+        </div>
+    </div>
+
+
+    <div class="btn"><input type="submit" class="relieve-2 btn-ok btn-big" ng-click="abrirCerrarCajaController.save();" value=""
+                            ng-disabled="cajasForm.$invalid">
+        <label>{{(!abrirCerrarCajaController.isOpen)?'Abrir ':'Cerrar ';}} Caja</label>
+    </div>
+    <div class="custom-in"></div>

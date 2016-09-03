@@ -1,0 +1,63 @@
+<div ng-controller="ResumenCajaDiariaController as resumenCajaDiariaCtrl">
+    <div class="title"><h1>Resumen de Caja</h1></div>
+    <div class="v-spacer"></div>
+    <div class="responsive-container">
+        <div class="input-container">
+            <select
+                    ng-model="resumenCajaDiariaCtrl.sucursal"
+                    ng-options="sucursal.nombre  for sucursal in resumenCajaDiariaCtrl.sucursales" name=""
+                    ng-click="resumenCajaDiariaCtrl.filtroSucursal();">
+
+            </select>
+            <label style="font-weight: bold;" for="status">Sucursal</label>
+
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; font-size: 26px;">
+            <label>Saldo Inicial: ${{resumenCajaDiariaCtrl.saldoInicial}}</label>
+        </div>
+        <span>  </span>
+        <div style="display: flex; justify-content: center; align-items: center; font-size: 26px;">
+            <label>Ahorro sucursal: ${{resumenCajaDiariaCtrl.cajaGeneralSucursal}}</label>
+        </div>
+
+    </div>
+
+    <div class="half-v-spacer"></div>
+
+
+    <table st-table="resumenCajaDiariaCtrl.asientos" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Detalle</th>
+            <th style="text-align: right;">Valor</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="row in resumenCajaDiariaCtrl.asientos">
+
+            <td class="table-row table-row-caja" ng-class="{'table-row-result': row.total}">
+                {{row.detalle}}
+                <div class="btn" ng-if="row.total"
+                     style="margin-top: -10px;">
+                    <input type="submit" ng-click="resumenCajaDiariaCtrl.deleteAsiento(row.asiento_id);"
+                           class="btn-delete btn-small" value="">
+                    <label>Eliminar movimiento</label>
+                </div>
+            </td>
+            <td class="table-row table-row-caja" ng-class="{'table-row-result': row.total}" style="text-align: right;">
+                {{row.valor}}
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div class="full-width form-flex">
+        <div></div>
+        <h2 style="font-weight: 700">Total en caja: {{resumenCajaDiariaCtrl.saldoFinal | currency}}</h2>
+    </div>
+
+
+</div>

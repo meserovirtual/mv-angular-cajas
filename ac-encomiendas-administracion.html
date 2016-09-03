@@ -1,0 +1,195 @@
+<div class="lista">
+    <input type="text" class="buscador" ng-model="$ctrl.filtroProd.cliente">
+    <div class="full-width">
+        <label class="label--checkbox">
+            <input type="checkbox" class="checkbox" ng-model="$ctrl.soloPendientes"
+                   ng-click="$ctrl.get();">
+            Mostrar todas las encomiendas, incluidas las ya entregadas
+        </label>
+
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Fecha Entrega</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in $ctrl.encomiendas | filter:$ctrl.filtroProd | limitTo:$ctrl.limit:$ctrl.start"
+            ng-click="$ctrl.select(row, $index);$ctrl.detailsOpen = true;">
+            <td class="">{{row.cliente}}</td>
+            <td class="">{{row.fecha_entrega | date}}</td>
+            <td class="">{{row.total}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="4">
+                <div class="table-td">
+                    <button class="btn-paginacion-first"
+                            ng-click="$ctrl.first();">Primera
+                    </button>
+                    <button class="btn-paginacion-prev"
+                            ng-click="$ctrl.prev();">Ant.
+                    </button>
+                    <div class="paginacion-paginas">
+                        <span>{{'PAGE' | xlat}} {{$ctrl.pagina}} {{'OF' | xlat}} {{$ctrl.paginas}}</span>
+                    </div>
+                    <div class="paginacion-go-to">{{'GO_TO' | xlat}} <input type="number"
+                                                                            ng-model="$ctrl.pagina"
+                                                                            ng-keyup="$ctrl.goToPagina();">
+                    </div>
+
+                    <button class="btn-paginacion-next"
+                            ng-click="$ctrl.next();">Sig.
+                    </button>
+                    <button class="btn-paginacion-last"
+                            ng-click="$ctrl.last();">Última
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    <!--<div class="botonera">-->
+    <!--<button ng-click="$ctrl.detailsOpen = true; $ctrl.encomienda = {} ;">{{'NEW'|xlat}}</button>-->
+
+    <!--</div>-->
+</div>
+
+<ac-blocker blocker-click="$ctrl.encomienda = {}; $ctrl.detailsOpen = false;"
+            visibility="$ctrl.detailsOpen"></ac-blocker>
+
+
+<form class="form details" form-id="encomienda-detalle" ng-class="{'details-open':$ctrl.detailsOpen}">
+    <div class="detalle-container">
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
+            <div class="input">
+                <span type="text" id="fecha" name="fecha">{{$ctrl.encomienda.fecha}}</span>
+                <label for="nombre">Fecha</label>
+
+            </div>
+            <div class="input">
+                <span type="text" id="cliente" name="cliente">{{$ctrl.encomienda.cliente}}</span>
+                <label for="nombre">Cliente</label>
+
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
+            <div class="input">
+                <input type="date" id="fecha_entrega" ng-model="$ctrl.encomienda.fecha_entrega">
+                <label for="pto_repo">Fecha de Entrega</label>
+            </div>
+
+
+            <div class="input">
+                <span type="text" id="total" name="total">{{$ctrl.encomienda.total}}</span>
+                <label for="nombre">Total</label>
+
+            </div>
+            <div class="input">
+                <span type="text" id="forma_pago" name="total">{{$ctrl.encomienda.forma_pago_descr}}</span>
+                <label for="forma_pago">Forma de Pago</label>
+
+            </div>
+        </div>
+        <div class="input">
+            <input type="text" ng-model="$ctrl.encomienda.calle"  id="calle">
+            <label for="">Calle</label>
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
+            <div class="input">
+                <input type="text" ng-model="$ctrl.encomienda.nro"  id="numero">
+                <label for="">Nro./Puerta/Piso</label>
+            </div>
+            <div class="input">
+                <input type="text" ng-model="$ctrl.encomienda.cp"  id="cp">
+                <label for="">CP</label>
+            </div>
+            <div class="input">
+                <input type="text" ng-model="$ctrl.encomienda.empresa"  id="empresa">
+                <label for="">Empresa</label>
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
+            <div class="input">
+                <select name="" id="" ng-model="$ctrl.encomienda.provincia_id">
+                    <option value="1">Buenos Aires</option>
+                    <option value="2">Buenos Aires-GBA</option>
+                    <option value="3">Capital Federal</option>
+                    <option value="4">Catamarca</option>
+                    <option value="5">Chaco</option>
+                    <option value="6">Chubut</option>
+                    <option value="7">Córdoba</option>
+                    <option value="8">Corrientes</option>
+                    <option value="9">Entre Ríos</option>
+                    <option value="10">Formosa</option>
+                    <option value="11">Jujuy</option>
+                    <option value="12">La Pampa</option>
+                    <option value="13">La Rioja</option>
+                    <option value="14">Mendoza</option>
+                    <option value="15">Misiones</option>
+                    <option value="16">Neuquén</option>
+                    <option value="17">Río Negro</option>
+                    <option value="18">Salta</option>
+                    <option value="19">San Juan</option>
+                    <option value="20">San Luis</option>
+                    <option value="21">Santa Cruz</option>
+                    <option value="22">Santa Fe</option>
+                    <option value="23">Santiago del Estero</option>
+                    <option value="24">Tierra del Fuego</option>
+                    <option value="25">Tucumán</option>
+                </select>
+                <label for="">Provincia</label>
+            </div>
+            <div class="input">
+                <input type="text" ng-model="$ctrl.encomienda.ciudad" ac-validator
+                       is-required="Debe ingresar una ciudad" id="ciudad">
+                <label for="">Ciudad</label>
+            </div>
+
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
+            <div class="input">
+                <input type="text" ng-model="$ctrl.encomienda.nro_guia" ac-validator
+                       is-required="Debe ingresar un número de calle" id="numero_guia">
+                <label for="">Nro. de Guía</label>
+            </div>
+        </div>
+        <div class="lista"
+             style="display: flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around; min-height: 0px !important;">
+            <table>
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in $ctrl.encomienda.detalles">
+                    <td class="">{{row.nombre}}</td>
+                    <td class="">{{row.cantidad}}</td>
+                    <td class="">{{row.precio}}</td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="botonera">
+            <button ng-click="$ctrl.save(); $ctrl.detailsOpen = false;" ac-validator
+                    ng-if="$ctrl.encomienda.status == 0">{{'SAVE'|xlat}}
+            </button>
+            <!--<button ng-click="$ctrl.remove()" ng-if="$ctrl.encomienda.status == 0">{{'DELETE'|xlat}}</button>-->
+            <button ng-click="$ctrl.encomienda = {}; $ctrl.detailsOpen = false;">{{'CANCEL'|xlat}}</button>
+            <button ng-click="$ctrl.confirmar(); $ctrl.detailsOpen = false;"
+                    ng-if="$ctrl.encomienda.status == 0">
+                Confirmar
+            </button>
+
+        </div>
+    </div>
+</form>
+

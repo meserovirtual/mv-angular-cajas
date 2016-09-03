@@ -1,0 +1,50 @@
+<div>
+    <div class="input-container">
+        <label style="font-weight: bold;font-size: 1.4em;color: #fff;" for="status">Sucursal</label>
+        <select
+                ng-model="$ctrl.sucursal"
+                ng-options="sucursal.nombre  for sucursal in $ctrl.sucursales" name=""
+                ng-click="$ctrl.filtroSucursal();">
+
+        </select>
+    </div>
+</div>
+
+<div style="display: flex; /*justify-content: center; align-items: center;*/ font-size: 26px;">
+    <label style="width: 200px;text-align: left">Saldo Inicial: </label>$<label style="width: 150px;text-align: right">{{$ctrl.saldoInicial}}</label>
+</div>
+<span>  </span>
+<div style="display: flex; /*justify-content: center; align-items: center;*/ font-size: 26px;">
+    <label style="width: 200px;text-align: left">Ahorro sucursal: </label>$<label
+        style="width: 150px;text-align: right">{{$ctrl.cajaGeneralSucursal}}</label>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Detalle</th>
+        <th style="text-align: right;">Valor</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr ng-repeat="row in $ctrl.asientos">
+
+        <td class="table-row table-row-caja" ng-class="{'table-row-result': row.total}">
+            {{row.detalle}}
+
+            <!--button type="submit" ng-click="$ctrl.deleteAsiento(row.asiento_id);" ng-if="row.total">Eliminar</button-->
+            <img class="btn-img" src="images/trash.png" ng-click="$ctrl.deleteAsiento(row.asiento_id);"
+                 ng-if="row.total" alt="Eliminar" title="Eliminar" height="25">
+        </td>
+        <td class="table-row table-row-caja" ng-class="{'table-row-result': row.total}" style="text-align: right;">
+            {{row.valor}}
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+<h2 style="font-weight: 700">Total en caja: {{$ctrl.saldoFinal | currency}}</h2>
+

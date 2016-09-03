@@ -1,0 +1,81 @@
+<div ng-controller="HistoricoCajaDiariaController as historicoCajaDiariaCtrl">
+    <div class="title"><h1>Historico de Caja</h1></div>
+    <div class="v-spacer"></div>
+
+    <div style="display: flex;">
+        <div><select
+                ng-model="historicoCajaDiariaCtrl.sucursal"
+                ng-options="sucursal.nombre  for sucursal in historicoCajaDiariaCtrl.sucursales" name=""
+                ng-click="historicoCajaDiariaCtrl.filtroSucursal(); historicoCajaDiariaCtrl.clearDetalles();">
+
+        </select>
+            <br><label for="status">Sucursal</label></div>
+        <div><select
+                ng-model="historicoCajaDiariaCtrl.caja"
+                ng-options="caja.fecha  for caja in historicoCajaDiariaCtrl.cajas" name=""
+                ng-click="historicoCajaDiariaCtrl.getDetalles();">
+
+        </select>
+            <br><label for="status">Caja</label></div>
+    </div>
+    <div class="v-spacer"></div>
+
+    <div ng-repeat="asiento in historicoCajaDiariaCtrl.asientos | filter:historicoCajaDiariaCtrl.filtro">
+        <!--{{asiento}}-->
+
+        <div>{{asiento[0].fecha}}
+
+        </div>
+
+        <div ng-repeat="movimiento in asiento" class="full-width" >
+            <div ng-if="movimiento.cuenta_id.indexOf('4.1.1.') > -1 " class="full-width">
+                <div ng-if="movimiento.cuenta_id == '4.1.1.01'" class="form-flex">
+                    <div>{{movimiento.detalles[3].detalle}}</div>
+                    <div>{{movimiento.detalles[2].detalle}} x {{movimiento.detalles[1].detalle | currency}}</div>
+                </div>
+
+                <div ng-if="movimiento.cuenta_id == '4.1.1.02'" class="form-flex">
+                    <div>{{movimiento.detalles[0].detalle}}</div>
+                    <div>{{movimiento.detalles[4].detalle}} x {{movimiento.importe | currency}}</div>
+                </div>
+            </div>
+            <div ng-if="movimiento.cuenta_id.indexOf('1.1.1.0') > -1" class="form-flex total">
+                <div></div>
+                <div>{{movimiento.importe | currency}}</div>
+            </div>
+
+            <div ng-if="movimiento.cuenta_id.indexOf('1.1.1.2') > -1" class="form-flex">
+                <div>Retiro de Caja</div>
+                <div>{{movimiento.importe | currency}}</div>
+            </div>
+
+
+            <div ng-if="movimiento.cuenta_id == '1.1.2.01'" class="form-flex total">
+                <div>Deudas: {{movimiento.detalles[0].detalle}}</div>
+                <div>{{movimiento.importe | currency}}</div>
+            </div>
+            <!--{{movimiento}}-->
+            <!--<div style="color: red;">{{movimiento}}</div>-->
+        </div>
+        <!--<span>{{asiento.fecha}}</span><span>{{producto.categoria}}</span> <span class="descr">{{producto.descripcion}}</span>-->
+        <!--<div class="btn">-->
+        <!--<button ng-click="historicoCajaDiariaCtrl.detalle(producto.producto_id)" class="btn-medium btn-visibility"></button>-->
+        <!--<label>Mostrar Detalle</label>-->
+        <!--</div>-->
+        <div class="half-v-spacer"></div>
+    </div>
+    <div class="full-width form-flex">
+        <div></div>
+        <h2 style="font-weight: 700">Total en caja: {{historicoCajaDiariaCtrl.saldoInicial | currency}}</h2>
+        <!--<input type="text" ng-model="historicoCajaDiariaCtrl.filtro" class="full-width" required/>-->
+        <!--<label>Buscar...</label>-->
+    </div>
+
+    <!--<div class="btn">-->
+
+    <!--<input type="button" class="relieve-2 btn-add  btn-big" value=""-->
+    <!--onclick="window.location='#/productos/0';"/>-->
+
+    <!--<label>Nuevo Producto</label>-->
+    <!--</div>-->
+</div>

@@ -1,0 +1,34 @@
+<div class="lista">
+    <div class="line"><h2>Saldo Inicial</h2> <span class="descr">{{$ctrl.saldoInicial | currency}}</span><br/>
+    </div>
+
+
+    <!--caja cerrada-->
+    <div ng-if="!$ctrl.isOpen">
+        <label for="">Mensaje: {{$ctrl.detalles}}</label>
+    </div>
+
+    <!--caja abierta-->
+
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-items: center; margin-top: 30px;"
+         ng-if="$ctrl.isOpen">
+
+        <div class="input"><span class="descr">{{$ctrl.saldoFinal | currency}}</span><label>Saldo Final</label></div>
+
+        <div class="input">
+            <textarea id="detalles" name="detalles" ng-model="$ctrl.detalles" ng-maxlength="3000" style="min-width: 400px;"></textarea>
+            <label for="detalles">Detalles</label>
+        </div>
+        <div class="input">
+            <input type="text" id="saldoFinal" step="0.01" ng-model="$ctrl.saldoFinalReal"
+                   required>
+            <label for="saldoFinal">Saldo Real</label>
+
+        </div>
+    </div>
+
+
+    <button ng-click="$ctrl.save();">{{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}}
+        Caja
+    </button>
+</div>
