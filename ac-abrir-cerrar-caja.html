@@ -1,34 +1,48 @@
-<div class="lista">
-    <div class="line"><h2>Saldo Inicial</h2> <span class="descr">{{$ctrl.saldoInicial | currency}}</span><br/>
-    </div>
+<div class="container">
+    <div class="container-small">
+        <div class="container-small-2">
+            <div class="mv-col">
+                <div class="margin-top">¿Deseas abrir Caja?</div>
+            </div>
+            <div class="mv-col">
+                <div class="margin-top">Saldo Inicial</div>
+            </div>
+            <div class="mv-col">
+                <input type="text" class="margin-top" value="{{$ctrl.saldoInicial | currency}}" />
+            </div>
 
 
-    <!--caja cerrada-->
-    <div ng-if="!$ctrl.isOpen">
-        <label for="">Mensaje: {{$ctrl.detalles}}</label>
-    </div>
 
-    <!--caja abierta-->
 
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-items: center; margin-top: 30px;"
-         ng-if="$ctrl.isOpen">
+            <!--caja cerrada-->
+            <div ng-if="!$ctrl.isOpen">
+                <label for="">Mensaje: {{$ctrl.detalles}}</label>
+            </div>
 
-        <div class="input"><span class="descr">{{$ctrl.saldoFinal | currency}}</span><label>Saldo Final</label></div>
+            <!--caja abierta-->
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-items: center; margin-top: 30px;"
+                 ng-if="$ctrl.isOpen">
 
-        <div class="input">
-            <textarea id="detalles" name="detalles" ng-model="$ctrl.detalles" ng-maxlength="3000" style="min-width: 400px;"></textarea>
-            <label for="detalles">Detalles</label>
+                <div class="input"><span class="descr">{{$ctrl.saldoFinal | currency}}</span><label>Saldo Final</label></div>
+
+                <div class="input">
+                    <textarea id="detalles" name="detalles" ng-model="$ctrl.detalles" ng-maxlength="3000" style="min-width: 400px;"></textarea>
+                    <label for="detalles">Detalles</label>
+                </div>
+                <div class="input">
+                    <input type="text" id="saldoFinal" step="0.01" ng-model="$ctrl.saldoFinalReal"
+                           required>
+                    <label for="saldoFinal">Saldo Real</label>
+
+                </div>
+            </div>
+
+            <div class="margin-top">
+                <button type="button" class="btn-agregar" ng-click="$ctrl.save();">
+                    {{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}}Caja
+                </button>
+            </div>
         </div>
-        <div class="input">
-            <input type="text" id="saldoFinal" step="0.01" ng-model="$ctrl.saldoFinalReal"
-                   required>
-            <label for="saldoFinal">Saldo Real</label>
 
-        </div>
     </div>
-
-
-    <button ng-click="$ctrl.save();">{{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}}
-        Caja
-    </button>
 </div>
