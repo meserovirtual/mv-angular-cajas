@@ -1,0 +1,73 @@
+<div class="lista">
+    <div style="display: flex;flex-direction: row;justify-content: space-around;flex-wrap: wrap;">
+        <div style="width: 280px">
+            <select ng-model="$ctrl.sucursal"
+                    ng-options="sucursal.nombre  for sucursal in $ctrl.sucursales" id="sucursal"
+                    ng-click="$ctrl.getCajasBySucursal($ctrl.sucursal.sucursal_id);">
+            </select>
+        </div>
+
+        <div style="width: 280px">
+            <select ng-model="$ctrl.caja"
+                    ng-options="caja.fecha  for caja in $ctrl.cajas" id="caja"
+                    ng-click="$ctrl.getDetalles($ctrl.sucursal, $ctrl.caja);">
+            </select>
+        </div>
+    </div>
+
+    <div style="display:flex;font-size:26px;width:75%;margin: 20px auto;">
+        <label style="width: 200px;text-align: left">Saldo Inicial: </label>
+        <label style="width: 150px;text-align: right">{{$ctrl.saldoInicial | currency}}</label>
+    </div>
+    <div style="display:flex;font-size:26px;width:75%;margin: 20px auto;">
+        <label style="width: 200px;text-align: left">Total de Ventas: </label>
+        <label style="width: 150px;text-align: right">{{$ctrl.totalVentas | currency}}</label>
+    </div>
+    <div style="display:flex;font-size:26px;width:75%;margin: 20px auto;">
+        <label style="width: 200px;text-align: left">Ahorro sucursal: </label>
+        <label style="width: 150px;text-align: right">{{$ctrl.cajaGeneralSucursal | currency}}</label>
+    </div>
+
+    <div style="width:75%;margin: 0 auto;">
+        <div ng-repeat="asiento in $ctrl.asientos | filter:$ctrl.filtro">
+            <!--{{asiento}}-->
+            <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;font-weight:bold;">{{asiento[0].fecha}}</div>
+            <div ng-repeat="movimiento in asiento" style="width: 100% !important;" >
+                <div ng-if="movimiento.cuenta_id.indexOf('4.1.1.') > -1 " style="width: 100% !important;">
+                    <div ng-if="movimiento.cuenta_id == '4.1.1.01'" style="display:flex;flex-direction:row;align-items:flex-start;">
+                        <div style="width: 70%;text-align: left;">{{movimiento.detalles[3].detalle}}</div>
+                        <div style="width: 15%;text-align: right;">{{movimiento.detalles[2].detalle}} x {{movimiento.detalles[1].detalle | currency}}</div>
+                        <div style="width: 15%;text-align: right;">{{movimiento.detalles[2].detalle * movimiento.detalles[1].detalle | currency}}</div>
+                    </div>
+
+                    <div ng-if="movimiento.cuenta_id == '4.1.1.02'" style="display:flex;flex-direction:row;align-items:flex-start;">
+                        <div style="width: 70%;text-align: left;">{{movimiento.detalles[0].detalle}}</div>
+                        <div style="width: 15%;text-align: right;">{{movimiento.detalles[4].detalle}} x {{movimiento.importe | currency}}</div>
+                        <div style="width: 15%;text-align: right;">{{movimiento.detalles[4].detalle * movimiento.importe | currency}}</div>
+                    </div>
+                </div>
+                <div ng-if="movimiento.cuenta_id.indexOf('1.1.1.0') > -1" style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;margin-bottom: 20px;">
+                    <div style="width: 100%;font-weight: bold;border-top: 2px solid;text-align:left;font-size: 1.2em;">{{movimiento.detalles[0].detalle}}</div>
+                    <div style="font-weight: bold;border-top: 2px solid;width:120px;text-align:right;font-size: 1.2em;">{{movimiento.importe | currency}}</div>
+                </div>
+
+                <div ng-if="movimiento.cuenta_id.indexOf('1.1.1.2') > -1" style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;margin-bottom: 20px;">
+                    <!--<div style="width: 100%;font-weight: bold;border-top: 2px solid;text-align:left;font-size: 1.2em;">Retiro de Caja</div>-->
+                    <div style="width: 100%;font-weight: bold;border-top: 2px solid;text-align:left;font-size: 1.2em;">{{movimiento.detalles[0].detalle}}</div>
+                    <div style="font-weight: bold;border-top: 2px solid;width:120px;text-align:right;font-size: 1.2em;">{{movimiento.importe | currency}}</div>
+                </div>
+
+                <div ng-if="movimiento.cuenta_id == '1.1.2.01'" class="total" style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;margin-bottom: 20px;">
+                    <div style="width: 100%;font-weight: bold;border-top: 2px solid;text-align:left;font-size: 1.2em;">Deudas: {{movimiento.detalles[0].detalle}}</div>
+                    <div style="font-weight: bold;border-top: 2px solid;width:120px;text-align:right;font-size: 1.2em;">{{movimiento.importe | currency}}</div>
+                </div>
+            </div>
+
+            <div class="half-v-spacer"></div>
+        </div>
+        <div class="full-width" >
+            <div></div>
+            <h2 style="font-weight: 700">Total en caja: {{$ctrl.saldoFinal | currency}}</h2>
+        </div>
+    </div>
+</div>

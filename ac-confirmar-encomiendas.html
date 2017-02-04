@@ -1,0 +1,207 @@
+<div id="cobros" class="lista"
+     style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div name="detalleProductoForm" style="width: 90%">
+        <div style="display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: baseline;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        border: 0px solid; border-bottom-width: 1px;">
+            <div class="input">
+                <select name="" id="tipo_precio" ng-model="$ctrl.tipo_precio">
+                    <option value="0">Minorista</option>
+                    <option value="1">Mayorista</option>
+                    <option value="2">Oferta</option>
+                </select>
+                <label for="tipo_precio">Tipo de Precio</label>
+            </div>
+
+            <div class="input">
+                <ac-autocomplete fields-to-show="'nombre,apellido'"
+                                 selected-to="$ctrl.cliente"
+                                 search-fields="'nombre,apellido,mail'"
+                                 search-function="$ctrl.searchClientes(callback)"></ac-autocomplete>
+                <label for="tipo_precio">Cliente</label>
+            </div>
+            <div class="input">
+
+                <select name="" id="forma_pago" ng-model="$ctrl.forma_pago">
+                    <option value="01">Efectivo</option>
+                    <option value="02">Débito</option>
+                    <option value="03">Crédito</option>
+                    <option value="04">Transferencia CA</option>
+                    <option value="05">Transferencia CC</option>
+                    <option value="08">Mercado Pago</option>
+                    <option value="09">Mercado Libre Efectivo</option>
+                    <option value="10">Mercado Libre Transferencia</option>
+                </select><label for="tipo_precio">Forma de Pago</label>
+            </div>
+
+            <button ng-click="$ctrl.detailsOpen = true">Detalle de Caja</button>
+
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-items: baseline; margin-bottom: 20px; margin-top: 70px;">
+
+            <div class="input">
+                <ac-autocomplete fields-to-show="'nombre,precios[0].precio,precios[1].precio,precios[2].precio'"
+                                 selected-to="$ctrl.producto"
+                                 search-fields="'nombre,sku'"
+                                 search-function="$ctrl.searchProducto(callback)"
+                                 id="searchProducto"></ac-autocomplete>
+                <label for="tipo_precio">Producto</label>
+            </div>
+
+
+            <div class="input" ng-if='$ctrl.producto.producto_tipo != 3'>
+                <input type="number" id="cantidad" name="cantidad" ng-model="$ctrl.cantidad" ng-maxlength="45"
+                       required ng-keyup="($event.keyCode ==13)?$ctrl.agregarDetalle():''">
+                <label for="cantidad">Cantidad</label>
+            </div>
+
+            <div class="input" ng-if='$ctrl.producto.producto_tipo == 3'>
+                <input type="text" id="comentario" name="comentario" ng-model="$ctrl.producto.comentario"
+                       ng-maxlength="45">
+                <label for="cantidad">Comentario</label>
+            </div>
+
+
+            <div style="width: 100px;">
+                $<span ng-if='$ctrl.producto.producto_tipo != 3' style="max-width: 60px;">{{$ctrl.producto.precios[$ctrl.tipo_precio].precio}}</span>
+                <input ng-if='$ctrl.producto.producto_tipo == 3' type="text" style="width: 80px;"
+                       ng-model="$ctrl.producto.precios[$ctrl.tipo_precio].precio">
+            </div>
+            <img ng-src="./images/{{$ctrl.producto.fotos[0].nombre}}"
+                 alt="{{$ctrl.producto.fotos[0].nombre}}"
+                 height="100" width="100" style="background-color: #dddddd; margin-top: -50px;">
+
+            <button ng-click="$ctrl.agregarDetalle()">Agregar</button>
+
+        </div>
+
+    </div>
+
+
+    <table st-table="$ctrl.detalles"
+           style="width: 90%; border: 0px solid; border-top-width: 1px;border-collapse: collapse;">
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th style="width: 30%;">Producto</th>
+            <th>Precio Unitario</th>
+            <th>Cantidad</th>
+            <th style="text-align: right;padding-right: 25px;">Total</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="row in $ctrl.detalles">
+
+            <td class="">{{row.sku}}</td>
+            <td class="">{{row.producto_nombre}}</td>
+            <td class="">{{row.precio_unidad}}</td>
+            <td class="">{{row.cantidad}}</td>
+            <td style="text-align: right;padding-right: 25px;" class="">
+                <input style="width: 60px; margin:0px; text-align: right;"
+                       ng-change="$ctrl.calcularTotal();"
+                       ng-if="$ctrl.forma_pago =='08' ||
+                 $ctrl.forma_pago =='09' ||
+                 $ctrl.forma_pago =='10'"
+                       type="number" step="0.01" ng-model="row.precio_total">
+
+                <div ng-if="$ctrl.forma_pago !='08' &&
+                 $ctrl.forma_pago !='09' &&
+                 $ctrl.forma_pago !='10'">{{row.precio_total | currency}}
+                </div>
+            </td>
+            <td>
+                <button ng-click="$ctrl.removeDetalle($index)">Eliminar</button>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot style="border: solid 0px; border-top-width: 1px;">
+        <tr style="height: 40px;">
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row" style="font-weight: bold;">Total</td>
+            <td class="table-row" style="font-weight: bold; text-align: right; padding-right: 25px;">{{$ctrl.total |
+                currency}}
+            </td>
+            <td></td>
+        </tr>
+        <tr style="height: 40px;">
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row">Descuento</td>
+            <td class="table-row" style="text-align: right;">
+                $<input type="number" style="width: 60px; margin: 0; text-align: right; float: right;"
+                        ng-model="$ctrl.desc_cant"
+                        ng-change="$ctrl.calc_a_cobrar('cant')"
+            />
+            </td>
+            <td class="table-row">
+                %<input type="number" style="width: 50px;margin: 0; text-align: right; float: right;"
+                        ng-model="$ctrl.desc_porc"
+                        ng-change="$ctrl.calc_a_cobrar('porc')"
+            />
+            </td>
+        </tr>
+        <tr style="height: 40px;">
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row">Pago con</td>
+            <td class="table-row" style="text-align: right;">
+                $<input type="number" style="width: 60px;margin: 0; text-align: right; float: right;"
+                        ng-model="$ctrl.paga_con"
+                        ng-change="$ctrl.vuelto = ($ctrl.paga_con>0 && $ctrl.paga_con !== null)?$ctrl.a_cobrar - $ctrl.paga_con:0;"
+            />
+            </td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+        </tr>
+        <tr style="height: 40px;">
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row" style="font-weight: bold;">A Cobrar</td>
+            <td class="table-row" style="font-weight: bold; text-align: right; padding-right: 25px;">
+                {{$ctrl.a_cobrar | currency}}
+            </td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+        </tr>
+        <tr style="height: 40px;">
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+            <td class="table-row">Vuelto</td>
+            <td class="table-row" style="text-align: right;padding-right: 25px;">
+                ${{$ctrl.vuelto}}
+            </td>
+            <td class="table-row"></td>
+            <td class="table-row"></td>
+        </tr>
+        </tfoot>
+    </table>
+
+
+    <div style="display: flex; flex-direction: row; width: 100%; justify-content: center;">
+        <button ng-click="$ctrl.save();">Cobrar</button>
+        <button ng-click="$ctrl.aCuenta();">A Cuenta</button>
+        <button ng-click="$ctrl.aCuenta();">Encomienda</button>
+    </div>
+
+</div>
+<ac-blocker blocker-click="$ctrl.detailsOpen = false;" visibility="$ctrl.detailsOpen"></ac-blocker>
+<form class="form details" form-id="producto-details" ng-class="{'details-open':$ctrl.detailsOpen}">
+    <resumen-caja-diaria></resumen-caja-diaria>
+    <div class="botonera">
+        <button ng-click="$ctrl.detailsOpen = false;">{{'CANCEL'|xlat}}</button>
+
+    </div>
+</form>

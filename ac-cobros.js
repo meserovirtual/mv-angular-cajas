@@ -8,7 +8,7 @@
     function AcCobros() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/ac-angular-cajas/ac-cobros.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/ac-cobros.html',
             controller: AcCobrosController
         }
     }
@@ -34,6 +34,7 @@
         vm.vuelto = 0;
         vm.paga_con_x = 0;
         vm.paga_con_y = 0;
+        vm.descuento = 0;
 
         vm.agregarDetalle = agregarDetalle;
         vm.removeDetalle = removeDetalle;
@@ -42,6 +43,7 @@
         vm.encomienda = encomienda;
         vm.calcularTotal = calcularTotal;
         vm.validateMonto = validateMonto;
+        vm.aCuenta = aCuenta;
 
 
         var elemCaja = angular.element(document.querySelector('#cobros'));
@@ -79,7 +81,7 @@
         });
 
         function validateMonto() {
-            if (vm.paga_con_x < 0) {
+            if(vm.paga_con_x < 0){
                 AcUtils.showMessage('error', 'El valor ingresado es mayor al monto que se debe cobrar');
                 vm.paga_con_x = 0;
                 vm.paga_con_y = vm.total;
@@ -88,12 +90,14 @@
         }
 
         function agregarDetalle() {
+            console.log(vm.producto);
 
             if (vm.producto.producto_tipo == 3) {
                 vm.cantidad = 1;
             }
 
-            if (vm.cantidad == undefined || vm.cantidad == 0) {
+            if (vm.cantidad == undefined || vm.cantidad <= 0) {
+                alert('Ingreso una cantidad menor o igual a 0. Corrija el valor');
                 return;
             }
 
@@ -157,6 +161,7 @@
             //console.log(vm.detalles);
 
             vm.producto = {};
+            //vm.producto.fotos == undefined;
             var el = document.getElementById('searchProducto').getElementsByTagName('input');
             if (el[0] != null) {
                 el[0].focus();
@@ -232,6 +237,7 @@
             vm.total = 0.0;
 
 
+
             //if (vm.forma_pago == '08' || vm.forma_pago == '09' || vm.forma_pago == '10') {
             if (vm.forma_pago_1 == '08' || vm.forma_pago_1 == '09' || vm.forma_pago_1 == '10' ||
                 vm.forma_pago_2 == '08' || vm.forma_pago_2 == '09' || vm.forma_pago_2 == '10') {
@@ -266,18 +272,22 @@
                 if (vm.desc_porc > 0) {
                     vm.a_cobrar = vm.total - (vm.total * vm.desc_porc) / 100;
                     vm.desc_cant = vm.total - vm.a_cobrar;
+                    vm.descuento = vm.desc_porc * 100;
                 } else {
                     vm.a_cobrar = vm.total;
                     vm.desc_cant = 0;
+                    vm.descuento = 0;
                 }
             } else {
 
                 if (vm.desc_cant > 0) {
                     vm.a_cobrar = vm.total - vm.desc_cant;
                     vm.desc_porc = (vm.desc_cant * 100) / vm.total;
+                    vm.descuento = vm.desc_cant;
                 } else {
                     vm.a_cobrar = vm.total;
                     vm.desc_porc = 0;
+                    vm.descuento = 0;
                 }
             }
 
@@ -286,9 +296,9 @@
             vm.paga_con_y = 0;
 
             //vm.vuelto = (vm.paga_con > 0 && vm.paga_con !== null) ? vm.a_cobrar - vm.paga_con : 0;
-            if (vm.paga_con_x > 0 && vm.paga_con_x !== null)
+            if(vm.paga_con_x > 0 && vm.paga_con_x !== null)
                 vm.vuelto = vm.a_cobrar - vm.paga_con_x - ((vm.paga_con_y > 0 && vm.paga_con_y !== null) ? vm.paga_con_y : 0);
-            else if (vm.paga_con_y > 0 && vm.paga_con_y !== null)
+            else if(vm.paga_con_y > 0 && vm.paga_con_y !== null)
                 vm.vuelto = vm.a_cobrar - vm.paga_con_y - ((vm.paga_con_x > 0 && vm.paga_con_x !== null) ? vm.paga_con_x : 0);
             else
                 vm.vuelto = 0;
@@ -336,10 +346,10 @@
 
         function finalizarVenta() {
             var forma_pagos = [];
-            if (vm.paga_con_x > 0 && vm.paga_con_x !== null) {
+            if(vm.paga_con_x > 0 && vm.paga_con_x !== null){
                 forma_pagos.push({forma_pago: vm.forma_de_pago_1, importe: vm.paga_con_x});
             }
-            if (vm.paga_con_y > 0 && vm.paga_con_y !== null) {
+            if(vm.paga_con_y > 0 && vm.paga_con_y !== null){
                 forma_pagos.push({forma_pago: vm.forma_de_pago_2, importe: vm.paga_con_y});
             }
             console.log(forma_pagos);
@@ -351,13 +361,14 @@
                 function (data) {
 
                     var helper_obj = {
-                        asiento_id: data,
-                        detalles: vm.detalles,
-                        despues: MovimientoStockFinal.stocks_finales
+                        asiento_id : data,
+                        detalles : vm.detalles,
+                        despues : MovimientoStockFinal.stocks_finales
                     };
 
+                    console.log(helper_obj);
 
-                    HelperService.create(helper_obj).then(function (data) {
+                    HelperService.create(helper_obj).then(function(data){
                         console.log(data);
                     });
 
@@ -374,8 +385,8 @@
                         vm.paga_con = 0;
                         vm.vuelto = 0;
                         vm.total = 0;
-                        vm.forma_pago_1 = '01';
-                        vm.forma_pago_2 = '02';
+                        vm.forma_de_pago_1 = '01';
+                        vm.forma_de_pago_2 = '02';
                         vm.paga_con_x = 0;
                         vm.paga_con_y = 0;
 
@@ -392,10 +403,9 @@
                         vm.tipo_precio = '0';
 
                         StockVars.clearCache = true;
-                        StockService.get().then(
-                            function (data) {
+                        StockService.get(function (data) {
 
-                            });
+                        });
 
                         $rootScope.$broadcast('refreshResumenCaja');
                         AcUtilsGlobals.stopWaiting();
@@ -429,6 +439,80 @@
             UserService.get().then(callback);
         }
 
+        /**
+         * Cobro a Cuenta del cliente
+         */
+        function aCuenta() {
+            /*
+            if (vm.detalles.length < 1) {
+                AcUtils.showMessage('error', 'No hay productos seleccionados');
+                return;
+            }
+
+            AcUtilsGlobals.startWaiting();
+            //var usuario_id = -1;
+            if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
+                vm.usuario_id = vm.cliente.usuario_id;
+
+                //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
+                MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, '07', '00', vm.total, vm.desc_cant, 'Venta Productos - Ingreso a Deudores', vm.detalles, vm.usuario_id, 1, '',
+                    function (data) {
+                        //console.log(MovimientoStockFinal.stocks_finales);
+                        //ConsultaStockService.updateStock(MovimientoStockFinal.stocks_finales, function (data) {
+                        StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
+                            vm.cliente.saldo = vm.cliente.saldo - parseFloat(vm.total);
+                            UserService.update(vm.cliente).then(function (data) {
+                                //if (!isNaN(data) && data > -1) {
+                                vm.detalles = [];
+                                vm.cliente = {};
+
+                                    vm.forma_pago = '01';
+                                    vm.desc_porc = 0;
+                                    vm.desc_cant = 0;
+                                    vm.a_cobrar = 0;
+                                    vm.paga_con = 0;
+                                    vm.vuelto = 0;
+                                    vm.total = 0;
+                                    vm.forma_de_pago_1 = '01';
+                                    vm.forma_de_pago_2 = '02';
+                                    vm.paga_con_x = 0;
+                                    vm.paga_con_y = 0;
+
+                                    AcUtils.showMessage('success', 'Venta realizada con éxito.');
+                                //} else {
+                                //    AcUtils.showMessage('error', 'Error al realizar la venta');
+                                //}
+                            }).catch(function(data){
+                                console.log(data);
+                                AcUtils.showMessage('error', 'Error al realizar la venta');
+                            });
+
+                            vm.producto = {};
+                            var el = document.getElementById('searchCliente').getElementsByTagName('input');
+                            if (el[0] != null) {
+                                el[0].value = '';
+                            }
+
+                            vm.tipo_precio = '0';
+
+                            StockVars.clearCache = true;
+                            StockService.get(function (data) {
+                            });
+
+                            $rootScope.$broadcast('refreshResumenCaja');
+                            AcUtilsGlobals.stopWaiting();
+
+                        });
+                        //console.log(data);
+                    });
+            } else {
+                AcUtils.showMessage('error', 'Debe seleccionar un cliente');
+                return;
+            }
+            */
+        }
+
 
     }
+
 })();

@@ -1,216 +1,1695 @@
-2016-04-22 01:59:09: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas) and sucursal_id=Array and pos_id =;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+2016-05-05 13:46:29: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Table 'arielces_bayres_test.encomiendas' doesn't exist' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:1482
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(650): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(747): Cajas::init(Array)
+#5 {main}
+2016-05-05 19:13:57: exception 'Exception' with message 'Problem preparing query (SELECT
+        IFNULL(SUM(m.importe),0) importe,
+            (SELECT
+                    c.descripcion
+                FROM
+                    cuentas c
+                WHERE
+                    m.cuenta_id = c.cuenta_id) nombre
+    FROM
+        movimientos m
+    WHERE
+        m.cuenta_id = "1.1.1.32" and m.sucursal_id=;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 12' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:1482
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#2 [internal function]: Cajas::getTotalByCuenta(Array)
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(747): Cajas::init(Array)
+#5 {main}
+2016-05-05 19:17:24: exception 'Exception' with message 'Problem preparing query (SELECT
+        IFNULL(SUM(m.importe),0) importe,
+            (SELECT
+                    c.descripcion
+                FROM
+                    cuentas c
+                WHERE
+                    m.cuenta_id = c.cuenta_id) nombre
+    FROM
+        movimientos m
+    WHERE
+        m.cuenta_id = "1.1.1.32" and m.sucursal_id=;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 12' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:1482
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#2 [internal function]: Cajas::getTotalByCuenta(Array)
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(747): Cajas::init(Array)
+#5 {main}
+2016-05-05 19:18:02: exception 'Exception' with message 'Problem preparing query (SELECT
+        IFNULL(SUM(m.importe),0) importe,
+            (SELECT
+                    c.descripcion
+                FROM
+                    cuentas c
+                WHERE
+                    m.cuenta_id = c.cuenta_id) nombre
+    FROM
+        movimientos m
+    WHERE
+        m.cuenta_id = "1.1.1.32" and m.sucursal_id=;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 12' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:1482
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#2 [internal function]: Cajas::getTotalByCuenta(Array)
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(747): Cajas::init(Array)
+#5 {main}
+2016-05-05 19:18:53: exception 'Exception' with message 'Problem preparing query (SELECT
+        IFNULL(SUM(m.importe),0) importe,
+            (SELECT
+                    c.descripcion
+                FROM
+                    cuentas c
+                WHERE
+                    m.cuenta_id = c.cuenta_id) nombre
+    FROM
+        movimientos m
+    WHERE
+        m.cuenta_id = "1.1.1.32" and m.sucursal_id=;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 12' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:1482
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#2 [internal function]: Cajas::getTotalByCuenta(Array)
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(747): Cajas::init(Array)
+#5 {main}
+2016-06-24 08:11:52: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:11:52: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:11:53: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:11:53: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:11:53: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:11:53: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#4 [internal function]: Cajas::getTotalByCuenta(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:11:53: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:11:54: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:11:54: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:11:54: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:11:54: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#4 [internal function]: Cajas::getTotalByCuenta(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:02: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:07: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:07: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#4 [internal function]: Cajas::getTotalByCuenta(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:12: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:19: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:20: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:52: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:12:53: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:13:04: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:13:04: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#4 [internal function]: Cajas::getTotalByCuenta(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:13:04: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:13:05: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:13:05: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:13:05: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:13:05: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:13:05: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:13:05: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:13:36: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:13:40: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:14:25: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:14:27: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#4 [internal function]: Cajas::getTotalByCuenta(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:03: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:04: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:04: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:06: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:06: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:07: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:07: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:07: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:07: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:07: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:08: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(653): MysqliDb->rawQuery('SELECT\n    e.en...')
+#4 [internal function]: Cajas::getEncomiendas(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
+#4 [internal function]: Cajas::getTotalByCuenta(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(394): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getSaldoInicial(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(494): MysqliDb->rawQuery('select * from r...')
+#4 [internal function]: Cajas::getResultado(Array)
+#5 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getResul...', Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#7 {main}
+2016-06-24 08:18:23: exception 'Exception' with message 'Connect Error 1045: Access denied for user 'root'@'localhost' (using password: YES)' in /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php:259
+Stack trace:
+#0 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(275): MysqliDb->connect()
+#1 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(1479): MysqliDb->mysqli()
+#2 /home2/arielces/public_html/gestion-bayres/includes/MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#4 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(169): Cajas::getLastCaja('1', '1')
+#5 [internal function]: Cajas::getCajaDiaria(Array)
+#6 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#7 /home2/arielces/public_html/gestion-bayres/bower_components/ac-angular-cajas/includes/ac-cajas.php(752): Cajas::init(Array)
+#8 {main}
+2016-08-13 21:15:07: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
 Stack trace:
 #0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-08-13 21:15:11: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-08-13 21:18:22: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-08-13 21:19:11: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-08-13 21:39:24: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-08-13 21:39:27: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-08-13 21:39:39: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-08-21 22:31:47: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-10-20 02:55:09: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
 #1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
-#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja(Array, NULL)
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:55:10: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
 #3 [internal function]: Cajas::getCajaDiaria(Array)
 #4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
 #6 {main}
-2016-04-22 01:59:41: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas) and sucursal_id=Array and pos_id =;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+2016-10-20 02:55:30: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
 #1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
-#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja(Array, NULL)
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:55:30: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
 #3 [internal function]: Cajas::getCajaDiaria(Array)
 #4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
 #6 {main}
-2016-04-22 02:55:13: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas) and sucursal_id= and pos_id =;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and pos_id =' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+2016-10-20 02:57:12: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
 #1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
-#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(338): Cajas::getLastCaja(NULL, NULL)
-#3 [internal function]: Cajas::getSaldoFinal(Array)
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
 #4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(493): Cajas::init(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
 #6 {main}
-2016-04-22 03:00:42: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas) and sucursal_id= and pos_id =;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and pos_id =' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+2016-10-20 02:57:12: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
 #1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
-#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(338): Cajas::getLastCaja(NULL, NULL)
-#3 [internal function]: Cajas::getSaldoFinal(Array)
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getCajaDiaria(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:57:26: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
 #4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(493): Cajas::init(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
 #6 {main}
-2016-04-22 03:08:22: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas) and sucursal_id=Array and pos_id =;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+2016-10-20 02:57:26: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
 #1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
-#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(419): Cajas::getLastCaja(Array, NULL)
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getCajaDiaria(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:57:56: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:57:56: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getCajaDiaria(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:59:07: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:59:07: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getCajaDiaria(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:59:19: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 02:59:19: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getCajaDiaria(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 03:02:19: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 03:02:19: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getCajaDiaria(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 03:03:14: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(394): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getSaldoInicial(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-10-20 03:03:14: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=undefined and pos_id =undefined) and sucursal_id=undefined and pos_id =undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(425): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(169): Cajas::getLastCaja('undefined', 'undefined')
+#3 [internal function]: Cajas::getCajaDiaria(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#6 {main}
+2016-11-02 21:31:13: exception 'Exception' with message 'Problem preparing query (SELECT
+    e.encomienda_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.encomienda_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    encomiendas e
+        LEFT JOIN
+    encomiendas_detalles d ON e.encomienda_id = d.encomienda_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id  WHERE e.status = 0  ORDER BY e.fecha;) Unknown column 'e.descuento' in 'field list'' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(656): MysqliDb->rawQuery('SELECT\n    e.en...')
+#2 [internal function]: Cajas::getEncomiendas(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getEncom...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#5 {main}
+2016-11-04 15:36:18: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(1095): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\cnx\MysqliDb.php(550): MysqliDb->_buildQuery(NULL)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(482): MysqliDb->get('cajas')
+#5 [internal function]: Cajas::getCajas(Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajas', Array)
+#7 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#8 {main}
+2016-11-04 15:37:22: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(1095): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\cnx\MysqliDb.php(550): MysqliDb->_buildQuery(NULL)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(482): MysqliDb->get('cajas')
+#5 [internal function]: Cajas::getCajas(Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajas', Array)
+#7 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(757): Cajas::init(Array)
+#8 {main}
+2016-11-04 15:55:35: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 15:55:39: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 15:57:10: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:02:33: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:02:34: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:02:39: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:02:40: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:02:52: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:02:54: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:04:25: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2016-11-04 16:04:26: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\cnx\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\cnx\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(313): MysqliDb->rawQuery('select movimien...', Array, false)
+#4 [internal function]: Cajas::getCajaDiariaFromTo(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getCajaD...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(758): Cajas::init(Array)
+#7 {main}
+2017-02-04 14:31:58: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=1 and pos_id =1) and sucursal_id=1 and pos_id =1;) Table 'arielces_mvtest.cajas' doesn't exist' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(429): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(423): Cajas::getLastCaja('1', '1')
 #3 [internal function]: Cajas::checkEstado(Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::checkEst...', Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
+#4 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::checkEst...', Array)
+#5 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(762): Cajas::init(Array)
 #6 {main}
-2016-04-22 03:46:43: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+2017-02-04 14:33:26: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=1 and pos_id =1) and sucursal_id=1 and pos_id =1;) Table 'arielces_mvtest.cajas' doesn't exist' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
-#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1479): MysqliDb->mysqli()
-#2 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(411): MysqliDb->rawQuery('select\n(select ...')
-#4 [internal function]: Cajas::getSaldoFinalAnterior(Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
-#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
-#7 {main}
-2016-04-22 03:47:41: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(429): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(423): Cajas::getLastCaja('1', '1')
+#3 [internal function]: Cajas::checkEstado(Array)
+#4 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::checkEst...', Array)
+#5 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(762): Cajas::init(Array)
+#6 {main}
+2017-02-04 14:34:26: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=1 and pos_id =1) and sucursal_id=1 and pos_id =1;) Table 'arielces_mvtest.cajas' doesn't exist' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
-#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1479): MysqliDb->mysqli()
-#2 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(411): MysqliDb->rawQuery('select\n(select ...')
-#4 [internal function]: Cajas::getSaldoFinalAnterior(Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
-#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
-#7 {main}
-2016-04-22 03:48:52: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(429): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(423): Cajas::getLastCaja('1', '1')
+#3 [internal function]: Cajas::checkEstado(Array)
+#4 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::checkEst...', Array)
+#5 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(762): Cajas::init(Array)
+#6 {main}
+2017-02-04 14:39:15: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=1 and pos_id =1) and sucursal_id=1 and pos_id =1;) Table 'arielces_mvtest.cajas' doesn't exist' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
-#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1479): MysqliDb->mysqli()
-#2 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(411): MysqliDb->rawQuery('select\n(select ...')
-#4 [internal function]: Cajas::getSaldoFinalAnterior(Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
-#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
-#7 {main}
-2016-04-22 03:49:50: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(429): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(423): Cajas::getLastCaja('1', '1')
+#3 [internal function]: Cajas::checkEstado(Array)
+#4 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::checkEst...', Array)
+#5 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(762): Cajas::init(Array)
+#6 {main}
+2017-02-04 14:39:15: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=1 and pos_id =1) and sucursal_id=1 and pos_id =1;) Table 'arielces_mvtest.cajas' doesn't exist' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
-#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1479): MysqliDb->mysqli()
-#2 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(411): MysqliDb->rawQuery('select\n(select ...')
-#4 [internal function]: Cajas::getSaldoFinalAnterior(Array)
-#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
-#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
-#7 {main}
-2016-04-30 21:22:45: exception 'Exception' with message 'Problem preparing query (SELECT
-        IFNULL(SUM(m.importe),0) importe,
-            (SELECT
-                    c.descripcion
-                FROM
-                    cuentas c
-                WHERE
-                    m.cuenta_id = c.cuenta_id) nombre
-    FROM
-        movimientos m
-    WHERE
-        m.cuenta_id = "3" and m.sucursal_id=;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 12' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(429): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(342): Cajas::getLastCaja(1, 1)
+#3 [internal function]: Cajas::getSaldoFinal(Array)
+#4 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(760): Cajas::init(Array)
+#6 {main}
+2017-02-04 14:43:41: exception 'Exception' with message 'Problem preparing query (select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=1 and pos_id =1) and sucursal_id=1 and pos_id =1;) Table 'arielces_mvtest.cajas' doesn't exist' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
-#2 [internal function]: Cajas::getTotalByCuenta(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(495): Cajas::init(Array)
-#5 {main}
-2016-05-19 16:58:04: exception 'Exception' with message 'Problem preparing query (update cajas set detalles='vinieron 11 personas, se respondieron varias preguntas de ml, facebook, se publico foto en facebook, se armo el pedido de reina mota que pasaron a retirar por $2950 se pasaron numeros de guia a clientes y se califico por ml, se armo flete para almagro, y quedamos con diego en ver cuando hacerlo para aprovecharlo mejor ya que son pocas cosas y la idea seria mandar cosas desde almagro, se estuvo averiguando porque el fosfato monopotasico que se envio a lucia la semana pasada no estaba bien, era monoamonico, habia que cambiarlo, en el transcurso del dia de ayer se habia coordinado para que lo cambien y no lo llevaron, asique se arreglo hoy nuevamente para hacer el cambio, se llamo a los taburetes y quedaron en confirmarme la entrega de los mismos, me llamaron por la tarde y me confirmaron la entrega para el dia de hoy de 18 a 20hs, se pidio guano de conejo liquido y solido, se ingreso a reina mota como cliente mayorista al sistema, se cambio precio cooltube que estaba mal, se paso conducto como venta de ml efectivo, porque era 1.5mts y no podia cambiar el precio a $100 de otra forma, se estuvo trabajando con el sistema para ver que cambiar o agregar, se anotaron varias cosas, retiraron una compra de ml, y se califico, la pc empezo a tirar fallos de videos...queda colgado el google crome, se le pidio a juan si le podia consultar al hno que podia ser que fallara, ya que lo hizo varias veces y la unica soluicion es reinicar la pc, sin contar que tira error de memoria insuficiente, y el disco esta limpio y con mucho espacio, se volvio a revisar las opciones y configuracion de google crome y se trato de 'limpiar' lo mejor posible la pc para ver que puede ser,', asiento_cierre_id = (Select max(asiento_id) from movimientos) where
-sucursal_id = 3 and
-pos_id = 1 and
-caja_id =89;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'limpiar' lo mejor posible la pc para ver que puede ser,', asiento_cierre_id = (S' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(429): MysqliDb->rawQuery('select * from c...')
+#2 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(342): Cajas::getLastCaja(1, 1)
+#3 [internal function]: Cajas::getSaldoFinal(Array)
+#4 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#5 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(760): Cajas::init(Array)
+#6 {main}
+2017-02-04 15:02:34: exception 'Exception' with message 'Problem preparing query (
+        Select
+    ifnull(sum(m.importe),0) total
+from
+    movimientos m
+where
+    m.cuenta_id = '1.1.1.01' and pos_id = '1'
+        and m.asiento_id >= 9999999;) Table 'arielces_mvtest.movimientos' doesn't exist' in C:\xampp\htdocs\cnx\MysqliDb.php:1482
 Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(374): MysqliDb->rawQuery('update cajas se...')
-#2 [internal function]: Cajas::cerrarCaja(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::cerrarCa...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(750): Cajas::init(Array)
-#5 {main}
-2016-06-02 16:40:29: exception 'Exception' with message 'Problem preparing query (update cajas set detalles=''lslslsla'jlajsñfklsadf'''asdkfls'sd'f', asiento_cierre_id = (Select max(asiento_id) from movimientos) where
-sucursal_id = 3 and
-pos_id = 1 and
-caja_id =94;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'lslslsla'jlajsñfklsadf'''asdkfls'sd'f', asiento_cierre_id = (Select max(asiento' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
-Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(374): MysqliDb->rawQuery('update cajas se...')
-#2 [internal function]: Cajas::cerrarCaja(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::cerrarCa...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(750): Cajas::init(Array)
-#5 {main}
-2016-06-02 16:42:48: exception 'Exception' with message 'Problem preparing query (update cajas set detalles='asdfasdff'asd'fsadf'sa'sda'fsad'fsdaf'sdfa's'', asiento_cierre_id = (Select max(asiento_id) from movimientos) where
-sucursal_id = 3 and
-pos_id = 1 and
-caja_id =94;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asd'fsadf'sa'sda'fsad'fsdaf'sdfa's'', asiento_cierre_id = (Select max(asiento_id' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
-Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(374): MysqliDb->rawQuery('update cajas se...')
-#2 [internal function]: Cajas::cerrarCaja(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::cerrarCa...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(750): Cajas::init(Array)
-#5 {main}
-2016-06-02 16:46:42: exception 'Exception' with message 'Problem preparing query (update cajas set detalles='asdf'asdfásdfsafdásdf'asdf'asdf'asdf'fdsa', asiento_cierre_id = (Select max(asiento_id) from movimientos) where
-sucursal_id = 3 and
-pos_id = 1 and
-caja_id =94;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asdfásdfsafdásdf'asdf'asdf'asdf'fdsa', asiento_cierre_id = (Select max(asiento' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
-Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(374): MysqliDb->rawQuery('update cajas se...')
-#2 [internal function]: Cajas::cerrarCaja(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::cerrarCa...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(750): Cajas::init(Array)
-#5 {main}
-2016-06-02 16:48:07: exception 'Exception' with message 'Problem preparing query (update cajas set detalles='asd'fas'sdf'sd'fasdf'', asiento_cierre_id = (Select max(asiento_id) from movimientos) where
-sucursal_id = 3 and
-pos_id = 1 and
-caja_id =94;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fas'sdf'sd'fasdf'', asiento_cierre_id = (Select max(asiento_id) from movimientos' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
-Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(374): MysqliDb->rawQuery('update cajas se...')
-#2 [internal function]: Cajas::cerrarCaja(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::cerrarCa...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(750): Cajas::init(Array)
-#5 {main}
-2016-06-23 17:13:52: exception 'Exception' with message 'Problem preparing query (SELECT
-        IFNULL(SUM(m.importe),0) importe,
-            (SELECT
-                    c.descripcion
-                FROM
-                    cuentas c
-                WHERE
-                    m.cuenta_id = c.cuenta_id) nombre
-    FROM
-        movimientos m
-    WHERE
-        m.cuenta_id = "1.1.1.3undefined" and m.sucursal_id=undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
-Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
-#2 [internal function]: Cajas::getTotalByCuenta(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(752): Cajas::init(Array)
-#5 {main}
-2016-06-23 17:14:58: exception 'Exception' with message 'Problem preparing query (SELECT
-        IFNULL(SUM(m.importe),0) importe,
-            (SELECT
-                    c.descripcion
-                FROM
-                    cuentas c
-                WHERE
-                    m.cuenta_id = c.cuenta_id) nombre
-    FROM
-        movimientos m
-    WHERE
-        m.cuenta_id = "1.1.1.3undefined" and m.sucursal_id=undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
-Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
-#2 [internal function]: Cajas::getTotalByCuenta(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(752): Cajas::init(Array)
-#5 {main}
-2016-06-23 17:16:19: exception 'Exception' with message 'Problem preparing query (SELECT
-        IFNULL(SUM(m.importe),0) importe,
-            (SELECT
-                    c.descripcion
-                FROM
-                    cuentas c
-                WHERE
-                    m.cuenta_id = c.cuenta_id) nombre
-    FROM
-        movimientos m
-    WHERE
-        m.cuenta_id = "1.1.1.3undefined" and m.sucursal_id=undefined;) Unknown column 'undefined' in 'where clause'' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
-Stack trace:
-#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
-#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(50): MysqliDb->rawQuery('SELECT\n        ...')
-#2 [internal function]: Cajas::getTotalByCuenta(Array)
-#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getTotal...', Array)
-#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-cajas\includes\ac-cajas.php(752): Cajas::init(Array)
+#0 C:\xampp\htdocs\cnx\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(352): MysqliDb->rawQuery('\n        Select...')
+#2 [internal function]: Cajas::getSaldoFinal(Array)
+#3 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(19): call_user_func('Cajas::getSaldo...', Array)
+#4 C:\xampp\htdocs\mesero\app\bower_components\mv-angular-cajas\includes\ac-cajas.php(760): Cajas::init(Array)
 #5 {main}

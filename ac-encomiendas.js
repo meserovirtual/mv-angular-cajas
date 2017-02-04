@@ -16,9 +16,10 @@
                 cliente: '<',
                 formaPago: '<',
                 detalles: '=',
+                descuento: '<',
                 show: '='
             },
-            templateUrl: window.installPath + '/ac-angular-cajas/ac-encomiendas.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/ac-encomiendas.html',
             controller: AcEncomiendasController
         }
     }
@@ -61,9 +62,11 @@
                 vm.fncDetalles();
                 vm.encomienda.detalles = vm.detalles;
                 vm.encomienda.total = 0;
+                vm.encomienda.descuento = vm.descuento;
                 for (var i in vm.encomienda.detalles) {
                     vm.encomienda.total = vm.encomienda.total + vm.encomienda.detalles[i].precio_total;
                 }
+                //vm.encomienda.total = vm.encomienda.total - vm.descuento;
                 EncomiendasService.save(vm.encomienda).then(function (data) {
                     vm.show = false;
                     vm.func();

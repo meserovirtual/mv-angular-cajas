@@ -11,7 +11,7 @@
     function gastos() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/ac-angular-cajas/ac-gastos.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/ac-gastos.html',
             controller: GastosController
         }
     }

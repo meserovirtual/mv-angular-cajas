@@ -20,8 +20,8 @@
         <tr ng-repeat="row in $ctrl.encomiendas | filter:$ctrl.filtroProd | limitTo:$ctrl.limit:$ctrl.start"
             ng-click="$ctrl.select(row, $index);$ctrl.detailsOpen = true;">
             <td class="">{{row.cliente}}</td>
-            <td class="">{{row.fecha_entrega | date}}</td>
-            <td class="">{{row.total}}</td>
+            <td class="" style="text-align: center">{{row.fecha_entrega | date}}</td>
+            <td class="" style="text-align: right">$ {{row.total - row.descuento}}</td>
         </tr>
         </tbody>
         <tfoot>
@@ -82,17 +82,24 @@
                 <input type="date" id="fecha_entrega" ng-model="$ctrl.encomienda.fecha_entrega">
                 <label for="pto_repo">Fecha de Entrega</label>
             </div>
-
-
             <div class="input">
-                <span type="text" id="total" name="total">{{$ctrl.encomienda.total}}</span>
-                <label for="nombre">Total</label>
-
+                <span type="text" id="subtotal" name="subtotal">$ {{$ctrl.encomienda.total}}</span>
+                <label for="subtotal" ng-if="$ctrl.encomienda.descuento > 0">SubTotal</label>
+                <label for="subtotal" ng-if="$ctrl.encomienda.descuento == 0">Total</label>
             </div>
             <div class="input">
                 <span type="text" id="forma_pago" name="total">{{$ctrl.encomienda.forma_pago_descr}}</span>
                 <label for="forma_pago">Forma de Pago</label>
-
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
+            <div class="input" ng-if="$ctrl.encomienda.descuento > 0">
+                <span type="text" id="descuento" name="descuento">$ {{$ctrl.encomienda.descuento}}</span>
+                <label for="descuento">Descuento</label>
+            </div>
+            <div class="input" ng-if="$ctrl.encomienda.descuento > 0">
+                <span type="text" id="total" name="total">$ {{$ctrl.encomienda.total - $ctrl.encomienda.descuento}}</span>
+                <label for="total">Total</label>
             </div>
         </div>
         <div class="input">
@@ -171,8 +178,8 @@
                 <tbody>
                 <tr ng-repeat="row in $ctrl.encomienda.detalles">
                     <td class="">{{row.nombre}}</td>
-                    <td class="">{{row.cantidad}}</td>
-                    <td class="">{{row.precio}}</td>
+                    <td class="" style="text-align: center;">{{row.cantidad}}</td>
+                    <td class="" style="text-align: right;">$ {{row.precio}}</td>
                 </tr>
                 </tbody>
 

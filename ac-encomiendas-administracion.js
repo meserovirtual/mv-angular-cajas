@@ -9,7 +9,7 @@
             bindings: {
                 searchFunction: '&'
             },
-            templateUrl: window.installPath + '/ac-angular-cajas/ac-encomiendas-administracion.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/ac-encomiendas-administracion.html',
             controller: AcEncomiendasController
         }
     }

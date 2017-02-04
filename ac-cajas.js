@@ -4,7 +4,7 @@
     var currentScriptPath = scripts[scripts.length - 1].src;
 
     if (currentScriptPath.length == 0) {
-        currentScriptPath = window.installPath + '/ac-angular-cajas/includes/ac-cajas.php';
+        currentScriptPath = window.installPath + '/mv-angular-cajas/includes/ac-cajas.php';
     }
 
     angular.module('acCajas', [])
@@ -99,7 +99,13 @@
 
 
         function getCajaDiariaFromTo(sucursal_id, pos_id, asiento_id_inicio, asiento_id_fin, callback) {
-            return $http.get(url + '?function=getCajaDiariaFromTo&sucursal_id=' + sucursal_id + '&asiento_id_inicio=' + asiento_id_inicio + '&asiento_id_fin=' + asiento_id_fin + '&pos_id=' + pos_id)
+            return $http.post(url, {
+                    function: 'getCajaDiariaFromTo',
+                    sucursal_id: sucursal_id,
+                    pos_id: pos_id,
+                    asiento_id_inicio: asiento_id_inicio,
+                    asiento_id_fin: asiento_id_fin
+                })
                 .success(function (data) {
                     callback(data)
                 })

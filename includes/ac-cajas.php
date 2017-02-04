@@ -297,36 +297,40 @@ ORDER BY m.movimiento_id, m.asiento_id, m.cuenta_id asc;";
 
     }
 
-    function getCajaDiariaFromTo($sucursal_id, $pos_id, $asiento_id_inicio, $asiento_id_fin)
+    function getCajaDiariaFromTo($params)
     {
-        $db = new MysqliDb();
+        $db = self::$instance->db;
         $resultsDetalles = [];
 
-        $params = array($sucursal_id, $pos_id, $asiento_id_inicio, $asiento_id_fin + 1);
+        if($params['asiento_id_fin'] != null) {
+            $asiento_fin = $params['asiento_id_fin'] + 1;
 
-        $SQL = "select movimiento_id, asiento_id, fecha, cuenta_id, usuario_id, importe, 0 detalles
-from movimientos m where m.sucursal_id = ? and m.pos_id = ? and (m.cuenta_id like '1.1.1.%' or m.cuenta_id = '1.1.2.01'
-or m.cuenta_id like '4.1.1.%')
-and (asiento_id >= ? and asiento_id < ?);";
-
+            $SQL = "SELECT movimiento_id, asiento_id, fecha, cuenta_id, usuario_id, importe, 0 detalles
+                FROM movimientos m WHERE m.sucursal_id = " . $params['sucursal_id'] . " AND m.pos_id = " . $params['pos_id'] . " AND
+                (m.cuenta_id LIKE '1.1.1.%' or m.cuenta_id = '1.1.2.01' OR m.cuenta_id LIKE '4.1.1.%')
+                AND (asiento_id >= " . $params['asiento_id_inicio'] . " and asiento_id < " . $asiento_fin . ")
+                ORDER BY movimiento_id;";
+        } else {
+            $SQL = "SELECT movimiento_id, asiento_id, fecha, cuenta_id, usuario_id, importe, 0 detalles
+                FROM movimientos m WHERE m.sucursal_id = " . $params['sucursal_id'] . " AND m.pos_id = " . $params['pos_id'] . " AND
+                (m.cuenta_id LIKE '1.1.1.%' or m.cuenta_id = '1.1.2.01' OR m.cuenta_id LIKE '4.1.1.%')
+                AND (asiento_id >= " . $params['asiento_id_inicio'] . ")
+                ORDER BY movimiento_id;";
+        }
 
         $results = $db->rawQuery($SQL, $params, false);
 
         foreach ($results as $row) {
-            $SQL = "select
-detalle_tipo_id,
-case when (detalle_tipo_id = 8) then (select nombre from productos where producto_id = valor)
-when (detalle_tipo_id = 3) then (select concat(nombre, ' ', apellido) from clientes where cliente_id = valor)
-else valor
-end detalle
-
- from detallesmovimientos
- where detalle_tipo_id in (2,3,8,9,10,13) and movimiento_id =  " . $row['movimiento_id'] . ";";
+            $SQL = "SELECT detalle_tipo_id,
+                    CASE WHEN (detalle_tipo_id = 8) THEN (select nombre from productos where producto_id = valor)
+                        WHEN (detalle_tipo_id = 3) THEN (select concat(nombre, ' ', apellido) from clientes where cliente_id = valor)
+                    ELSE valor END detalle
+                    FROM detallesmovimientos
+                    WHERE detalle_tipo_id in (2,3,8,9,10,13) and movimiento_id =  " . $row['movimiento_id'] . ";";
             $detalles = $db->rawQuery($SQL);
 
             $row["detalles"] = $detalles;
             array_push($resultsDetalles, $row);
-
         }
 
         echo json_encode($resultsDetalles);
@@ -478,8 +482,9 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
 
     function getCajas()
     {
-        $db = new MysqliDb();
-        $results = $db->get('cajas');
+        $db = self::$instance->db;
+        //$results = $db->get('cajas');
+        $results = $db->rawQuery('SELECT * FROM cajas ORDER BY fecha DESC');
 
         echo json_encode($results);
 
@@ -521,7 +526,8 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
             'empresa' => $item_decoded->empresa,
             'nro_guia' => $item_decoded->nro_guia,
             'status' => $item_decoded->status,
-            'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10)
+            'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10),
+            'descuento' => $item_decoded->descuento
         );
 
         $result = $db->insert('encomiendas', $data);
@@ -569,7 +575,8 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
             'empresa' => $item_decoded->empresa,
             'nro_guia' => $item_decoded->nro_guia,
             'status' => $item_decoded->status,
-            'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10)
+            'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10),
+            'descuento' => $item_decoded->descuento
         );
 
         $result = $db->update('encomiendas', $data);
@@ -640,7 +647,8 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
     d.producto_id,
     COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
     d.cantidad,
-    d.precio
+    d.precio,
+    e.descuento
 FROM
     encomiendas e
         LEFT JOIN
@@ -675,6 +683,7 @@ FROM
                     'empresa' => $row["empresa"],
                     'nro_guia' => $row["nro_guia"],
                     'status' => $row["status"],
+                    'descuento' => $row["descuento"],
                     'detalles' => array()
                 );
             }
@@ -730,6 +739,7 @@ FROM
         $encomienda->empresa = (!array_key_exists("empresa", $encomienda)) ? '' : $encomienda->empresa;
         $encomienda->nro_guia = (!array_key_exists("nro_guia", $encomienda)) ? 0 : $encomienda->nro_guia;
         $encomienda->status = (!array_key_exists("status", $encomienda)) ? 0 : $encomienda->status;
+        $encomienda->descuento = (!array_key_exists("descuento", $encomienda)) ? 0 : $encomienda->descuento;
         return $encomienda;
     }
 

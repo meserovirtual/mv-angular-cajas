@@ -4,7 +4,7 @@
         <select
                 ng-model="$ctrl.sucursal"
                 ng-options="sucursal.nombre  for sucursal in $ctrl.sucursales" name=""
-                ng-click="$ctrl.filtroSucursal();">
+                ng-click="$ctrl.filtroSucursal($ctrl.sucursal);$ctrl.func($ctrl.sucursal);">
 
         </select>
     </div>

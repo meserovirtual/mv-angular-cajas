@@ -11,7 +11,7 @@
     function depositos() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/ac-angular-cajas/ac-depositos.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/ac-depositos.html',
             controller: DepositosController
         }
     }

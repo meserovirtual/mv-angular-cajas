@@ -15,49 +15,72 @@
     function resumenCajaDiaria() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/ac-angular-cajas/ac-resumen-caja-diaria.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/ac-resumen-caja-diaria.html',
             controller: ResumenCajaDiariaController
         }
     }
 
-    ResumenCajaDiariaController.$inject = ['CajasService', '$location', 'MovimientosService', '$timeout', '$interval', 'AcUtilsGlobals', '$rootScope', '$scope', 'UserService'];
-    function ResumenCajaDiariaController(CajasService, $location, MovimientosService, $timeout, $interval, AcUtilsGlobals, $rootScope, $scope, UserService) {
+    ResumenCajaDiariaController.$inject = ['CajasService', '$location', 'MovimientosService', '$timeout', '$interval', 'AcUtilsGlobals', '$rootScope',
+        '$scope', 'UserService', 'SucursalesService'];
+    function ResumenCajaDiariaController(CajasService, $location, MovimientosService, $timeout, $interval, AcUtilsGlobals, $rootScope,
+                                         $scope, UserService, SucursalesService) {
 
         var vm = this;
         vm.asientos = [];
         vm.deleteAsiento = deleteAsiento;
         vm.filtroSucursal = filtroSucursal;
         vm.modificarAsiento = modificarAsiento;
+        vm.func = func;
         vm.saldoInicial = 0.0;
         vm.saldoFinal = 0.0;
         vm.sucursal = {};
         vm.sucursales = [];
-        vm.sucursal_id = UserService.getFromToken().data.sucursal_id;
+        //vm.sucursal_id = UserService.getFromToken().data.sucursal_id;
+        vm.sucursal_id = 1;
         vm.cajaGeneralSucursal = 0.0;
 
 
+        getSucursales();
+
+        function getSucursales(){
+            SucursalesService.get().then(function (data) {
+                vm.sucursales = data;
+                for(var i=0; i < data.length; i++) {
+                    if(data[i].sucursal_id == UserService.getFromToken().data.sucursal_id){
+                        vm.sucursal = data[i];
+                        func(vm.sucursal);
+                        getDetalles(vm.sucursal);
+                    }
+                }
+            });
+        }
+
+
+
         $rootScope.$on('refreshResumenCaja', function () {
-            func();
-            vm.sucursales = getSucursales();
-            vm.sucursal = getSucursales()[0];
-            getDetalles();
+            getSucursales();
+            //func();
         });
 
         /**
          * Obtengo el total del ahorro del local
          */
             //$timeout(func, 1000);
-        func();
-        function func() {
-            CajasService.getTotalByCuenta('1.1.1.3' + vm.sucursal_id, vm.sucursal_id, function (data) {
-                console.log(data);
+        //func();
+
+        function func(sucursal) {
+            //console.log(sucursal);
+            //CajasService.getTotalByCuenta('1.1.1.3' + vm.sucursal_id, vm.sucursal_id, function (data) {
+            CajasService.getTotalByCuenta('1.1.1.3' + sucursal.sucursal_id, sucursal.sucursal_id, function (data) {
+                //console.log(data);
                 if (data[0] == undefined) {
 
                     vm.cajaGeneralSucursal = 0;
                 } else {
 
                     vm.cajaGeneralSucursal = data[0].importe;
-                    CajasService.getResultado('1.1.1.3' + vm.sucursal_id, function (data) {
+                    //CajasService.getResultado('1.1.1.3' + vm.sucursal_id, function (data) {
+                    CajasService.getResultado('1.1.1.3' + sucursal.sucursal_id, function (data) {
                         vm.cajaGeneralSucursal = parseFloat(vm.cajaGeneralSucursal) + parseFloat(data[0].total);
                     });
                 }
@@ -69,14 +92,12 @@
         }
 
 
-        function filtroSucursal() {
-            //console.log('entra');
+        function filtroSucursal(sucursal) {
             vm.asientos = [];
-            getDetalles();
+            getDetalles(sucursal);
         }
 
         function deleteAsiento(id) {
-
             var r = confirm('Realmente desea eliminar el movimiento?');
 
             if (!r) {
@@ -85,36 +106,27 @@
             MovimientosService.deleteAsiento(id, vm.sucursal_id, function (data) {
                 //console.log(data);
                 vm.asientos = [];
-                getDetalles();
+                for(var i=0; i <= vm.sucursales.length;i++){
+                    if(vm.sucursales[i].sucursal_id == vm.sucursal_id) {
+                        getDetalles(vm.sucursales[i]);
+                    }
+                }
             });
         }
 
-        //SucursalesService.get(function (data) {
-        //    vm.sucursales = data;
-        //    vm.sucursal = data[0];
-        //    getDetalles();
-        //});
-        vm.sucursales = getSucursales();
-        vm.sucursal = getSucursales()[0];
-        getDetalles();
-        function getSucursales() {
-            return [
-                {sucursal_id: 1, nombre: 'Once'},
-                {sucursal_id: 2, nombre: 'Flores'}
-            ]
-        }
 
-        function getDetalles() {
+        function getDetalles(sucursal) {
             AcUtilsGlobals.startWaiting();
 
-
-            CajasService.getSaldoInicial(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
+            //CajasService.getSaldoInicial(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
+            CajasService.getSaldoInicial(sucursal.sucursal_id, sucursal.pos_cantidad, function (data) {
 
                 vm.saldoInicial = parseFloat(data.replace('"', ''));
                 vm.saldoFinal = vm.saldoInicial;
 
-                CajasService.getCajaDiaria(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
-                    console.log(data);
+                //CajasService.getCajaDiaria(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
+                CajasService.getCajaDiaria(sucursal.sucursal_id, sucursal.pos_cantidad, function (data) {
+                    //console.log(data);
                     var asientos = [];
                     var detalles = [];
                     var asiento = {};
