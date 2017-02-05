@@ -1,5 +1,5 @@
-<div id="cobros" class="lista"
-     style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div id="cobros" class="container container-bgk container-padding" >
+
     <div name="detalleProductoForm" style="width: 90%">
         <div style="display: flex;
         flex-direction: row;
@@ -80,10 +80,10 @@
             <ul class="enlarge">
                 <li>
                     <img ng-src="./images/{{$ctrl.producto.fotos == undefined ? 'no_image.png' : $ctrl.producto.fotos[0].nombre}}"
-                     alt="{{$ctrl.producto.fotos[0].nombre}}" height="100" width="100" style="background-color: #dddddd; margin-top: -50px;">
+                         alt="{{$ctrl.producto.fotos[0].nombre}}" height="100" width="100" style="background-color: #dddddd; margin-top: -50px;">
                     <span ng-if="$ctrl.producto.fotos != undefined">
                         <img ng-src="./images/{{$ctrl.producto.fotos[0].nombre}}"
-                            alt="{{$ctrl.producto.fotos[0].nombre}}" >
+                             alt="{{$ctrl.producto.fotos[0].nombre}}" >
                         <br>
                         {{$ctrl.producto.nombre}}
                     </span>
@@ -229,13 +229,13 @@
                 $<input type="number" style="min-width: 160px;margin: 0; text-align: right; float: right;"
                         ng-model="$ctrl.desc_cant"
                         ng-change="$ctrl.calc_a_cobrar('cant')"
-            />
+                    />
             </td>
             <td class="table-row">
                 %<input type="number" style="min-width: 160px;margin: 0; text-align: right; float: right;"
                         ng-model="$ctrl.desc_porc"
                         ng-change="$ctrl.calc_a_cobrar('porc')"
-            />
+                    />
             </td>
         </tr>
         <tr style="height: 40px;">
@@ -264,13 +264,14 @@
     </table>
 
 
-    <div style="display: flex; flex-direction: row; width: 100%; justify-content: center;">
-        <button ng-click="$ctrl.save();">Cobrar</button>
-        <button ng-click="$ctrl.aCuenta();">A Cuenta</button>
-        <button ng-click="$ctrl.encomienda();">Encomienda</button>
+    <div class="botonera">
+        <button class="btn-agregar" ng-click="$ctrl.save();">Cobrar</button>
+        <button class="btn-agregar" ng-click="$ctrl.aCuenta();">A Cuenta</button>
+        <button class="btn-agregar" ng-click="$ctrl.encomienda();">Encomienda</button>
     </div>
 
 </div>
+<!--
 <ac-blocker blocker-click="$ctrl.detailsOpen = false;" visibility="$ctrl.detailsOpen"></ac-blocker>
 <ac-blocker blocker-click="$ctrl.showEncomienda = false;" visibility="$ctrl.showEncomienda"></ac-blocker>
 <ac-blocker blocker-click="$ctrl.showClientes = false;" visibility="$ctrl.showClientes"></ac-blocker>
@@ -296,6 +297,7 @@
                         producto="$ctrl.producto"
                         cliente="$ctrl.cliente.usuario_id" detalles="$ctrl.detalles"
                         show="$ctrl.showEncomienda"></ac-encomiendas>-->
+<!--
     </div>
     <div class="botonera">
         <button ng-click="$ctrl.showEncomienda = false;">{{'CANCEL'|xlat}}</button>
@@ -310,3 +312,4 @@
         <button ng-click="$ctrl.showClientes = false;">{{'CANCEL'|xlat}}</button>
     </div>
 </form>
+-->

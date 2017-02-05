@@ -46,7 +46,8 @@
             SucursalesService.get().then(function (data) {
                 vm.sucursales = data;
                 for(var i=0; i < data.length; i++) {
-                    if(data[i].sucursal_id == UserService.getFromToken().data.sucursal_id){
+                    //if(data[i].sucursal_id == UserService.getFromToken().data.sucursal_id){
+                    if(data[i].sucursal_id == vm.sucursal_id){
                         vm.sucursal = data[i];
                         func(vm.sucursal);
                         getDetalles(vm.sucursal);
