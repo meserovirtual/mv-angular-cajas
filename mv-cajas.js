@@ -4,10 +4,10 @@
     var currentScriptPath = scripts[scripts.length - 1].src;
 
     if (currentScriptPath.length == 0) {
-        currentScriptPath = window.installPath + '/mv-angular-cajas/includes/ac-cajas.php';
+        currentScriptPath = window.installPath + '/mv-angular-cajas/includes/mv-cajas.php';
     }
 
-    angular.module('acCajas', [])
+    angular.module('mvCajas', [])
 
         //.controller('CajasController', CajasController)
 
@@ -18,7 +18,7 @@
     CajasService.$inject = ['$http', '$cacheFactory', 'CajasVars'];
     function CajasService($http, $cacheFactory, CajasVars) {
         var service = {};
-        var url = currentScriptPath.replace('ac-cajas.js', '/includes/ac-cajas.php');
+        var url = currentScriptPath.replace('mv-cajas.js', '/includes/mv-cajas.php');
         // Cajas diarias siempre por sucursal
         service.getCajaDiaria = getCajaDiaria;
         service.getHistoricoCajaDiaria = getHistoricoCajaDiaria;

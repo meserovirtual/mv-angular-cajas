@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('acResumenCajaDiaria', [])
+    angular.module('mvResumenCajaDiaria', [])
 
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider.when('/resumen_caja_diaria', {
@@ -15,7 +15,7 @@
     function resumenCajaDiaria() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-resumen-caja-diaria.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-resumen-caja-diaria.html',
             controller: ResumenCajaDiariaController
         }
     }

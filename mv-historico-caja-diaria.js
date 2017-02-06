@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('acHistoricoCajaDiaria', [])
+    angular.module('mvHistoricoCajaDiaria', [])
 
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider.when('/historico_caja_diaria', {
@@ -15,7 +15,7 @@
     function historicoCajaDiaria() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-historico-caja-diaria.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-historico-caja-diaria.html',
             controller: HistoricoCajaDiariaController
         }
     }
@@ -28,7 +28,8 @@
         var vm = this;
         vm.sucursal = {};
         vm.sucursales = [];
-        vm.sucursal_id = UserService.getFromToken().data.sucursal_id;
+        //vm.sucursal_id = UserService.getFromToken().data.sucursal_id;
+        vm.sucursal_id = 1;
         vm.cajaGeneralSucursal = 0.0;
         vm.cajas = {};
         vm.caja = [];

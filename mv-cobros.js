@@ -1,21 +1,21 @@
 (function () {
     'use strict';
 
-    angular.module('acCobros', ['ngRoute'])
+    angular.module('mvCobros', ['ngRoute'])
 
-        .component('acCobros', AcCobros());
+        .component('mvCobros', MvCobros());
 
-    function AcCobros() {
+    function MvCobros() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-cobros.html',
-            controller: AcCobrosController
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-cobros.html',
+            controller: MvCobrosController
         }
     }
 
 
-    AcCobrosController.$inject = ['StockService', 'UserService', 'AcUtils', 'AcUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars', 'HelperService'];
-    function AcCobrosController(StockService, UserService, AcUtils, AcUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars, HelperService) {
+    MvCobrosController.$inject = ['StockService', 'UserService', 'AcUtils', 'AcUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars', 'HelperService'];
+    function MvCobrosController(StockService, UserService, AcUtils, AcUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars, HelperService) {
 
         var vm = this;
         vm.tipo_precio = '0';

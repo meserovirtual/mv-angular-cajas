@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    angular.module('acEncomiendas', ['ngRoute'])
+    angular.module('mvEncomiendas', ['ngRoute'])
 
-        .component('acEncomiendas', acEncomiendas())
+        .component('mvEncomiendas', mvEncomiendas())
         .factory('EncomiendasService', EncomiendasService)
         .service('EncomiendasVars', EncomiendasVars);
 
-    function acEncomiendas() {
+    function mvEncomiendas() {
         return {
             bindings: {
                 func: '&',
@@ -19,14 +19,14 @@
                 descuento: '<',
                 show: '='
             },
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-encomiendas.html',
-            controller: AcEncomiendasController
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-encomiendas.html',
+            controller: MvEncomiendasController
         }
     }
 
 
-    AcEncomiendasController.$inject = ['$timeout', 'EncomiendasService', 'UserService', 'AcUtilsGlobals'];
-    function AcEncomiendasController($timeout, EncomiendasService, UserService, AcUtilsGlobals) {
+    MvEncomiendasController.$inject = ['$timeout', 'EncomiendasService', 'UserService', 'AcUtilsGlobals'];
+    function MvEncomiendasController($timeout, EncomiendasService, UserService, AcUtilsGlobals) {
 
         var vm = this;
 
@@ -80,7 +80,7 @@
 
     EncomiendasService.$inject = ['$http', 'ProductVars', '$q', 'AcUtilsGlobals', 'ErrorHandler', 'EncomiendasVars'];
     function EncomiendasService($http, ProductVars, $q, AcUtilsGlobals, ErrorHandler, EncomiendasVars) {
-        var url = window.installPath + '/ac-angular-cajas/includes/ac-cajas.php';
+        var url = window.installPath + '/ac-angular-cajas/includes/mv-cajas.php';
         var service = {};
         service.get = get;
         service.save = save;

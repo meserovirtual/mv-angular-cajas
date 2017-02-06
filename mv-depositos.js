@@ -3,7 +3,7 @@
     'use strict';
 
 
-    angular.module('acDepositos', [])
+    angular.module('mvDepositos', [])
 
         .component('depositos', depositos())
         .service('DepositosService', DepositosService);
@@ -11,7 +11,7 @@
     function depositos() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-depositos.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-depositos.html',
             controller: DepositosController
         }
     }

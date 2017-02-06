@@ -1,25 +1,25 @@
 (function () {
     'use strict';
 
-    angular.module('acEncomiendasAdministracion', [])
-        .component('acEncomiendasAdministracion', acEncomiendasAdministracion());
+    angular.module('mvEncomiendasAdministracion', [])
+        .component('mvEncomiendasAdministracion', mvEncomiendasAdministracion());
 
-    function acEncomiendasAdministracion() {
+    function mvEncomiendasAdministracion() {
         return {
             bindings: {
                 searchFunction: '&'
             },
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-encomiendas-administracion.html',
-            controller: AcEncomiendasController
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-encomiendas-administracion.html',
+            controller: MvEncomiendasController
         }
     }
 
-    AcEncomiendasController.$inject = ["EncomiendasVars", 'EncomiendasService', "AcUtils", "UserService", "$scope"];
+    MvEncomiendasController.$inject = ["EncomiendasVars", 'EncomiendasService', "AcUtils", "UserService", "$scope"];
     /**
      * @param AcEncomiendas
      * @constructor
      */
-    function AcEncomiendasController(EncomiendasVars, EncomiendasService, AcUtils, UserService, $scope) {
+    function MvEncomiendasController(EncomiendasVars, EncomiendasService, AcUtils, UserService, $scope) {
         var vm = this;
         vm.encomiendas = [];
         vm.paginas = 1;

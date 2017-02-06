@@ -2,14 +2,14 @@
     'use strict';
 
     angular.module('' +
-            'acAbrirCerrarCaja', [])
+            'mvAbrirCerrarCaja', [])
 
         .component('abrirCerrarCaja', abrirCerrarCaja());
 
     function abrirCerrarCaja() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-abrir-cerrar-caja.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-abrir-cerrar-caja.html',
             controller: AbrirCerrarCajaController
         }
     }

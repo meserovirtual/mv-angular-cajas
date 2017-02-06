@@ -3,7 +3,7 @@
     'use strict';
 
 
-    angular.module('acGastos', [])
+    angular.module('mvGastos', [])
 
         .component('gastos', gastos())
         .service('GastosService', GastosService);
@@ -11,7 +11,7 @@
     function gastos() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-gastos.html',
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-gastos.html',
             controller: GastosController
         }
     }

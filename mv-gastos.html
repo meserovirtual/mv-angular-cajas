@@ -1,0 +1,197 @@
+<div class="container container-bgk container-padding">
+    <form id="gastosForm" class="lista">
+        <div class="form-flex">
+            <div class="input">
+                <select name="pagando" id="pagando" ng-model="$ctrl.movimiento">
+                    <option value="005">Tarjetas</option>
+                    <option value="007">Sueldos</option>
+                    <option value="008">Comisiones Bancarias</option>
+                    <option value="009">Impuestos</option>
+                    <option value="012">Otros Gastos</option>
+                    <option value="014">Otros Impuestos</option>
+                </select><label for="movimiento">Que desea pagar</label>
+            </div>
+
+
+        </div>
+        <br/>
+
+        <div ng-if="$ctrl.movimiento == '005'" style="display: flex;flex-direction:row;justify-content: space-around;" id="tarjetas">
+            <div class="input">
+                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100"
+                          required></textarea>
+                <label for="nombre">Comentario</label>
+            </div>
+
+            <div class="input">
+                <input type="number" step="0.01" ng-model="$ctrl.importe"
+                       required>
+                <label for="importe">Importe</label>
+
+            </div>
+        </div>
+        <div ng-if="$ctrl.movimiento == '007'" style="display: flex;flex-direction:row;justify-content: space-around;" id="sueldos">
+            <div class="input">
+                <!--01 - SUELDOS-->
+                <!--02 - AGUINALDOS-->
+
+                <select name="pagando" ng-model="$ctrl.subtipo">
+                    <option value="01">Sueldo</option>
+                    <option value="02">Aguinaldo</option>
+                </select><label for="pagando">Pagar</label>
+            </div>
+
+            <div class="input">
+                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100"
+                          required></textarea>
+                <label for="nombre">Comentario</label>
+            </div>
+
+            <div class="input">
+                <input type="number" step="0.01" ng-model="$ctrl.importe"
+                       required>
+                <label for="importe">Importe</label>
+
+            </div>
+        </div>
+        <div ng-if="$ctrl.movimiento == '008'" style="display: flex;flex-direction:row;justify-content: space-around;" id="comisiones">
+            <div class="input">
+                <!--01 - GASTO INTERESES-->
+                <!--02 - MANTENIMIENTO DE CUENTAS-->
+                <!--03 - COMISIONES POR VENTAS CON TARJETA-->
+
+                <select name="pagando" ng-model="$ctrl.subtipo">
+                    <option value="01">Gasto Intereses</option>
+                    <option value="02">Mantenimiento de cuentas</option>
+                    <option value="03">Comisiones por ventas con tarjetas</option>
+                </select><label for="pagando">Comisión a pagar</label>
+            </div>
+
+            <div class="input">
+                <input type="text" ng-maxlength="100" ng-model="$ctrl.comentario"
+                       required>
+                <label for="nombre">Comentario</label>
+            </div>
+
+            <div class="input">
+                <input type="number" step="0.01" ng-model="$ctrl.importe"
+                       required>
+                <label for="importe">Importe</label>
+
+            </div>
+
+        </div>
+        <div ng-if="$ctrl.movimiento == '009'" style="display: flex;flex-direction:row;justify-content: space-around;" id="impuestos">
+            <div class="input">
+                <!--5.2.4.01	AGUA-->
+                <!--5.2.4.02	LUZ-->
+                <!--5.2.4.03	TELEFONOS Y FAX-->
+                <!--5.2.4.04	INTERNET-->
+                <!--5.2.4.05	ALQUILERES-->
+                <!--5.2.4.06	EXPENSAS-->
+
+
+                <select name="pagando" id="impuesto" ng-model="$ctrl.subtipo">
+                    <option value="01">Agua</option>
+                    <option value="02">Luz</option>
+                    <option value="03">Teléfono</option>
+                    <option value="04">Internet</option>
+                    <option value="05">Alquileres</option>
+                    <option value="06">Expensas</option>
+                </select><label for="pagando">Impuesto a pagar</label>
+            </div>
+
+            <div class="input">
+                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100"
+                          required></textarea>
+                <label for="nombre">Comentario</label>
+            </div>
+
+            <div class="input">
+                <input type="number" step="0.01" ng-model="$ctrl.importe"
+                       required>
+                <label for="importe">Importe</label>
+
+            </div>
+        </div>
+        <div ng-if="$ctrl.movimiento == '012'" style="display: flex;flex-direction:row;justify-content: space-around;" id="otros">
+            <div class="input">
+                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100"
+                          required></textarea>
+                <label for="nombre">Comentario</label>
+            </div>
+
+            <div class="input">
+                <input type="number" step="0.01" ng-model="$ctrl.importe"
+                       required>
+                <label for="importe">Importe</label>
+
+            </div>
+        </div>
+
+        <div ng-if="$ctrl.movimiento == '014'" style="display: flex;flex-direction:row;justify-content: space-around;" id="otrosImpuestos">
+            <div class="input">
+                <!--5.2.5.01	IMPUESTOS FISCALES Y MUNICIP.-->
+                <!--5.2.5.02	MONOTRIBUTO SOCIEDAD-->
+                <!--5.2.5.03	MONOTRIBUTO PERSONAL-->
+                <!--5.2.5.04	IDB-->
+                <!--5.2.5.05	SADAIC-->
+                <!--5.2.5.06	PERCEPCION GANANCIAS-->
+                <!--5.2.5.07	PERCEPCION IIBB-->
+
+
+                <select name="pagando" id="otrosImpuesto" ng-model="$ctrl.subtipo">
+                    <option value="01">Impuestos Fiscales y Municip.</option>
+                    <option value="02">Monotributo Sociedad</option>
+                    <option value="03">Monotributo Personal</option>
+                    <option value="04">IDB</option>
+                    <option value="05">SADAIC</option>
+                    <option value="06">Percepción Ganancias</option>
+                    <option value="07">Percepción IIBB</option>
+                </select><label for="pagando">Impuesto a pagar</label>
+            </div>
+
+            <div class="input">
+                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100"
+                          required></textarea>
+                <label for="nombre">Comentario</label>
+            </div>
+
+            <div class="input">
+                <input type="number" step="0.01" ng-model="$ctrl.importe"
+                       required>
+                <label for="importe">Importe</label>
+
+            </div>
+        </div>
+
+        <div  class="input">
+
+            <!--Formas de pago-->
+            <!--01 - Efectivo-->
+            <!--02 - TD-->
+            <!--03 - TC-->
+            <!--04 - Transferencia CA-->
+            <!--05 - Transferencia CC-->
+            <!--05 - Caja General-->
+            <select name="" id="forma_pago" ng-model="$ctrl.forma_pago">
+                <option value="01">Caja Chica</option>
+                <option value="02">Débito</option>
+                <option value="03">Crédito</option>
+                <option value="04">Transferencia CA</option>
+                <option value="05">Transferencia CC</option>
+                <option value="11">Ahorro Local</option>
+            </select>
+            <label for="forma_pago">Forma de Pago</label>
+        </div>
+    </form>
+
+    <div class="botonera">
+        <!--<input type="submit"-->
+        <!--ng-disabled="gastosForm.user.$dirty && gastosForm.user.$invalid ||-->
+        <!--gastosForm.email.$dirty && gastosForm.email.$invalid">-->
+        <button class="btn-agregar" ng-click="$ctrl.save();">Guardar</button>
+    </div>
+
+</div>
+

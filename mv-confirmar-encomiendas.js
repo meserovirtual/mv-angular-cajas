@@ -1,21 +1,21 @@
 (function () {
     'use strict';
 
-    angular.module('acEncomiendas', ['ngRoute'])
+    angular.module('mvEncomiendas', ['ngRoute'])
 
-        .component('acEncomiendas', AcEncomiendas());
+        .component('mvEncomiendas', MvEncomiendas());
 
-    function AcEncomiendas() {
+    function MvEncomiendas() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/mv-angular-cajas/ac-encomiendas.html',
-            controller: AcEncomiendasController
+            templateUrl: window.installPath + '/mv-angular-cajas/mv-encomiendas.html',
+            controller: MvEncomiendasController
         }
     }
 
 
-    AcEncomiendasController.$inject = ['StockService', 'UserService', 'AcUtils', 'AcUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars'];
-    function AcEncomiendasController(StockService, UserService, AcUtils, AcUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars) {
+    MvEncomiendasController.$inject = ['StockService', 'UserService', 'AcUtils', 'AcUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars'];
+    function MvEncomiendasController(StockService, UserService, AcUtils, AcUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars) {
 
         var vm = this;
         vm.tipo_precio = '0';
