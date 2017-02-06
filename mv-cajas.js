@@ -15,8 +15,8 @@
         .service('CajasVars', CajasVars)
     ;
 
-    CajasService.$inject = ['$http', '$cacheFactory', 'CajasVars'];
-    function CajasService($http, $cacheFactory, CajasVars) {
+    CajasService.$inject = ['$http', '$cacheFactory', 'CajasVars', 'ErrorHandler', '$q'];
+    function CajasService($http, $cacheFactory, CajasVars, ErrorHandler, $q) {
         var service = {};
         var url = currentScriptPath.replace('mv-cajas.js', '/includes/mv-cajas.php');
         // Cajas diarias siempre por sucursal
@@ -114,13 +114,24 @@
                 });
         }
 
-        function getCajas(callback) {
+        /*
+         function getCajas(callback) {
+         return $http.get(url + '?function=getCajas', {cache: true})
+         .success(function (data) {
+         callback(data)
+         })
+         .error(function (data) {
+         callback(data)
+         });
+         }
+         */
+        function getCajas() {
             return $http.get(url + '?function=getCajas', {cache: true})
-                .success(function (data) {
-                    callback(data)
+                .then(function (data) {
+                    return data;
                 })
-                .error(function (data) {
-                    callback(data)
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
         }
 
@@ -220,6 +231,7 @@
                 });
         }
 
+        /*
         function checkEstado(sucursal_id, pos_id, callback) {
             return $http.get(url + '?function=checkEstado&sucursal_id=' + sucursal_id + '&pos_id=' + pos_id)
                 .success(function (data) {
@@ -227,6 +239,16 @@
                 })
                 .error(function (data) {
                     callback(data)
+                });
+        }
+        */
+        function checkEstado(sucursal_id, pos_id) {
+            return $http.get(url + '?function=checkEstado&sucursal_id=' + sucursal_id + '&pos_id=' + pos_id)
+                .then(function (data) {
+                    return data;
+                })
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
         }
 
