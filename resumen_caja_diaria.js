@@ -15,9 +15,9 @@
 
 
     ResumenCajaDiariaController.$inject = ['CajasService', '$location', 'MovimientosService',
-        'SucursalesService', '$timeout', '$interval', 'AcUtilsGlobals', '$rootScope', '$scope'];
+        'SucursalesService', '$timeout', '$interval', 'MvUtilsGlobals', '$rootScope', '$scope'];
     function ResumenCajaDiariaController(CajasService, $location, MovimientosService,
-                                         SucursalesService, $timeout, $interval, AcUtilsGlobals, $rootScope, $scope) {
+                                         SucursalesService, $timeout, $interval, MvUtilsGlobals, $rootScope, $scope) {
 
         var vm = this;
         vm.asientos = [];
@@ -28,7 +28,7 @@
         vm.saldoFinal = 0.0;
         vm.sucursal = {};
         vm.sucursales = [];
-        vm.sucursal_id = AcUtilsGlobals.sucursal_id;
+        vm.sucursal_id = MvUtilsGlobals.sucursal_id;
         vm.cajaGeneralSucursal = 0.0;
 
 
@@ -86,16 +86,16 @@
 
 
         function getDetalles() {
-            AcUtilsGlobals.isWaiting = true;
+            MvUtilsGlobals.isWaiting = true;
             $rootScope.$broadcast('IsWaiting');
 
 
-            CajasService.getSaldoInicial(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, function (data) {
+            CajasService.getSaldoInicial(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, function (data) {
 
                 vm.saldoInicial = parseFloat(data.replace('"', ''));
                 vm.saldoFinal = vm.saldoInicial;
 
-                CajasService.getCajaDiaria(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, function (data) {
+                CajasService.getCajaDiaria(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, function (data) {
                     var asientos = [];
                     var detalles = [];
                     var asiento = {};
@@ -213,7 +213,7 @@
 
                     console.log(vm.asientos);
 
-                    AcUtilsGlobals.isWaiting = false;
+                    MvUtilsGlobals.isWaiting = false;
                     $rootScope.$broadcast('IsWaiting');
 
 

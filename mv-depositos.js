@@ -16,8 +16,8 @@
         }
     }
 
-    DepositosController.$inject = ["$routeParams", "MovimientosService", "UserService", "AcUtils", "AcUtilsGlobals"];
-    function DepositosController($routeParams, MovimientosService, UserService, AcUtils, AcUtilsGlobals) {
+    DepositosController.$inject = ["$routeParams", "MovimientosService", "UserService", "MvUtils", "MvUtilsGlobals"];
+    function DepositosController($routeParams, MovimientosService, UserService, MvUtils, MvUtilsGlobals) {
         var vm = this;
         vm.movimiento = '000';
         vm.comentario = 'Movimiento entre cuentas';
@@ -30,16 +30,16 @@
 
 
         function save() {
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             if (vm.importe < 1 || vm.importe == '' || vm.importe == undefined) {
-                AcUtils.showMessage('error', 'Debe ingresar un importe');
+                MvUtils.showMessage('error', 'Debe ingresar un importe');
                 return;
             }
             //tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, cliente_id, usuario_id, comentario, callback
             MovimientosService.armarMovimiento(vm.movimiento, vm.subtipo, UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.destino, vm.origen, vm.importe, '', vm.comentario, [], 0, 1, vm.comentario, function (data) {
-                AcUtilsGlobals.stopWaiting();
+                MvUtilsGlobals.stopWaiting();
                 if (data > -1) {
-                    AcUtils.showMessage('success', "Depósito realizado con éxito");
+                    MvUtils.showMessage('success', "Depósito realizado con éxito");
                     vm.movimiento = '000';
                     vm.subtipo = '00';
                     vm.forma_pago = '01';

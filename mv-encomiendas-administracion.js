@@ -14,12 +14,12 @@
         }
     }
 
-    MvEncomiendasController.$inject = ["EncomiendasVars", 'EncomiendasService', "AcUtils", "UserService", "$scope"];
+    MvEncomiendasController.$inject = ["EncomiendasVars", 'EncomiendasService', "MvUtils", "UserService", "$scope"];
     /**
      * @param AcEncomiendas
      * @constructor
      */
-    function MvEncomiendasController(EncomiendasVars, EncomiendasService, AcUtils, UserService, $scope) {
+    function MvEncomiendasController(EncomiendasVars, EncomiendasService, MvUtils, UserService, $scope) {
         var vm = this;
         vm.encomiendas = [];
         vm.paginas = 1;
@@ -89,20 +89,20 @@
         }
 
         vm.next = function () {
-            paginar(AcUtils.next(EncomiendasVars));
+            paginar(MvUtils.next(EncomiendasVars));
         };
         vm.prev = function () {
-            paginar(AcUtils.prev(EncomiendasVars));
+            paginar(MvUtils.prev(EncomiendasVars));
         };
         vm.first = function () {
-            paginar(AcUtils.first(EncomiendasVars));
+            paginar(MvUtils.first(EncomiendasVars));
         };
         vm.last = function () {
-            paginar(AcUtils.last(EncomiendasVars));
+            paginar(MvUtils.last(EncomiendasVars));
         };
 
         vm.goToPagina = function () {
-            paginar(AcUtils.goToPagina(vm.pagina, EncomiendasVars));
+            paginar(MvUtils.goToPagina(vm.pagina, EncomiendasVars));
         }
 
     }

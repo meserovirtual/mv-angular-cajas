@@ -15,10 +15,10 @@
     }
 
 
-    AbrirCerrarCajaController.$inject = ['CajasService', '$location', 'AcUtilsGlobals', 'ReportesService', 'ContactsService',
+    AbrirCerrarCajaController.$inject = ['CajasService', '$location', 'MvUtilsGlobals', 'ReportesService', 'ContactsService',
         '$rootScope', 'UserService', 'SucursalesService', 'StockService', 'EncomiendasService',
         'PedidoService', 'PedidoVars'];
-    function AbrirCerrarCajaController(CajasService, $location, AcUtilsGlobals, ReportesService, ContactsService,
+    function AbrirCerrarCajaController(CajasService, $location, MvUtilsGlobals, ReportesService, ContactsService,
                                        $rootScope, UserService, SucursalesService, StockService, EncomiendasService,
                                        PedidoService, PedidoVars) {
 
@@ -79,7 +79,7 @@
 
                 if(cerrarCaja) {
                     console.log('cerrando caja');
-                    AcUtilsGlobals.startWaiting();
+                    MvUtilsGlobals.startWaiting();
 
                     var aReponer = [];
                     //StockService.getAReponer(UserService.getFromToken().data.sucursal_id).then(function (reponerData){
@@ -275,7 +275,7 @@
                                 CajasService.cerrarCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoFinalReal, detalles, function (data) {
 
 
-                                    AcUtilsGlobals.stopWaiting();
+                                    MvUtilsGlobals.stopWaiting();
                                     $location.path('/caja/cobros');
 
 

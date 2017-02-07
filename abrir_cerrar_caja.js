@@ -16,9 +16,9 @@
         .controller('AbrirCerrarCajaController', AbrirCerrarCajaController);
 
 
-    AbrirCerrarCajaController.$inject = ['$routeParams', 'CajasService', 'toastr', '$location', '$window', 'AcUtilsGlobals',
+    AbrirCerrarCajaController.$inject = ['$routeParams', 'CajasService', 'toastr', '$location', '$window', 'MvUtilsGlobals',
         'ReportesService', 'ContactsService', '$rootScope', 'SucursalesService'];
-    function AbrirCerrarCajaController($routeParams, CajasService, toastr, $location, $window, AcUtilsGlobals,
+    function AbrirCerrarCajaController($routeParams, CajasService, toastr, $location, $window, MvUtilsGlobals,
                                        ReportesService, ContactsService, $rootScope, SucursalesService) {
 
         var vm = this;
@@ -32,23 +32,23 @@
 
         vm.save = save;
 
-        SucursalesService.getByParams('sucursal_id', '' + AcUtilsGlobals.sucursal_id, 'true', function (data) {
+        SucursalesService.getByParams('sucursal_id', '' + MvUtilsGlobals.sucursal_id, 'true', function (data) {
             vm.sucursal_nombre = data[0].nombre;
         });
 
-        CajasService.checkEstado(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, function (data) {
+        CajasService.checkEstado(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, function (data) {
             //console.log(data);
 
             if (data.asiento_cierre_id == null || data.asiento_cierre_id == 0) {
                 vm.isOpen = true;
                 vm.saldoInicial = data.saldo_inicial;
-                CajasService.getSaldoFinal(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, function (data) {
+                CajasService.getSaldoFinal(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, function (data) {
                     vm.saldoFinal = parseFloat(data[0].total) + parseFloat(vm.saldoInicial);
                     vm.saldoFinalReal = parseFloat(data[0].total) + parseFloat(vm.saldoInicial);
                 });
             } else {
                 vm.isOpen = false;
-                CajasService.getSaldoFinalAnterior(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, function (data) {
+                CajasService.getSaldoFinalAnterior(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, function (data) {
                     console.log(data);
                     vm.saldoInicial = data[0].valor_real;
                     vm.detalles = data[0].detalles;
@@ -60,9 +60,9 @@
 
             if (vm.isOpen) {
 
-                AcUtilsGlobals.isWaiting = true;
+                MvUtilsGlobals.isWaiting = true;
                 $rootScope.$broadcast('IsWaiting');
-                ReportesService.cierreDeCaja(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, function (data) {
+                ReportesService.cierreDeCaja(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, function (data) {
 
                     console.log(data);
                     var mensaje = '';
@@ -109,15 +109,15 @@
                     ContactsService.sendMail(window.mailAdmin,
                         window.mailAdmins,
                         'Cierre de Caja',
-                        'Sucursal:' + vm.sucursal_nombre + ' Caja: ' + AcUtilsGlobals.pos_id + ' Fecha: ' + new Date().getDate() + '/' + new Date().getMonth() + '/' + new Date().getFullYear(),
+                        'Sucursal:' + vm.sucursal_nombre + ' Caja: ' + MvUtilsGlobals.pos_id + ' Fecha: ' + new Date().getDate() + '/' + new Date().getMonth() + '/' + new Date().getFullYear(),
                         mensaje,
                         function (data) {
 
                             console.log(data);
-                            CajasService.cerrarCaja(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, vm.saldoFinalReal, vm.detalles, function (data) {
+                            CajasService.cerrarCaja(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, vm.saldoFinalReal, vm.detalles, function (data) {
 
 
-                                AcUtilsGlobals.isWaiting = false;
+                                MvUtilsGlobals.isWaiting = false;
                                 $rootScope.$broadcast('IsWaiting');
                                 $location.path('/resumen_caja_diaria');
 
@@ -127,7 +127,7 @@
                 });
 
             } else {
-                CajasService.abrirCaja(AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, vm.saldoInicial, function (data) {
+                CajasService.abrirCaja(MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, vm.saldoInicial, function (data) {
                     $location.path('/resumen_caja_diaria');
                 })
 

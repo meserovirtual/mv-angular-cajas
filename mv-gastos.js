@@ -16,8 +16,8 @@
         }
     }
 
-    GastosController.$inject = ["$routeParams", "MovimientosService", "AcUtilsGlobals", "AcUtils", "UserService"];
-    function GastosController($routeParams, MovimientosService, AcUtilsGlobals, AcUtils, UserService) {
+    GastosController.$inject = ["$routeParams", "MovimientosService", "MvUtilsGlobals", "MvUtils", "UserService"];
+    function GastosController($routeParams, MovimientosService, MvUtilsGlobals, MvUtils, UserService) {
         var vm = this;
         vm.movimiento = '012';
         vm.comentario = '';
@@ -30,14 +30,13 @@
             //tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, cliente_id, usuario_id, comentario, callback
             MovimientosService.armarMovimiento(vm.movimiento, vm.subtipo, UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.forma_pago, '', vm.importe, '', vm.comentario, [], 0, 1, vm.comentario, function (data) {
                 if (!isNaN(data)) {
-                    AcUtils.showMessage('success', 'Gasto generado con éxito');
+                    MvUtils.showMessage('success', 'Gasto generado con éxito');
                     vm.movimiento = '012';
                     vm.comentario = '';
                     vm.subtipo = '00';
                     vm.forma_pago = '01';
                 } else {
-
-                    AcUtils.showMessage('error', 'Error al guardar el gasto');
+                    MvUtils.showMessage('error', 'Error al guardar el gasto');
                 }
 
             });

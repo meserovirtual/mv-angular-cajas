@@ -20,9 +20,9 @@
         }
     }
 
-    ResumenCajaDiariaController.$inject = ['CajasService', '$location', 'MovimientosService', '$timeout', '$interval', 'AcUtilsGlobals', '$rootScope',
+    ResumenCajaDiariaController.$inject = ['CajasService', '$location', 'MovimientosService', '$timeout', '$interval', 'MvUtilsGlobals', '$rootScope',
         '$scope', 'UserService', 'SucursalesService'];
-    function ResumenCajaDiariaController(CajasService, $location, MovimientosService, $timeout, $interval, AcUtilsGlobals, $rootScope,
+    function ResumenCajaDiariaController(CajasService, $location, MovimientosService, $timeout, $interval, MvUtilsGlobals, $rootScope,
                                          $scope, UserService, SucursalesService) {
 
         var vm = this;
@@ -117,7 +117,7 @@
 
 
         function getDetalles(sucursal) {
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
 
             //CajasService.getSaldoInicial(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
             CajasService.getSaldoInicial(sucursal.sucursal_id, sucursal.pos_cantidad, function (data) {
@@ -237,7 +237,7 @@
                     }
 
                     vm.asientos = asientos;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                 });
             });
         }

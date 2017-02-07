@@ -14,8 +14,8 @@
     }
 
 
-    MvEncomiendasController.$inject = ['StockService', 'UserService', 'AcUtils', 'AcUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars'];
-    function MvEncomiendasController(StockService, UserService, AcUtils, AcUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars) {
+    MvEncomiendasController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars'];
+    function MvEncomiendasController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars) {
 
         var vm = this;
         vm.tipo_precio = '0';
@@ -84,7 +84,7 @@
             if (vm.producto.producto_id === undefined || vm.producto.producto_id == -1
                 || vm.producto.producto_id == '' || isNaN(vm.producto.producto_id) || vm.producto.producto_id == null
                 || vm.producto.producto_id < 1) {
-                AcUtils.showMessage('error', 'Debe seleccionar un producto');
+                MvUtils.showMessage('error', 'Debe seleccionar un producto');
                 return;
             }
 
@@ -137,17 +137,17 @@
         function save() {
 
             if (vm.detalles.length < 1) {
-                AcUtils.showMessage('error', 'No hay productos seleccionados');
+                MvUtils.showMessage('error', 'No hay productos seleccionados');
                 return;
             }
 
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             //var usuario_id = -1;
             if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
                 vm.usuario_id = vm.cliente.usuario_id;
             } else {
                 if (vm.cliente.nombre !== '') {
-                    if (AcUtils.validateEmail(vm.cliente.nombre)) {
+                    if (MvUtils.validateEmail(vm.cliente.nombre)) {
                         vm.cliente = {
                             nombre: '',
                             apellido: '',
@@ -183,7 +183,7 @@
 
                     //console.log(MovimientoStockFinal.stocks_finales);
                     StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
-                        AcUtils.showMessage('success', 'Venta realizada con éxito.');
+                        MvUtils.showMessage('success', 'Venta realizada con éxito.');
                         vm.detalles = [];
                         vm.cliente = {};
 
@@ -205,7 +205,7 @@
                         });
 
                         $rootScope.$broadcast('refreshResumenCaja');
-                        AcUtilsGlobals.stopWaiting();
+                        MvUtilsGlobals.stopWaiting();
                     });
                     //console.log(data);
                 });

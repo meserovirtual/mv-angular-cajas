@@ -25,8 +25,8 @@
     }
 
 
-    MvEncomiendasController.$inject = ['$timeout', 'EncomiendasService', 'UserService', 'AcUtilsGlobals'];
-    function MvEncomiendasController($timeout, EncomiendasService, UserService, AcUtilsGlobals) {
+    MvEncomiendasController.$inject = ['$timeout', 'EncomiendasService', 'UserService', 'MvUtilsGlobals'];
+    function MvEncomiendasController($timeout, EncomiendasService, UserService, MvUtilsGlobals) {
 
         var vm = this;
 
@@ -52,7 +52,7 @@
 
         function save() {
 
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             vm.producto = vm.costo_envio;
             vm.producto.precios[0] = {precio: vm.encomienda.precio};
             vm.encomienda.usuario_id = UserService.getFromToken().data.id;
@@ -78,8 +78,8 @@
 
     }
 
-    EncomiendasService.$inject = ['$http', 'ProductVars', '$q', 'AcUtilsGlobals', 'ErrorHandler', 'EncomiendasVars'];
-    function EncomiendasService($http, ProductVars, $q, AcUtilsGlobals, ErrorHandler, EncomiendasVars) {
+    EncomiendasService.$inject = ['$http', 'ProductVars', '$q', 'MvUtilsGlobals', 'ErrorHandler', 'EncomiendasVars'];
+    function EncomiendasService($http, ProductVars, $q, MvUtilsGlobals, ErrorHandler, EncomiendasVars) {
         var url = window.installPath + '/ac-angular-cajas/includes/mv-cajas.php';
         var service = {};
         service.get = get;
@@ -88,7 +88,7 @@
         return service;
 
         function get(all) {
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             var urlGet = url + '?function=getEncomiendas&all=' + (all == undefined);
 
             return $http.get(urlGet, {cache: false})
@@ -117,13 +117,13 @@
 
                         EncomiendasVars.clearCache = false;
                         EncomiendasVars.paginas = (response.data.length % EncomiendasVars.paginacion == 0) ? parseInt(response.data.length / EncomiendasVars.paginacion) : parseInt(response.data.length / EncomiendasVars.paginacion) + 1;
-                        AcUtilsGlobals.stopWaiting();
+                        MvUtilsGlobals.stopWaiting();
                         return response.data;
                     }
                 )
                 .catch(function (response) {
                     EncomiendasVars.clearCache = true;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                     ErrorHandler(response);
                 })
         }

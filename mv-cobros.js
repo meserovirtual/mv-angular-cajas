@@ -14,8 +14,8 @@
     }
 
 
-    MvCobrosController.$inject = ['StockService', 'UserService', 'AcUtils', 'AcUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars', 'HelperService'];
-    function MvCobrosController(StockService, UserService, AcUtils, AcUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars, HelperService) {
+    MvCobrosController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars', 'HelperService'];
+    function MvCobrosController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars, HelperService) {
 
         var vm = this;
         vm.tipo_precio = '0';
@@ -82,7 +82,7 @@
 
         function validateMonto() {
             if(vm.paga_con_x < 0){
-                AcUtils.showMessage('error', 'El valor ingresado es mayor al monto que se debe cobrar');
+                MvUtils.showMessage('error', 'El valor ingresado es mayor al monto que se debe cobrar');
                 vm.paga_con_x = 0;
                 vm.paga_con_y = vm.total;
             }
@@ -104,7 +104,7 @@
             if (vm.producto.producto_id === undefined || vm.producto.producto_id == -1
                 || vm.producto.producto_id == '' || isNaN(vm.producto.producto_id) || vm.producto.producto_id == null
                 || vm.producto.producto_id < 1) {
-                AcUtils.showMessage('error', 'Debe seleccionar un producto');
+                MvUtils.showMessage('error', 'Debe seleccionar un producto');
                 return;
             }
 
@@ -187,7 +187,7 @@
                 }
 
                 if (cantidad > total_en_suc) {
-                    AcUtils.showMessage('error', 'Solo quedan ' + total_en_suc + ' productos');
+                    MvUtils.showMessage('error', 'Solo quedan ' + total_en_suc + ' productos');
                     return false;
                 }
             }
@@ -210,7 +210,7 @@
 
 
                 if (cantidad > cant_actual) {
-                    AcUtils.showMessage('error', 'Solo se pueden armar solo ' + cant_actual + ' kits.');
+                    MvUtils.showMessage('error', 'Solo se pueden armar solo ' + cant_actual + ' kits.');
                     return false;
                 }
             }
@@ -307,17 +307,17 @@
 
         function save() {
             if (vm.detalles.length < 1) {
-                AcUtils.showMessage('error', 'No hay productos seleccionados');
+                MvUtils.showMessage('error', 'No hay productos seleccionados');
                 return;
             }
 
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             //var usuario_id = -1;
             if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
                 vm.usuario_id = vm.cliente.usuario_id;
             } else {
                 if (vm.cliente.nombre !== '') {
-                    if (AcUtils.validateEmail(vm.cliente.nombre)) {
+                    if (MvUtils.validateEmail(vm.cliente.nombre)) {
                         vm.cliente = {
                             nombre: '',
                             apellido: '',
@@ -374,7 +374,7 @@
 
                     //console.log(MovimientoStockFinal.stocks_finales);
                     StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
-                        AcUtils.showMessage('success', 'Venta realizada con éxito.');
+                        MvUtils.showMessage('success', 'Venta realizada con éxito.');
                         vm.detalles = [];
                         vm.cliente = {};
 
@@ -408,7 +408,7 @@
                         });
 
                         $rootScope.$broadcast('refreshResumenCaja');
-                        AcUtilsGlobals.stopWaiting();
+                        MvUtilsGlobals.stopWaiting();
                     });
                     //console.log(data);
                 });
@@ -416,11 +416,11 @@
 
         function encomienda() {
             if (vm.cliente == undefined || vm.cliente.usuario_id == undefined) {
-                AcUtils.showMessage('error', 'Debe seleccionar un cliente para poder generar una encomienda');
+                MvUtils.showMessage('error', 'Debe seleccionar un cliente para poder generar una encomienda');
                 return;
             }
             if (vm.detalles.length < 1) {
-                AcUtils.showMessage('error', 'No hay productos seleccionados');
+                MvUtils.showMessage('error', 'No hay productos seleccionados');
                 return;
             }
             vm.showEncomienda = true;
@@ -445,11 +445,11 @@
         function aCuenta() {
             /*
             if (vm.detalles.length < 1) {
-                AcUtils.showMessage('error', 'No hay productos seleccionados');
+                MvUtils.showMessage('error', 'No hay productos seleccionados');
                 return;
             }
 
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             //var usuario_id = -1;
             if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
                 vm.usuario_id = vm.cliente.usuario_id;
@@ -478,13 +478,13 @@
                                     vm.paga_con_x = 0;
                                     vm.paga_con_y = 0;
 
-                                    AcUtils.showMessage('success', 'Venta realizada con éxito.');
+                                    MvUtils.showMessage('success', 'Venta realizada con éxito.');
                                 //} else {
-                                //    AcUtils.showMessage('error', 'Error al realizar la venta');
+                                //    MvUtils.showMessage('error', 'Error al realizar la venta');
                                 //}
                             }).catch(function(data){
                                 console.log(data);
-                                AcUtils.showMessage('error', 'Error al realizar la venta');
+                                MvUtils.showMessage('error', 'Error al realizar la venta');
                             });
 
                             vm.producto = {};
@@ -500,13 +500,13 @@
                             });
 
                             $rootScope.$broadcast('refreshResumenCaja');
-                            AcUtilsGlobals.stopWaiting();
+                            MvUtilsGlobals.stopWaiting();
 
                         });
                         //console.log(data);
                     });
             } else {
-                AcUtils.showMessage('error', 'Debe seleccionar un cliente');
+                MvUtils.showMessage('error', 'Debe seleccionar un cliente');
                 return;
             }
             */

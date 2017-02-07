@@ -9,8 +9,9 @@ CREATE TABLE cajas (
   saldo_inicial decimal(10,2) DEFAULT NULL,
   sucursal_id int(11) NOT NULL,
   detalles varchar(3000) DEFAULT NULL,
-  pos_id int(2) DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+  pos_id int(2) DEFAULT '1',
+  PRIMARY KEY (caja_id) 
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 # CAJAS DETALLE
 CREATE TABLE cajas_detalles (
@@ -18,5 +19,7 @@ CREATE TABLE cajas_detalles (
   caja_id int(11) DEFAULT NULL,
   moneda_id int(11) DEFAULT NULL,
   valor_real decimal(10,2) DEFAULT NULL,
-  valor_esperado decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+  valor_esperado decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (caja_detalle_id) 
+) ENGINE=InnoDB AUTO_INCREMENT=1;
+
