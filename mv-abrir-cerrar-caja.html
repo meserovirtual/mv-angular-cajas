@@ -1,9 +1,8 @@
 <div class="container container-bgk container-padding">
     <h1 class="secciones">Abrir/Cerrar Caja</h1>
         <form class="container-form">
-            <div class="container-small-2">
                 <div class="mv-col gastos">
-                    <div class="margin-top">¿Deseas abrir Caja?</div>
+                    <div class="margin-top" style="font-size: 30px; color:#799975; margin-bottom: 20px">¿Deseas abrir Caja?</div>
                 </div>
                 <div class="mv-col gastos">
                     <div class="margin-top">Saldo Inicial</div>
@@ -21,14 +20,13 @@
                 </div>
 
                 <!--caja abierta-->
-                <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-items: center; margin-top: 30px;"
-                     ng-if="$ctrl.isOpen">
+                <div ng-if="$ctrl.isOpen">
 
                     <div class="input"><span class="descr">{{$ctrl.saldoFinal | currency}}</span><label>Saldo Final</label></div>
 
-                    <div class="input">
+                    <div class="input" >
                         <label for="detalles">Detalles</label>
-                        <textarea id="detalles" name="detalles" ng-model="$ctrl.detalles" ng-maxlength="3000" style="min-width: 400px;"></textarea>
+                        <textarea id="detalles" name="detalles" ng-model="$ctrl.detalles" ng-maxlength="3000"></textarea>
 
                     </div>
                     <div class="input">
@@ -41,12 +39,10 @@
                     </div>
                 </div>
 
-                <div class="margin-top">
-                    <button type="button" class="btn-agregar" ng-click="$ctrl.save();">
-                        {{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}} Caja
-                    </button>
-                </div>
-            </div>
-
         </form>
+    <div class="margin-top" style="text-align: -webkit-center">
+        <button type="button" class="btn-agregar" ng-click="$ctrl.save();">
+            {{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}} Caja
+        </button>
+    </div>
 </div>

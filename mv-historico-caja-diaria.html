@@ -1,13 +1,15 @@
 <div class="container container-bgk container-padding">
-    <div style="display: flex;flex-direction: row;justify-content: space-around;flex-wrap: wrap;">
-        <div style="width: 280px">
+    <h1 class="secciones">Detalle de Caja</h1>
+    <form id="gastosForm" class="container-form">
+    <div>
+        <div>
             <select ng-model="$ctrl.sucursal"
                     ng-options="sucursal.nombre  for sucursal in $ctrl.sucursales" id="sucursal"
                     ng-click="$ctrl.getCajasBySucursal($ctrl.sucursal.sucursal_id);">
             </select>
         </div>
 
-        <div style="width: 280px">
+        <div>
             <select ng-model="$ctrl.caja"
                     ng-options="caja.fecha  for caja in $ctrl.cajas" id="caja"
                     ng-click="$ctrl.getDetalles($ctrl.sucursal, $ctrl.caja);">
@@ -15,24 +17,26 @@
         </div>
     </div>
 
-    <div style="display:flex;font-size:26px;width:75%;margin: 20px auto;">
-        <label style="width: 200px;text-align: left">Saldo Inicial: </label>
-        <label style="width: 150px;text-align: right">{{$ctrl.saldoInicial | currency}}</label>
-    </div>
-    <div style="display:flex;font-size:26px;width:75%;margin: 20px auto;">
-        <label style="width: 200px;text-align: left">Total de Ventas: </label>
-        <label style="width: 150px;text-align: right">{{$ctrl.totalVentas | currency}}</label>
-    </div>
-    <div style="display:flex;font-size:26px;width:75%;margin: 20px auto;">
-        <label style="width: 200px;text-align: left">Ahorro sucursal: </label>
-        <label style="width: 150px;text-align: right">{{$ctrl.cajaGeneralSucursal | currency}}</label>
+    <div style="display: flex; justify-content: space-around; flex-wrap: wrap">
+            <div style="margin-bottom: 10px; margin-top: 10px">
+            <label style="font-size: 25px; color: #79996D">Saldo Inicial:</label>
+            <label style="font-size: 25px">{{$ctrl.saldoInicial | currency}}</label>
+        </div>
+        <div style="margin-bottom: 10px; margin-top: 10px">
+            <label style="font-size: 25px; color: #79996D">Total de Ventas: </label>
+            <label style="font-size: 25px">{{$ctrl.totalVentas | currency}}</label>
+        </div>
+        <div style="margin-bottom: 10px; margin-top: 10px">
+            <label style="font-size: 25px; color: #79996D">Ahorro sucursal: </label>
+            <label style="font-size: 25px">{{$ctrl.cajaGeneralSucursal | currency}}</label>
+        </div>
     </div>
 
-    <div style="width:75%;margin: 0 auto;">
+    <div>
         <div ng-repeat="asiento in $ctrl.asientos | filter:$ctrl.filtro">
             <!--{{asiento}}-->
-            <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;font-weight:bold;">{{asiento[0].fecha}}</div>
-            <div ng-repeat="movimiento in asiento" style="width: 100% !important;" >
+            <div>{{asiento[0].fecha}}</div>
+            <div ng-repeat="movimiento in asiento">
                 <div ng-if="movimiento.cuenta_id.indexOf('4.1.1.') > -1 " style="width: 100% !important;">
                     <div ng-if="movimiento.cuenta_id == '4.1.1.01'" style="display:flex;flex-direction:row;align-items:flex-start;">
                         <div style="width: 70%;text-align: left;">{{movimiento.detalles[3].detalle}}</div>
@@ -65,6 +69,7 @@
 
             <div class="half-v-spacer"></div>
         </div>
+        </form>
         <div class="full-width" >
             <div></div>
             <h2 style="font-weight: 700">Total en caja: {{$ctrl.saldoFinal | currency}}</h2>
