@@ -1,10 +1,10 @@
 <div class="container container-bgk container-padding">
-   <h1 class="secciones">Gastos</h1>
-    <form id="gastosForm" class="container-form">
+    <h1 class="secciones">Gastos</h1>
+    <form id="gastosForm" class="container-form" form-id="mv-gastos">
         <div class="mv-col gastos">
             <div class="input">
                 <label >Tipo de gasto</label>
-                <select name="pagando" id="pagando" ng-model="$ctrl.movimiento">
+                <select name="pagando" id="pagando" ng-model="$ctrl.movimiento" ng-click="$ctrl.selectMovimiento()">
                     <option value="005">Tarjetas</option>
                     <option value="007">Sueldos</option>
                     <option value="008">Comisiones Bancarias</option>
@@ -13,20 +13,6 @@
                     <option value="014">Otros Impuestos</option>
                 </select>
             </div>
-            <div class="input">
-            </div>
-        </div>
-        <div id="tarjetas" class="mv-col gastos" ng-if="$ctrl.movimiento == '005'">
-            <div class="input">
-                <label>Importe</label>
-                <input type="number" step="0.01" ng-model="$ctrl.importe" required>
-            </div>
-            <!--
-            <div class="input">
-                <label>Comentario</label>
-                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100" required></textarea>
-            </div>
-            -->
         </div>
 
         <div id="sueldos" class="mv-col gastos" ng-if="$ctrl.movimiento == '007'">
@@ -34,21 +20,11 @@
                 <label>Pagar</label>
                 <!--01 - SUELDOS-->
                 <!--02 - AGUINALDOS-->
-                <select name="pagando" ng-model="$ctrl.subtipo">
+                <select name="pagando" ng-model="$ctrl.subtipo" >
                     <option value="01">Sueldo</option>
                     <option value="02">Aguinaldo</option>
                 </select>
             </div>
-            <div class="input">
-                <label>Importe</label>
-                <input type="number" step="0.01" ng-model="$ctrl.importe" required>
-            </div>
-            <!--
-            <div class="input">
-                <label>Comentario</label>
-                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100" required></textarea>
-            </div>
-            -->
         </div>
 
 
@@ -64,16 +40,6 @@
                     <option value="03">Comisiones por ventas con tarjetas</option>
                 </select>
             </div>
-            <div class="input">
-                <label>Importe</label>
-                <input type="number" step="0.01" ng-model="$ctrl.importe" required>
-            </div>
-            <!--
-            <div class="input">
-                <label>Comentario</label>
-                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100" required></textarea>
-            </div>
-            -->
         </div>
 
         <div id="impuestos" class="mv-col gastos" ng-if="$ctrl.movimiento == '009'">
@@ -94,29 +60,6 @@
                     <option value="06">Expensas</option>
                 </select>
             </div>
-            <div class="input">
-                <label>Importe</label>
-                <input type="number" step="0.01" ng-model="$ctrl.importe" required>
-            </div>
-            <!--
-            <div class="input">
-                <label>Comentario</label>
-                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100" required></textarea>
-            </div>
-            -->
-        </div>
-
-        <div id="otros" class="mv-col gastos" ng-if="$ctrl.movimiento == '012'">
-            <div class="input">
-                <label>Importe</label>
-                <input type="number" step="0.01" ng-model="$ctrl.importe" required>
-            </div>
-            <!--
-            <div class="input">
-                <label>Comentario</label>
-                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100" required></textarea>
-            </div>
-            -->
         </div>
 
         <div id="otrosImpuestos" class="mv-col gastos" ng-if="$ctrl.movimiento == '014'">
@@ -139,18 +82,13 @@
                     <option value="07">Percepción IIBB</option>
                 </select>
             </div>
-            <div class="input">
-                <label>Importe</label>
-                <input type="number" step="0.01" ng-model="$ctrl.importe" required>
-            </div>
-            <!--
-            <div class="input">
-                <label>Comentario</label>
-                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100" required></textarea>
-            </div>
-            -->
         </div>
 
+        <div class="input">
+            <label>Importe</label>
+            <input type="number" step="0.01" ng-model="$ctrl.importe"
+                   mv-validator is-required="Debe ingresar un importe" id="importe">
+        </div>
 
         <div  class="input">
             <label>Forma de Pago</label>
@@ -179,16 +117,11 @@
         </div>
 
         <div class="botonera">
-            <!--<input type="submit"-->
-            <!--ng-disabled="gastosForm.user.$dirty && gastosForm.user.$invalid ||-->
-            <!--gastosForm.email.$dirty && gastosForm.email.$invalid">-->
-            <button class="boton-ok" ng-click="$ctrl.save();">
+            <button class="boton-ok" mv-validator ng-click="$ctrl.save();">
                 <i class="fa fa-check" aria-hidden="true"></i>
             </button>
         </div>
     </form>
-
-
 
 </div>
 

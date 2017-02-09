@@ -1,10 +1,7 @@
 <div class="container container-bgk container-padding">
     <h1 class="secciones">Depósitos</h1>
-    <form class="lista"
-          name="depositosForm" form-id="ac-depositos">
+    <form class="" name="depositosForm" form-id="mv-depositos">
         <div class="form-flex">
-
-
             <div class="input">
                 <label for="origen">Origen</label>
                 <select name="" id="origen" ng-model="$ctrl.origen" mv-validator is-required="El campo es requerido">
@@ -19,7 +16,6 @@
 
             <div class="input">
                 <label for="destino">Destino</label>
-
                 <select name="" id="destino" ng-model="$ctrl.destino" mv-validator is-required="El campo es requerido">
                     <option value="01">Caja Chica</option>
                     <option value="11">Ahorro Local</option>
@@ -32,23 +28,16 @@
 
             <div class="input">
                 <label for="importe">Importe</label>
-
                 <input type="number" step="0.01" ng-model="$ctrl.importe"
                        mv-validator is-required="Debe ingresar un importe" id="importe">
-
             </div>
 
             <div class="botonera">
-                <!--<input type="submit"-->
-                <!--ng-disabled="depositosForm.user.$dirty && depositosForm.user.$invalid ||-->
-                <!--depositosForm.email.$dirty && depositosForm.email.$invalid">-->
                 <button class="boton-ok" mv-validator ng-click="$ctrl.save();">
                     <i class="fa fa-check" aria-hidden="true"></i>
                 </button>
-
             </div>
-
-
+        </div>
     </form>
 </div>
 

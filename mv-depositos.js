@@ -1,10 +1,7 @@
 (function () {
-
     'use strict';
 
-
     angular.module('mvDepositos', [])
-
         .component('depositos', depositos())
         .service('DepositosService', DepositosService);
 
@@ -16,8 +13,8 @@
         }
     }
 
-    DepositosController.$inject = ["$routeParams", "MovimientosService", "UserService", "MvUtils", "MvUtilsGlobals"];
-    function DepositosController($routeParams, MovimientosService, UserService, MvUtils, MvUtilsGlobals) {
+    DepositosController.$inject = ["$routeParams", "MovimientosService", "UserService", "MvUtils", "MvUtilsGlobals", "$q"];
+    function DepositosController($routeParams, MovimientosService, UserService, MvUtils, MvUtilsGlobals, $q) {
         var vm = this;
         vm.movimiento = '000';
         vm.comentario = 'Movimiento entre cuentas';
@@ -28,31 +25,30 @@
         vm.destino = '11';
         vm.origen = '01';
 
-
         function save() {
-            MvUtilsGlobals.startWaiting();
+            //MvUtilsGlobals.startWaiting();
             if (vm.importe < 1 || vm.importe == '' || vm.importe == undefined) {
                 MvUtils.showMessage('error', 'Debe ingresar un importe');
                 return;
             }
-            //tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, cliente_id, usuario_id, comentario, callback
-            MovimientosService.armarMovimiento(vm.movimiento, vm.subtipo, UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.destino, vm.origen, vm.importe, '', vm.comentario, [], 0, 1, vm.comentario, function (data) {
-                MvUtilsGlobals.stopWaiting();
-                if (data > -1) {
-                    MvUtils.showMessage('success', "Depósito realizado con éxito");
-                    vm.movimiento = '000';
-                    vm.subtipo = '00';
-                    vm.forma_pago = '01';
-                    vm.destino = '04';
-                    vm.origen = '01';
-                    vm.importe = '';
-
-                }
-
-            });
+            //tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total,
+            //descuento, detalle, items, cliente_id, usuario_id, comentario, callback
+            MovimientosService.armarMovimiento(vm.movimiento, vm.subtipo, UserService.getFromToken().data.sucursal_id,
+                UserService.getFromToken().data.caja_id, vm.destino, vm.origen, vm.importe, '', vm.comentario, [],
+                0, 1, vm.comentario, function (data) {
+                    if(data.status == 200) {
+                        MvUtils.showMessage('success', "Depósito realizado con éxito");
+                        vm.movimiento = '000';
+                        vm.subtipo = '00';
+                        vm.forma_pago = '01';
+                        vm.destino = '04';
+                        vm.origen = '01';
+                        vm.importe = '';
+                    } else {
+                        MvUtils.showMessage('error', "Error realizando el depósito");
+                    }
+                });
         }
-
-
     }
 
 
@@ -65,7 +61,6 @@
         service.getDepositoByName = getDepositoByName;
         service.saveDeposito = saveDeposito;
         service.deleteDeposito = deleteDeposito;
-
 
         return service;
 
@@ -87,7 +82,6 @@
                 })[0];
                 callback(response);
             })
-
         }
 
         function getDepositoByName(name, callback) {
@@ -108,12 +102,9 @@
                 });
                 callback(response);
             })
-
         }
 
-
         function saveDeposito(deposito, _function, callback) {
-
             return $http.post(url,
                 {function: _function, deposito: JSON.stringify(deposito)})
                 .success(function (data) {
@@ -121,7 +112,6 @@
                 })
                 .error();
         }
-
 
         function deleteDeposito(id, callback) {
             return $http.post(url,

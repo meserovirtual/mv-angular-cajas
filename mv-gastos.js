@@ -1,10 +1,7 @@
 (function () {
-
     'use strict';
 
-
     angular.module('mvGastos', [])
-
         .component('gastos', gastos())
         .service('GastosService', GastosService);
 
@@ -23,26 +20,40 @@
         vm.comentario = '';
         vm.subtipo = '00';
         vm.forma_pago = '01';
-        vm.save = save;
         vm.id = $routeParams.id;
 
-        function save() {
-            //tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, cliente_id, usuario_id, comentario, callback
-            MovimientosService.armarMovimiento(vm.movimiento, vm.subtipo, UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.forma_pago, '', vm.importe, '', vm.comentario, [], 0, 1, vm.comentario, function (data) {
-                if (!isNaN(data)) {
-                    MvUtils.showMessage('success', 'Gasto generado con éxito');
-                    vm.movimiento = '012';
-                    vm.comentario = '';
-                    vm.subtipo = '00';
-                    vm.forma_pago = '01';
-                } else {
-                    MvUtils.showMessage('error', 'Error al guardar el gasto');
-                }
+        //FUNCIONES
+        vm.save = save;
+        vm.selectMovimiento = selectMovimiento;
 
-            });
+        function selectMovimiento() {
+            if(vm.movimiento == '007' || vm.movimiento == '008' || vm.movimiento == '009' || vm.movimiento == '014') {
+                vm.subtipo = '01';
+            } else {
+                vm.subtipo = '00';
+            }
         }
 
 
+        function save() {
+            // tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total,
+            // descuento, detalle, items, cliente_id, usuario_id, comentario, callback
+            MovimientosService.armarMovimiento(vm.movimiento, vm.subtipo, UserService.getFromToken().data.sucursal_id,
+                UserService.getFromToken().data.caja_id, vm.forma_pago, '', vm.importe, '', vm.comentario, [], 0, 1,
+                vm.comentario, function (data) {
+                    if(data.status == 200) {
+                        MvUtils.showMessage('success', 'Gasto generado con éxito');
+                        vm.movimiento = '012';
+                        vm.comentario = '';
+                        vm.subtipo = '00';
+                        vm.forma_pago = '01';
+                        vm.importe = '';
+                    } else {
+                        MvUtils.showMessage('error', 'Error al guardar el gasto');
+                    }
+
+                });
+        }
     }
 
 
@@ -79,7 +90,6 @@
                 })[0];
                 callback(response);
             })
-
         }
 
         function getGastoByName(name, callback) {
@@ -100,12 +110,9 @@
                 });
                 callback(response);
             })
-
         }
 
-
         function saveGasto(gasto, _function, callback) {
-
             return $http.post(url,
                 {function: _function, gasto: JSON.stringify(gasto)})
                 .success(function (data) {
@@ -114,7 +121,6 @@
                 .error(function (data) {
                 });
         }
-
 
         function deleteGasto(id, callback) {
             return $http.post(url,
