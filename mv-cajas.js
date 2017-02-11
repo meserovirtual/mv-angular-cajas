@@ -98,19 +98,36 @@
         }
 
 
-        function getCajaDiariaFromTo(sucursal_id, pos_id, asiento_id_inicio, asiento_id_fin, callback) {
+        /*
+         function getCajaDiariaFromTo(sucursal_id, pos_id, asiento_id_inicio, asiento_id_fin, callback) {
+         return $http.post(url, {
+         function: 'getCajaDiariaFromTo',
+         sucursal_id: sucursal_id,
+         pos_id: pos_id,
+         asiento_id_inicio: asiento_id_inicio,
+         asiento_id_fin: asiento_id_fin
+         })
+         .success(function (data) {
+         callback(data)
+         })
+         .error(function (data) {
+         callback(data)
+         });
+         }
+         */
+        function getCajaDiariaFromTo(sucursal_id, pos_id, asiento_id_inicio, asiento_id_fin) {
             return $http.post(url, {
-                    function: 'getCajaDiariaFromTo',
-                    sucursal_id: sucursal_id,
-                    pos_id: pos_id,
-                    asiento_id_inicio: asiento_id_inicio,
-                    asiento_id_fin: asiento_id_fin
+                function: 'getCajaDiariaFromTo',
+                sucursal_id: sucursal_id,
+                pos_id: pos_id,
+                asiento_id_inicio: asiento_id_inicio,
+                asiento_id_fin: asiento_id_fin
+            })
+                .then(function (data) {
+                    return data;
                 })
-                .success(function (data) {
-                    callback(data)
-                })
-                .error(function (data) {
-                    callback(data)
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
         }
 

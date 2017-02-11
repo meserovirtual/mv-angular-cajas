@@ -1,48 +1,57 @@
 <div class="container container-bgk container-padding">
     <h1 class="secciones">Abrir/Cerrar Caja</h1>
-        <form class="container-form">
-                <div class="mv-col gastos">
-                    <div class="margin-top" style="font-size: 30px; color:#799975; margin-bottom: 20px">¿Deseas abrir Caja?</div>
-                </div>
-                <div class="mv-col gastos">
-                    <div class="margin-top">Saldo Inicial</div>
-                </div>
-                <div class="mv-col gastos">
-                    <input type="text" class="margin-top" value="{{$ctrl.saldoInicial | currency}}" />
-                </div>
+    <form id="abrirCerraCajaForm" class="container-form" form-id="mv-abrir-cerrar-caja">
+        <!--caja cerrada-->
+        <div class="mv-col gastos"  ng-if="!$ctrl.isOpen">
+            <div class="input">
+                <h3>¿Deseas abrir Caja?</h3>
+            </div>
 
+            <div class="input margin-top-big">
+                <label >Saldo Inicial</label>
+                <input type="text" value="{{$ctrl.saldoInicial | currency}}" />
+            </div>
 
+            <div class="input margin-top-big">
+                <label>Mensaje: {{$ctrl.detalles}}</label>
+            </div>
+        </div>
 
+        <!--caja abierta-->
+        <div class="mv-col gastos"  ng-if="$ctrl.isOpen">
+            <div class="input">
+                <h3>¿Deseas cerrar Caja?</h3>
+            </div>
 
-                <!--caja cerrada-->
-                <div ng-if="!$ctrl.isOpen">
-                    <label for="">Mensaje: {{$ctrl.detalles}}</label>
-                </div>
+            <div class="input margin-top-big">
+                <label >Saldo Inicial</label>
+                <input type="text" value="{{$ctrl.saldoInicial | currency}}" readonly/>
+            </div>
 
-                <!--caja abierta-->
-                <div ng-if="$ctrl.isOpen">
+            <div class="input">
+                <label >Saldo Final</label>
+                <input type="text" value="{{$ctrl.saldoFinal | currency}}" readonly/>
+            </div>
 
-                    <div class="input"><span class="descr">{{$ctrl.saldoFinal | currency}}</span><label>Saldo Final</label></div>
+            <div class="input">
+                <label >Saldo Real</label>
+                <input type="number" step="0.01" ng-model="$ctrl.saldoFinalReal"
+                       mv-validator is-required="Debe ingresar un Saldo Real" id="saldoReal">
+            </div>
 
-                    <div class="input" >
-                        <label for="detalles">Detalles</label>
-                        <textarea id="detalles" name="detalles" ng-model="$ctrl.detalles" ng-maxlength="3000"></textarea>
+            <div class="input">
+                <label for="detalles">Detalles</label>
+                <textarea id="detalles" name="detalles" ng-model="$ctrl.detalles" ng-maxlength="3000"
+                          mv-validator is-required="El detalle es obligatorio"></textarea>
+            </div>
 
-                    </div>
-                    <div class="input">
-                        <label for="saldoFinal">Saldo Real</label>
+        </div>
 
-                        <input type="text" id="saldoFinal" step="0.01" ng-model="$ctrl.saldoFinalReal"
-                               required>
+        <div class="botonera">
+            <button class="boton-ok" mv-validator ng-click="$ctrl.save();" value="{{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}} Caja">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </button>
+        </div>
+    </form>
 
-
-                    </div>
-                </div>
-
-        </form>
-    <div class="margin-top" style="text-align: -webkit-center">
-        <button type="button" class="btn-agregar" ng-click="$ctrl.save();">
-            {{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}} Caja
-        </button>
-    </div>
 </div>

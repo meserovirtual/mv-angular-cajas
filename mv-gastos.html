@@ -112,7 +112,8 @@
         <div class="mv-col gastos">
             <div class="input">
                 <label>Comentario</label>
-                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100" required></textarea>
+                <textarea type="text" ng-model="$ctrl.comentario" ng-maxlength="100"
+                          mv-validator is-required="El comentario es obligatorio"></textarea>
             </div>
         </div>
 
