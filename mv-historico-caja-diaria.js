@@ -21,15 +21,14 @@
     }
 
     HistoricoCajaDiariaController.$inject = ['CajasService', '$location', 'MovimientosService', '$timeout', '$interval', 'MvUtilsGlobals', '$rootScope',
-        '$scope', 'UserService', 'SucursalesService'];
+        '$scope', 'UserService', 'SucursalesService', 'MvUtils'];
     function HistoricoCajaDiariaController(CajasService, $location, MovimientosService, $timeout, $interval, MvUtilsGlobals, $rootScope,
-                                         $scope, UserService, SucursalesService) {
+                                         $scope, UserService, SucursalesService, MvUtils) {
 
         var vm = this;
         vm.sucursal = {};
         vm.sucursales = [];
-        //vm.sucursal_id = UserService.getFromToken().data.sucursal_id;
-        vm.sucursal_id = 1;
+        vm.sucursal_id = UserService.getFromToken().data.sucursal_id;
         vm.cajaGeneralSucursal = 0.0;
         vm.cajas = {};
         vm.caja = [];
@@ -100,6 +99,13 @@
         }
 
         function getDetalles(sucursal, caja) {
+            console.log(caja);
+
+            if(caja == undefined || caja.length == 0) {
+                MvUtils.showMessage('warning', "No hay caja para mostrar detalle");
+                return;
+            }
+
             MvUtilsGlobals.startWaiting();
 
             clearDetalles();
