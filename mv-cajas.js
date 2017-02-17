@@ -39,11 +39,10 @@
         service.getResultado = getResultado;
         return service;
 
-        function getTotalByCuenta(cuenta, sucursal_id, callback) {
+        function getTotalByCuenta(cuenta, sucursal_id) {
             var urlGet = url + '?function=getTotalByCuenta&cuenta_id=' + cuenta + '&sucursal_id=' + sucursal_id;
             var $httpDefaultCache = $cacheFactory.get('$http');
             var cachedData = [];
-
 
             // Verifica si existe el cache de productos
             if ($httpDefaultCache.get(urlGet) != undefined) {
@@ -51,24 +50,23 @@
                     $httpDefaultCache.remove(urlGet);
                 }
                 else {
+                    var deferred = $q.defer();
                     cachedData = $httpDefaultCache.get(urlGet);
-                    callback(cachedData);
-                    return;
+                    deferred.resolve(cachedData);
+                    return deferred.promise;
                 }
             }
 
-
             return $http.get(urlGet, {cache: true})
-                .success(function (data) {
-                    $httpDefaultCache.put(urlGet, data);
+                .then(function (response) {
+                    $httpDefaultCache.put(urlGet, response.data);
                     CajasVars.getTotalByCuenta.clearCache = false;
-                    callback(data);
+                    return response.data;
                 })
-                .error(function (data) {
-                    callback(data);
+                .catch(function (response) {
                     CajasVars.getTotalByCuenta.clearCache = false;
+                    ErrorHandler(response);
                 })
-
         }
 
         function getDetalleByCuenta(cuenta) {
@@ -124,13 +122,26 @@
                 });
         }
 
-        function getCajasBySucursal(sucursal_id, pos_id, callback) {
-            getCajas(function (data) {
-                var response = data.filter(function (elem, index, array) {
+        /*
+         function getCajasBySucursal(sucursal_id, pos_id, callback) {
+         getCajas(function (data) {
+         var response = data.filter(function (elem, index, array) {
+         return elem.sucursal_id == sucursal_id && elem.pos_id == pos_id;
+         });
+
+         callback(response);
+         });
+
+         }
+         */
+        function getCajasBySucursal(sucursal_id, pos_id) {
+            return getCajas().then(function (data) {
+                var response = data.data.filter(function (elem, index, array) {
                     return elem.sucursal_id == sucursal_id && elem.pos_id == pos_id;
                 });
-
-                callback(response);
+                return response;
+            }).catch(function(data){
+                ErrorHandler(data);
             });
 
         }
@@ -203,13 +214,13 @@
 
         }
 
-        function getSaldoInicial(sucursal_id, pos_id, callback) {
+        function getSaldoInicial(sucursal_id, pos_id) {
             return $http.get(url + '?function=getSaldoInicial&sucursal_id=' + sucursal_id + '&pos_id=' + pos_id)
-                .success(function (data) {
-                    callback(data)
+                .then(function (data) {
+                    return data
                 })
-                .error(function (data) {
-                    callback(data)
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
         }
 
@@ -233,13 +244,13 @@
                 });
         }
 
-        function getResultado(cuenta_id, callback) {
+        function getResultado(cuenta_id) {
             return $http.get(url + '?function=getResultado&cuenta_id=' + cuenta_id)
-                .success(function (data) {
-                    callback(data)
+                .then(function (data) {
+                    return data;
                 })
-                .error(function (data) {
-                    callback(data)
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
         }
 
