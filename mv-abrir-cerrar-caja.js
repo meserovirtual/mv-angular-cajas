@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('' +
-            'mvAbrirCerrarCaja', [])
+        'mvAbrirCerrarCaja', [])
 
         .component('abrirCerrarCaja', abrirCerrarCaja());
 
@@ -31,48 +31,44 @@
         vm.sucursal_nombre = '';
         //vm.caja_id = UserService.getFromToken().data.caja_id;
         //vm.sucursal_id = UserService.getFromToken().data.sucursal_id;
-        vm.caja_id = 1;
-        vm.sucursal_id = 1;
+        //vm.caja_id = 1;
+        //vm.sucursal_id = 1;
 
         vm.save = save;
 
         SucursalesService.get().then(function (data) {
             for (var i in data) {
-                /*
                 if (UserService.getFromToken().data.sucursal_id == data[i].sucursal_id) {
                     vm.sucursal_nombre = data[i].nombre;
-                }
-                */
-                if (vm.sucursal_id == data[i].sucursal_id) {
-                    vm.sucursal_nombre = data[i].nombre;
+                    console.log(vm.sucursal_nombre);
                 }
             }
         });
 
 
-        //CajasService.checkEstado(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
-        CajasService.checkEstado(vm.sucursal_id, vm.caja_id, function (data) {
-            //console.log(data);
-
-            if (data.asiento_cierre_id == null || data.asiento_cierre_id == 0) {
+        CajasService.checkEstado(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
+            console.log(data);
+            console.log(UserService.getFromToken().data);
+            if (data.data.asiento_cierre_id == null || data.data.asiento_cierre_id == 0) {
                 vm.isOpen = true;
-                vm.saldoInicial = data.saldo_inicial;
-                //CajasService.getSaldoFinal(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
-                CajasService.getSaldoFinal(vm.sucursal_id, vm.caja_id, function (data) {
-                    vm.saldoFinal = parseFloat(data[0].total) + parseFloat(vm.saldoInicial);
-                    vm.saldoFinalReal = parseFloat(data[0].total) + parseFloat(vm.saldoInicial);
+                vm.saldoInicial = data.data.saldo_inicial;
+                CajasService.getSaldoFinal(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
+                    console.log(data);
+                    vm.saldoFinal = parseFloat(data.data[0].total) + parseFloat(vm.saldoInicial);
+                    vm.saldoFinalReal = parseFloat(data.data[0].total) + parseFloat(vm.saldoInicial);
                 });
             } else {
                 vm.isOpen = false;
-                //CajasService.getSaldoFinalAnterior(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
-                CajasService.getSaldoFinalAnterior(vm.sucursal_id, vm.caja_id, function (data) {
-                    vm.saldoInicial = (data.length == 0) ? 0.00 : data[0].valor_real;
-                    vm.detalles = (data.length == 0) ? '' : data[0].detalles;
+                CajasService.getSaldoFinalAnterior(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
+                    console.log(data);
+                    vm.saldoInicial = (data.data.length == 0) ? 0.00 : data.data[0].valor_real;
+                    vm.detalles = (data.data.length == 0) ? '' : data.data[0].detalles;
                 });
             }
         });
 
         function save() {
+            console.log(UserService.getFromToken().data);
 
             if (vm.isOpen) {
                 var cerrarCaja = confirm('Esta seguro que desea cerrar la caja del dia de la fecha?');
@@ -82,30 +78,39 @@
                     MvUtilsGlobals.startWaiting();
 
                     var aReponer = [];
-                    //StockService.getAReponer(UserService.getFromToken().data.sucursal_id).then(function (reponerData){
-                    StockService.getAReponer(vm.sucursal_id).then(function (reponerData){
+                    StockService.getAReponer(UserService.getFromToken().data.sucursal_id).then(function (reponerData){
                         aReponer = reponerData;
+                        console.log('reponer stock');
                     });
 
-                    var encomiendas = [];
-                    EncomiendasService.get(false).then(function (encomiendaData) {
-                        for (var i = 0; i < encomiendaData.length; i++) {
-                            encomiendaData[i].fecha_entrega = (new Date(encomiendaData[i].fecha_entrega)).getDate() + '/' + ((new Date(encomiendaData[i].fecha_entrega)).getMonth() + 1) + '/'+ (new Date(encomiendaData[i].fecha_entrega)).getFullYear();
-                        }
-                        encomiendaData.sort(function (a, b) {
-                            return b.fecha_entrega - a.fecha_entrega;
-                        });
-                        encomiendas = encomiendaData;
-                    });
-
+                    /*
+                     var encomiendas = [];
+                     EncomiendasService.get(false).then(function (encomiendaData) {
+                     for (var i = 0; i < encomiendaData.length; i++) {
+                     encomiendaData[i].fecha_entrega = (new Date(encomiendaData[i].fecha_entrega)).getDate() + '/' + ((new Date(encomiendaData[i].fecha_entrega)).getMonth() + 1) + '/'+ (new Date(encomiendaData[i].fecha_entrega)).getFullYear();
+                     }
+                     encomiendaData.sort(function (a, b) {
+                     return b.fecha_entrega - a.fecha_entrega;
+                     });
+                     encomiendas = encomiendaData;
+                     });
+                     */
                     var pedidos = [];
                     PedidoVars.all = false;
-                    PedidoService.get(function (pedidoData) {
+                    /*
+                     PedidoService.get(function (pedidoData) {
+                     pedidos = pedidoData;
+                     console.log('Retorno pedidos');
+                     });
+                     */
+                    PedidoService.get().then(function (pedidoData) {
                         pedidos = pedidoData;
+                        console.log(pedidoData);
+                        console.log('Retorno pedidos');
                     });
 
                     //ReportesService.cierreDeCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
-                    ReportesService.cierreDeCaja(vm.sucursal_id, vm.caja_id, function (data) {
+                    ReportesService.cierreDeCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
                         var fecha = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();
                         console.log(data);
                         var mensaje = '';
@@ -223,6 +228,7 @@
                         mensaje = mensaje + '<th style="text-align:left;font-size:12px;background-color:#fff;border-width:1px;padding:8px;border-style:solid;border-color:#515c4b;text-align:left;color:#293333">Nombre</th>';
                         mensaje = mensaje + '<th style="text-align:left;font-size:12px;background-color:#fff;border-width:1px;padding:8px;border-style:solid;border-color:#515c4b;text-align:center;color:#293333">Fecha Entrega</th>';
                         mensaje = mensaje + '</tr></thead><tbody>';
+                        console.log(encomiendas);
                         for (var i = 0; i < encomiendas.length; i++) {
                             mensaje = mensaje + '<tr>';
                             mensaje = mensaje + '<td style="font-size:12px;border-width:1px;padding:8px;border-style:solid;border-color:#515c4b;background-color:#293333;color:#fff">' + encomiendas[i].cliente + '</td>';
@@ -260,8 +266,11 @@
                             mensaje = mensaje + '</tr>';
                         }
                         mensaje = mensaje + '</tbody></table>';
-
                         mensaje = mensaje + '</div>';
+
+                        console.log('Se armo el mail');
+                        console.log(window.mailAdmin);
+                        console.log(window.mailAdmins);
 
                         ContactsService.sendMail(window.mailAdmin,
                             window.mailAdmins,
@@ -269,16 +278,11 @@
                             'Sucursal:' + vm.sucursal_nombre + ' Caja: ' + UserService.getFromToken().data.caja_id + ' Fecha: ' + new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
                             mensaje,
                             function (data) {
-
                                 console.log(data);
                                 var detalles = vm.detalles.replace(/["']/g, " ");
                                 CajasService.cerrarCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoFinalReal, detalles, function (data) {
-
-
                                     MvUtilsGlobals.stopWaiting();
                                     $location.path('/caja/cobros');
-
-
                                 });
                             });
                     });
@@ -286,7 +290,8 @@
                     console.log('no cerro caja');
                 }
             } else {
-                CajasService.abrirCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoInicial, function (data) {
+                CajasService.abrirCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoInicial).then(function (data) {
+                    console.log(data);
                     $location.path('/caja/cobros');
                 })
             }

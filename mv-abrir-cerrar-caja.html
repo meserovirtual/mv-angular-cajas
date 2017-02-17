@@ -9,7 +9,7 @@
 
             <div class="input margin-top-big">
                 <label >Saldo Inicial</label>
-                <input type="text" value="{{$ctrl.saldoInicial | currency}}" />
+                <input type="text" class="readonly" value="{{$ctrl.saldoInicial | currency}}" readonly/>
             </div>
 
             <div class="input margin-top-big">
@@ -25,12 +25,12 @@
 
             <div class="input margin-top-big">
                 <label >Saldo Inicial</label>
-                <input type="text" value="{{$ctrl.saldoInicial | currency}}" readonly/>
+                <input type="text" class="readonly" value="{{$ctrl.saldoInicial | currency}}" readonly/>
             </div>
 
             <div class="input">
                 <label >Saldo Final</label>
-                <input type="text" value="{{$ctrl.saldoFinal | currency}}" readonly/>
+                <input type="text" class="readonly" value="{{$ctrl.saldoFinal | currency}}" readonly/>
             </div>
 
             <div class="input">
@@ -48,7 +48,10 @@
         </div>
 
         <div class="botonera">
-            <button class="boton-ok" mv-validator ng-click="$ctrl.save();" value="{{(!$ctrl.isOpen)?'Abrir ':'Cerrar';}} Caja">
+            <button class="boton-ok" ng-if="!$ctrl.isOpen" ng-click="$ctrl.save();" value="Abrir Caja">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </button>
+            <button class="boton-ok" ng-if="$ctrl.isOpen" mv-validator ng-click="$ctrl.save();" value="Cerrar Caja">
                 <i class="fa fa-check" aria-hidden="true"></i>
             </button>
         </div>

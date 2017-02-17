@@ -97,24 +97,6 @@
                 });
         }
 
-
-        /*
-         function getCajaDiariaFromTo(sucursal_id, pos_id, asiento_id_inicio, asiento_id_fin, callback) {
-         return $http.post(url, {
-         function: 'getCajaDiariaFromTo',
-         sucursal_id: sucursal_id,
-         pos_id: pos_id,
-         asiento_id_inicio: asiento_id_inicio,
-         asiento_id_fin: asiento_id_fin
-         })
-         .success(function (data) {
-         callback(data)
-         })
-         .error(function (data) {
-         callback(data)
-         });
-         }
-         */
         function getCajaDiariaFromTo(sucursal_id, pos_id, asiento_id_inicio, asiento_id_fin) {
             return $http.post(url, {
                 function: 'getCajaDiariaFromTo',
@@ -131,17 +113,7 @@
                 });
         }
 
-        /*
-         function getCajas(callback) {
-         return $http.get(url + '?function=getCajas', {cache: true})
-         .success(function (data) {
-         callback(data)
-         })
-         .error(function (data) {
-         callback(data)
-         });
-         }
-         */
+
         function getCajas() {
             return $http.get(url + '?function=getCajas', {cache: true})
                 .then(function (data) {
@@ -188,25 +160,29 @@
 
         }
 
-        function getSaldoFinal(sucursal_id, pos_id, callback) {
-            return $http.post(url, {function: 'getSaldoFinal', sucursal_id: sucursal_id, pos_id: pos_id})
-                .success(function (data) {
-                    callback(data);
+        function getSaldoFinal(sucursal_id, pos_id) {
+            return $http.post(url,
+                {
+                    function: 'getSaldoFinal',
+                    sucursal_id: sucursal_id,
+                    pos_id: pos_id
                 })
-                .error(function (data) {
-                    callback(data);
+                .then(function (data) {
+                    return data;
+                })
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
-
         }
 
         function cerrarCaja(sucursal_id, pos_id, importe, detalles, callback) {
             return $http.post(url, {
-                    function: 'cerrarCaja',
-                    sucursal_id: sucursal_id,
-                    pos_id: pos_id,
-                    importe: importe,
-                    detalles: detalles
-                })
+                function: 'cerrarCaja',
+                sucursal_id: sucursal_id,
+                pos_id: pos_id,
+                importe: importe,
+                detalles: detalles
+            })
                 .success(function (data) {
                     callback(data);
                 })
@@ -216,13 +192,13 @@
 
         }
 
-        function abrirCaja(sucursal_id, pos_id, importe, callback) {
+        function abrirCaja(sucursal_id, pos_id, importe) {
             return $http.post(url, {function: 'abrirCaja', sucursal_id: sucursal_id, pos_id: pos_id, importe: importe})
-                .success(function (data) {
-                    callback(data);
+                .then(function (data) {
+                    return data;
                 })
-                .error(function (data) {
-                    callback(data);
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
 
         }
@@ -237,28 +213,16 @@
                 });
         }
 
-        function getSaldoFinalAnterior(sucursal_id, pos_id, callback) {
+        function getSaldoFinalAnterior(sucursal_id, pos_id) {
             return $http.get(url + '?function=getSaldoFinalAnterior&sucursal_id=' + sucursal_id + '&pos_id=' + pos_id)
-                .success(function (data) {
-                    console.log(data);
-                    callback(data)
+                .then(function (data) {
+                    return data;
                 })
-                .error(function (data) {
-                    callback(data)
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
         }
 
-        /*
-        function checkEstado(sucursal_id, pos_id, callback) {
-            return $http.get(url + '?function=checkEstado&sucursal_id=' + sucursal_id + '&pos_id=' + pos_id)
-                .success(function (data) {
-                    callback(data)
-                })
-                .error(function (data) {
-                    callback(data)
-                });
-        }
-        */
         function checkEstado(sucursal_id, pos_id) {
             return $http.get(url + '?function=checkEstado&sucursal_id=' + sucursal_id + '&pos_id=' + pos_id)
                 .then(function (data) {
