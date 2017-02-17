@@ -40,27 +40,22 @@
             for (var i in data) {
                 if (UserService.getFromToken().data.sucursal_id == data[i].sucursal_id) {
                     vm.sucursal_nombre = data[i].nombre;
-                    console.log(vm.sucursal_nombre);
                 }
             }
         });
 
 
         CajasService.checkEstado(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
-            console.log(data);
-            console.log(UserService.getFromToken().data);
             if (data.data.asiento_cierre_id == null || data.data.asiento_cierre_id == 0) {
                 vm.isOpen = true;
                 vm.saldoInicial = data.data.saldo_inicial;
                 CajasService.getSaldoFinal(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
-                    console.log(data);
                     vm.saldoFinal = parseFloat(data.data[0].total) + parseFloat(vm.saldoInicial);
                     vm.saldoFinalReal = parseFloat(data.data[0].total) + parseFloat(vm.saldoInicial);
                 });
             } else {
                 vm.isOpen = false;
                 CajasService.getSaldoFinalAnterior(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
-                    console.log(data);
                     vm.saldoInicial = (data.data.length == 0) ? 0.00 : data.data[0].valor_real;
                     vm.detalles = (data.data.length == 0) ? '' : data.data[0].detalles;
                 });
@@ -68,23 +63,21 @@
         });
 
         function save() {
-            console.log(UserService.getFromToken().data);
 
             if (vm.isOpen) {
                 var cerrarCaja = confirm('Esta seguro que desea cerrar la caja del dia de la fecha?');
 
                 if(cerrarCaja) {
-                    console.log('cerrando caja');
                     MvUtilsGlobals.startWaiting();
 
                     var aReponer = [];
                     StockService.getAReponer(UserService.getFromToken().data.sucursal_id).then(function (reponerData){
                         aReponer = reponerData;
-                        console.log('reponer stock');
+                        console.log(aReponer);
                     });
 
+                    var encomiendas = [];
                     /*
-                     var encomiendas = [];
                      EncomiendasService.get(false).then(function (encomiendaData) {
                      for (var i = 0; i < encomiendaData.length; i++) {
                      encomiendaData[i].fecha_entrega = (new Date(encomiendaData[i].fecha_entrega)).getDate() + '/' + ((new Date(encomiendaData[i].fecha_entrega)).getMonth() + 1) + '/'+ (new Date(encomiendaData[i].fecha_entrega)).getFullYear();
@@ -97,16 +90,9 @@
                      */
                     var pedidos = [];
                     PedidoVars.all = false;
-                    /*
-                     PedidoService.get(function (pedidoData) {
-                     pedidos = pedidoData;
-                     console.log('Retorno pedidos');
-                     });
-                     */
                     PedidoService.get().then(function (pedidoData) {
                         pedidos = pedidoData;
-                        console.log(pedidoData);
-                        console.log('Retorno pedidos');
+                        console.log(pedidos);
                     });
 
                     //ReportesService.cierreDeCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, function (data) {
@@ -124,23 +110,23 @@
                         mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: center;color:#293333;">Monto</th></tr></thead>';
                         mensaje = mensaje + '<tbody>';
 
-                        for (var i = 0; i < data[0].length; i++) {
+                        for (var i = 0; i < data.data[0].length; i++) {
 
-                            if (data[0][i].cuenta_id.indexOf('1.1.1.0') > -1) {
+                            if (data.data[0][i].cuenta_id.indexOf('1.1.1.0') > -1) {
                                 mensaje = mensaje + '<tr>';
                                 mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Caja Inicial (Ma\u00F1ana)</td>';
-                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[0][i].importe + '</td>';
+                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[0][i].importe + '</td>';
                                 mensaje = mensaje + '</tr>';
-                            } else if (data[0][i].cuenta_id.indexOf('1.1.1.3') > -1) {
+                            } else if (data.data[0][i].cuenta_id.indexOf('1.1.1.3') > -1) {
                                 mensaje = mensaje + '<tr>';
                                 mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Ahorro</td>';
-                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[0][i].importe + '</td>';
+                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[0][i].importe + '</td>';
                                 mensaje = mensaje + '</tr>';
                             }
-                            else if (data[0][i].cuenta_id.indexOf('4.1.1.0') > -1) {
+                            else if (data.data[0][i].cuenta_id.indexOf('4.1.1.0') > -1) {
                                 mensaje = mensaje + '<tr>';
                                 mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Ventas</td>';
-                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[0][i].importe + '</td>';
+                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[0][i].importe + '</td>';
                                 mensaje = mensaje + '</tr>';
                             }
 
@@ -154,11 +140,11 @@
                         mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: center;color:#293333;">Monto</th></tr></thead>';
                         mensaje = mensaje + '<tbody>';
 
-                        for (var i = 0; i < data[4].length; i++) {
+                        for (var i = 0; i < data.data[4].length; i++) {
 
                             mensaje = mensaje + '<tr>';
-                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">' + data[4][i].descripcion + '</td>';
-                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[4][i].importe + '</td>';
+                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">' + data.data[4][i].descripcion + '</td>';
+                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[4][i].importe + '</td>';
                             mensaje = mensaje + '</tr>';
 
                         }
@@ -175,17 +161,17 @@
                         mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: center;color:#293333;">Monto</th></tr></thead>';
                         mensaje = mensaje + '<tbody><tr>';
                         mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Valor Esperado</td>';
-                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[1][0].valor_esperado + '</td>';
+                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[1][0].valor_esperado + '</td>';
                         mensaje = mensaje + '</tr><tr>';
                         mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Valor Real</td>';
-                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[1][0].valor_real + '</td>';
+                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[1][0].valor_real + '</td>';
                         mensaje = mensaje + '</tr><tr>';
                         mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Saldo Inicial (Hoy)</td>';
-                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[1][0].saldo_inicial + '</td>';
+                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[1][0].saldo_inicial + '</td>';
                         mensaje = mensaje + '</tr></tbody></table>';
 
                         mensaje = mensaje + '<div style="text-align:left;font-weight: bold;margin: 30px 0 10px 0;color:#fff;">EGRESOS</div>';
-                        if (data[3][0] == undefined || data[3][0].descripcion == 'null') {
+                        if (data.data[3][0] == undefined || data.data[3][0].descripcion == 'null') {
                             mensaje = mensaje + '<div style="font-weight: bold;color: #a2b154;">Sin Movimientos</div><br>';
                         } else {
                             mensaje = mensaje + '<table style="width: 100%;color:#333;border-width: 1px;border-color: #515C4B;border-collapse: collapse;">';
@@ -194,11 +180,11 @@
                             mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: left;color:#293333;">Descripcion</th>';
                             mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: center;color:#293333;">Monto</th>';
                             mensaje = mensaje + '</tr></thead><tbody>';
-                            for (var i = 0; i < data[3].length; i++) {
+                            for (var i = 0; i < data.data[3].length; i++) {
                                 mensaje = mensaje + '<tr>';
                                 mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Gasto</td>';
-                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">' + data[3][i].descripcion + '</td>';
-                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data[3][i].importe + '</td>';
+                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">' + data.data[3][i].descripcion + '</td>';
+                                mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[3][i].importe + '</td>';
                                 mensaje = mensaje + '</tr>';
                             }
                             mensaje = mensaje + '</tbody></table>';
@@ -259,32 +245,32 @@
                         mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: left;color:#293333;">Producto</th>';
                         mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: center;color:#293333;">Cantidad Vendida</th>';
                         mensaje = mensaje + '</tr></thead><tbody>';
-                        for (var i = 0; i < data[2].length; i++) {
+                        for (var i = 0; i < data.data[2].length; i++) {
                             mensaje = mensaje + '<tr>';
-                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">' + data[2][i].nombre + '</td>';
-                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">' + data[2][i].cantidad + '</td>';
+                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">' + data.data[2][i].nombre + '</td>';
+                            mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">' + data.data[2][i].cantidad + '</td>';
                             mensaje = mensaje + '</tr>';
                         }
                         mensaje = mensaje + '</tbody></table>';
                         mensaje = mensaje + '</div>';
 
                         console.log('Se armo el mail');
-                        console.log(window.mailAdmin);
-                        console.log(window.mailAdmins);
+                        var sucursalHeader = 'Sucursal:' + vm.sucursal_nombre + ' Caja: ' + UserService.getFromToken().data.caja_id + ' Fecha: ' + new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();
 
-                        ContactsService.sendMail(window.mailAdmin,
-                            window.mailAdmins,
-                            'Cierre de Caja',
-                            'Sucursal:' + vm.sucursal_nombre + ' Caja: ' + UserService.getFromToken().data.caja_id + ' Fecha: ' + new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
-                            mensaje,
-                            function (data) {
+                        ContactsService.sendMail(window.mailAdmin, window.mailAdmins, 'Cierre de Caja', sucursalHeader, mensaje).then(function (data) {
+                            console.log(data);
+                            var detalles = vm.detalles.replace(/["']/g, " ");
+                            CajasService.cerrarCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoFinalReal, detalles).then(function (data) {
+                                MvUtilsGlobals.stopWaiting();
+                                $location.path('/caja/cobros');
+                            }).catch(function(data){
                                 console.log(data);
-                                var detalles = vm.detalles.replace(/["']/g, " ");
-                                CajasService.cerrarCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoFinalReal, detalles, function (data) {
-                                    MvUtilsGlobals.stopWaiting();
-                                    $location.path('/caja/cobros');
-                                });
                             });
+                        }).catch(function(data){
+                            console.log(data);
+                        });
+                    }).catch(function(data){
+                        console.log(data);
                     });
                 } else {
                     console.log('no cerro caja');
@@ -293,7 +279,9 @@
                 CajasService.abrirCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoInicial).then(function (data) {
                     console.log(data);
                     $location.path('/caja/cobros');
-                })
+                }).catch(function(data){
+                    console.log(data);
+                });
             }
 
         }

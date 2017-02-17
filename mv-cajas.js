@@ -175,7 +175,7 @@
                 });
         }
 
-        function cerrarCaja(sucursal_id, pos_id, importe, detalles, callback) {
+        function cerrarCaja(sucursal_id, pos_id, importe, detalles) {
             return $http.post(url, {
                 function: 'cerrarCaja',
                 sucursal_id: sucursal_id,
@@ -183,11 +183,11 @@
                 importe: importe,
                 detalles: detalles
             })
-                .success(function (data) {
-                    callback(data);
+                .then(function (data) {
+                    return data;
                 })
-                .error(function (data) {
-                    callback(data);
+                .catch(function (data) {
+                    ErrorHandler(data);
                 });
 
         }
