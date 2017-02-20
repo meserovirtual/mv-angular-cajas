@@ -40,7 +40,8 @@
             // descuento, detalle, items, cliente_id, usuario_id, comentario, callback
             MovimientosService.armarMovimiento(vm.movimiento, vm.subtipo, UserService.getFromToken().data.sucursal_id,
                 UserService.getFromToken().data.caja_id, vm.forma_pago, '', vm.importe, '', vm.comentario, [], 0, 1,
-                vm.comentario, function (data) {
+                vm.comentario).then(function (data) {
+                    console.log(data);
                     if(data.status == 200) {
                         MvUtils.showMessage('success', 'Gasto generado con éxito');
                         vm.movimiento = '012';
@@ -51,7 +52,8 @@
                     } else {
                         MvUtils.showMessage('error', 'Error al guardar el gasto');
                     }
-
+                }).catch(function(data){
+                    console.log(data);
                 });
         }
     }
