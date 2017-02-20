@@ -323,7 +323,7 @@ ORDER BY m.movimiento_id, m.asiento_id, m.cuenta_id asc;";
         foreach ($results as $row) {
             $SQL = "SELECT detalle_tipo_id,
                     CASE WHEN (detalle_tipo_id = 8) THEN (select nombre from productos where producto_id = valor)
-                        WHEN (detalle_tipo_id = 3) THEN (select concat(nombre, ' ', apellido) from clientes where cliente_id = valor)
+                        WHEN (detalle_tipo_id = 3) THEN (select concat(nombre, ' ', apellido) from usuarios where usuario_id = valor)
                     ELSE valor END detalle
                     FROM detallesmovimientos
                     WHERE detalle_tipo_id in (2,3,8,9,10,13) and movimiento_id =  " . $row['movimiento_id'] . ";";
