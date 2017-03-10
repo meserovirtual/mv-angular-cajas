@@ -123,6 +123,18 @@
                 detalle.comentarios = vm.detalles[i].observaciones;
                 detalle.cantidad = vm.detalles[i].cantidad;
                 detalle.precio = vm.detalles[i].precio_total;
+                detalle.kits = [];
+
+                var kit = {};
+                kit = {
+                    comanda_detalle_id: 0,
+                    selected: false,
+                    opcional: 1,
+                    producto_id: vm.detalles[i].producto_id,
+                    cantidad: vm.detalles[i].cantidad,
+                    precio: vm.detalles[i].precio_total
+                }
+                detalle.kits.push(kit);
 
                 detalles.push(detalle);
             }
