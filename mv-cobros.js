@@ -14,8 +14,10 @@
     }
 
 
-    MvCobrosController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService', 'MovimientoStockFinal', 'StockVars', 'HelperService'];
-    function MvCobrosController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService, MovimientoStockFinal, StockVars, HelperService) {
+    MvCobrosController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService',
+        'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService'];
+    function MvCobrosController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService,
+                                MovimientoStockFinal, StockVars, HelperService, ComandasService) {
 
         var vm = this;
         vm.tipo_precio = '0';
@@ -35,6 +37,12 @@
         vm.paga_con_x = 0;
         vm.paga_con_y = 0;
         vm.descuento = 0;
+        vm.origenesCobro = [];
+        vm.origenCobro = {};
+        vm.formasDePago = [];
+        vm.formaDePago1 = {};
+        vm.formaDePago2 = {};
+        vm.observaciones = '';
 
         vm.agregarDetalle = agregarDetalle;
         vm.removeDetalle = removeDetalle;
@@ -44,6 +52,7 @@
         vm.calcularTotal = calcularTotal;
         vm.validateMonto = validateMonto;
         vm.aCuenta = aCuenta;
+        vm.comanda = comanda;
 
 
         var elemCaja = angular.element(document.querySelector('#cobros'));
@@ -72,6 +81,7 @@
 
 
         document.getElementById('searchProducto').getElementsByTagName('input')[0].addEventListener('keyup', function (event) {
+            console.log('busco');
             if (event.keyCode == 13) {
                 var el = document.getElementById('cantidad');
                 if (el != null) {
@@ -79,6 +89,80 @@
                 }
             }
         });
+
+
+        vm.origenesCobro = [
+            {origen_id: 1, nombre:'Salon'},
+            {origen_id: 2, nombre:'Delivery'},
+            {origen_id: 3, nombre:'Mesa'},
+        ];
+
+        vm.origenCobro = vm.origenesCobro[0];
+
+        vm.formasDePago = [
+            {id: '01', tipo:'Efectivo'},
+            {id: '02', tipo:'Débito'},
+            {id: '03', tipo:'Crédito'},
+            {id: '04', tipo:'Transferencia CA'},
+            {id: '05', tipo:'Transferencia CC'},
+            {id: '08', tipo:'Mercado Pago'}
+        ];
+
+        vm.formaDePago1 = vm.formasDePago[0];
+        vm.formaDePago2 = vm.formasDePago[1];
+
+
+        function comanda() {
+            //TODO: Hacer que genere la comanda
+            var detalles = [];
+
+            for(var i = 0; i <= vm.detalles.length - 1; i++) {
+                var detalle = {};
+                detalle.producto_id = vm.detalles[i].producto_id;
+                detalle.status = 0;
+                detalle.comentarios = vm.detalles[i].observaciones;
+                detalle.cantidad = vm.detalles[i].cantidad;
+                detalle.precio = vm.detalles[i].precio_total;
+
+                detalles.push(detalle);
+            }
+            console.log(detalles);
+
+            var comanda = {
+                origen_id: vm.origenCobro.origen_id,
+                total: vm.a_cobrar,
+                status: 0,
+                detalles: detalles
+            };
+
+            console.log(comanda);
+
+            ComandasService.save(comanda).then(function(data){
+                console.log(data);
+                vm.forma_pago = '01';
+                vm.desc_porc = 0;
+                vm.desc_cant = 0;
+                vm.a_cobrar = 0;
+                vm.paga_con = 0;
+                vm.vuelto = 0;
+                vm.total = 0;
+                vm.forma_de_pago_1 = '01';
+                vm.forma_de_pago_2 = '02';
+                vm.paga_con_x = 0;
+                vm.paga_con_y = 0;
+                vm.observaciones = '';
+                vm.detalles = [];
+                vm.detalle = {};
+                vm.producto = {};
+                vm.formaDePago1 = vm.formasDePago[0];
+                vm.formaDePago2 = vm.formasDePago[1];
+
+            }).catch(function(data){
+                console.log(data);
+            })
+
+        }
+
 
         function validateMonto() {
             if(vm.paga_con_x < 0){
@@ -152,7 +236,8 @@
                     productos_kit: prod.kits,
                     productos_tipo: prod.producto_tipo,
                     mp: false,
-                    iva: prod.iva
+                    iva: prod.iva,
+                    observaciones: vm.observaciones,
                 };
 
                 vm.detalles.push(vm.detalle);
@@ -161,6 +246,7 @@
             //console.log(vm.detalles);
 
             vm.producto = {};
+            vm.observaciones = '';
             //vm.producto.fotos == undefined;
             var el = document.getElementById('searchProducto').getElementsByTagName('input');
             if (el[0] != null) {
@@ -432,7 +518,11 @@
         vm.searchProducto = searchProducto;
 
         function searchProducto(callback) {
-            StockService.get().then(callback);
+            StockService.get().then(callback).then(function (data) {
+                console.log(data);
+            }).catch(function(data){
+                console.log(data);
+            });
         }
 
         function searchClientes(callback) {
@@ -444,72 +534,72 @@
          */
         function aCuenta() {
             /*
-            if (vm.detalles.length < 1) {
-                MvUtils.showMessage('error', 'No hay productos seleccionados');
-                return;
-            }
+             if (vm.detalles.length < 1) {
+             MvUtils.showMessage('error', 'No hay productos seleccionados');
+             return;
+             }
 
-            MvUtilsGlobals.startWaiting();
-            //var usuario_id = -1;
-            if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
-                vm.usuario_id = vm.cliente.usuario_id;
+             MvUtilsGlobals.startWaiting();
+             //var usuario_id = -1;
+             if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
+             vm.usuario_id = vm.cliente.usuario_id;
 
-                //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
-                MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, '07', '00', vm.total, vm.desc_cant, 'Venta Productos - Ingreso a Deudores', vm.detalles, vm.usuario_id, 1, '',
-                    function (data) {
-                        //console.log(MovimientoStockFinal.stocks_finales);
-                        //ConsultaStockService.updateStock(MovimientoStockFinal.stocks_finales, function (data) {
-                        StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
-                            vm.cliente.saldo = vm.cliente.saldo - parseFloat(vm.total);
-                            UserService.update(vm.cliente).then(function (data) {
-                                //if (!isNaN(data) && data > -1) {
-                                vm.detalles = [];
-                                vm.cliente = {};
+             //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
+             MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, '07', '00', vm.total, vm.desc_cant, 'Venta Productos - Ingreso a Deudores', vm.detalles, vm.usuario_id, 1, '',
+             function (data) {
+             //console.log(MovimientoStockFinal.stocks_finales);
+             //ConsultaStockService.updateStock(MovimientoStockFinal.stocks_finales, function (data) {
+             StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
+             vm.cliente.saldo = vm.cliente.saldo - parseFloat(vm.total);
+             UserService.update(vm.cliente).then(function (data) {
+             //if (!isNaN(data) && data > -1) {
+             vm.detalles = [];
+             vm.cliente = {};
 
-                                    vm.forma_pago = '01';
-                                    vm.desc_porc = 0;
-                                    vm.desc_cant = 0;
-                                    vm.a_cobrar = 0;
-                                    vm.paga_con = 0;
-                                    vm.vuelto = 0;
-                                    vm.total = 0;
-                                    vm.forma_de_pago_1 = '01';
-                                    vm.forma_de_pago_2 = '02';
-                                    vm.paga_con_x = 0;
-                                    vm.paga_con_y = 0;
+             vm.forma_pago = '01';
+             vm.desc_porc = 0;
+             vm.desc_cant = 0;
+             vm.a_cobrar = 0;
+             vm.paga_con = 0;
+             vm.vuelto = 0;
+             vm.total = 0;
+             vm.forma_de_pago_1 = '01';
+             vm.forma_de_pago_2 = '02';
+             vm.paga_con_x = 0;
+             vm.paga_con_y = 0;
 
-                                    MvUtils.showMessage('success', 'Venta realizada con éxito.');
-                                //} else {
-                                //    MvUtils.showMessage('error', 'Error al realizar la venta');
-                                //}
-                            }).catch(function(data){
-                                console.log(data);
-                                MvUtils.showMessage('error', 'Error al realizar la venta');
-                            });
+             MvUtils.showMessage('success', 'Venta realizada con éxito.');
+             //} else {
+             //    MvUtils.showMessage('error', 'Error al realizar la venta');
+             //}
+             }).catch(function(data){
+             console.log(data);
+             MvUtils.showMessage('error', 'Error al realizar la venta');
+             });
 
-                            vm.producto = {};
-                            var el = document.getElementById('searchCliente').getElementsByTagName('input');
-                            if (el[0] != null) {
-                                el[0].value = '';
-                            }
+             vm.producto = {};
+             var el = document.getElementById('searchCliente').getElementsByTagName('input');
+             if (el[0] != null) {
+             el[0].value = '';
+             }
 
-                            vm.tipo_precio = '0';
+             vm.tipo_precio = '0';
 
-                            StockVars.clearCache = true;
-                            StockService.get(function (data) {
-                            });
+             StockVars.clearCache = true;
+             StockService.get(function (data) {
+             });
 
-                            $rootScope.$broadcast('refreshResumenCaja');
-                            MvUtilsGlobals.stopWaiting();
+             $rootScope.$broadcast('refreshResumenCaja');
+             MvUtilsGlobals.stopWaiting();
 
-                        });
-                        //console.log(data);
-                    });
-            } else {
-                MvUtils.showMessage('error', 'Debe seleccionar un cliente');
-                return;
-            }
-            */
+             });
+             //console.log(data);
+             });
+             } else {
+             MvUtils.showMessage('error', 'Debe seleccionar un cliente');
+             return;
+             }
+             */
         }
 
 
