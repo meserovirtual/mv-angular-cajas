@@ -3,6 +3,7 @@
     <form id="gastosForm" class="container-form">
     <div>
         <div>
+            <label>Sucursal</label>
             <select ng-model="$ctrl.sucursal"
                     ng-options="sucursal.nombre  for sucursal in $ctrl.sucursales" id="sucursal"
                     ng-click="$ctrl.getCajasBySucursal($ctrl.sucursal.sucursal_id);">
@@ -10,6 +11,7 @@
         </div>
 
         <div>
+            <label>Fecha</label>
             <select ng-model="$ctrl.caja"
                     ng-options="caja.fecha  for caja in $ctrl.cajas" id="caja"
                     ng-click="$ctrl.getDetalles($ctrl.sucursal, $ctrl.caja);">
