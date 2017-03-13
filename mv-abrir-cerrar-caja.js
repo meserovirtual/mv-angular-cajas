@@ -99,6 +99,7 @@
                     ReportesService.cierreDeCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id).then(function (data) {
                         var fecha = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();
                         console.log(data);
+
                         var mensaje = '';
                         mensaje = mensaje + '<div style="font-family:Arial,sans-serif;font-size:15px;margin:0 auto; width:650px;">';
                         mensaje = mensaje + '<div style="border-style:Solid;border-width:1px; left:-14px; top:-7px;padding: 20px;background-color: #515C4B;">';
@@ -161,13 +162,13 @@
                         mensaje = mensaje + '<th style="text-align:left;font-size: 12px;background-color: #fff;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B; text-align: center;color:#293333;">Monto</th></tr></thead>';
                         mensaje = mensaje + '<tbody><tr>';
                         mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Valor Esperado</td>';
-                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[1][0].valor_esperado + '</td>';
+                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + (data.data[1].length > 0 ? data.data[1][0].valor_esperado : '') + '</td>';
                         mensaje = mensaje + '</tr><tr>';
                         mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Valor Real</td>';
-                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[1][0].valor_real + '</td>';
+                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + (data.data[1].length > 0 ? data.data[1][0].valor_real : '') + '</td>';
                         mensaje = mensaje + '</tr><tr>';
                         mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;background-color: #293333;color: #fff;">Saldo Inicial (Hoy)</td>';
-                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + data.data[1][0].saldo_inicial + '</td>';
+                        mensaje = mensaje + '<td style="font-size: 12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #515C4B;text-align:right;background-color: #293333;color: #fff;">$' + (data.data[1].length > 0 ? data.data[1][0].saldo_inicial : '') + '</td>';
                         mensaje = mensaje + '</tr></tbody></table>';
 
                         mensaje = mensaje + '<div style="text-align:left;font-weight: bold;margin: 30px 0 10px 0;color:#fff;">EGRESOS</div>';
@@ -261,6 +262,7 @@
                             console.log(data);
                             var detalles = vm.detalles.replace(/["']/g, " ");
                             CajasService.cerrarCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoFinalReal, detalles).then(function (data) {
+                                console.log(data);
                                 MvUtilsGlobals.stopWaiting();
                                 $location.path('/caja/cobros');
                             }).catch(function(data){
