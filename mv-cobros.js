@@ -43,6 +43,7 @@
         vm.formaDePago1 = {};
         vm.formaDePago2 = {};
         vm.observaciones = '';
+        vm.showDelivery = false;
 
         vm.agregarDetalle = agregarDetalle;
         vm.removeDetalle = removeDetalle;
@@ -53,6 +54,7 @@
         vm.validateMonto = validateMonto;
         vm.aCuenta = aCuenta;
         vm.comanda = comanda;
+        vm.delivery = delivery;
 
 
         var elemCaja = angular.element(document.querySelector('#cobros'));
@@ -524,6 +526,9 @@
             vm.showEncomienda = true;
         }
 
+        function delivery() {
+            vm.showDelivery = true;
+        }
 
         // Funciones para Autocomplete
         vm.searchClientes = searchClientes;

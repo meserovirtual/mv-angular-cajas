@@ -208,6 +208,94 @@
                 </div>
             </div>
 
+            <hr class="primary-line"/>
+            <table style="max-width: 1000px">
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in $ctrl.detalles">
+                    <td class="">{{row.producto_nombre}}</td>
+                    <td class="">{{row.cantidad}}</td>
+                    <td class="">{{row.precio_total}}</td>
+                    <td class="">
+                        <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeDetalle(row)" title="Quitar">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <div class="table-td">
+                            <span>
+                                <button class="delivery-paginacion-primera" ng-click="$ctrl.first();"></button>
+                                <button class="delivery-paginacion-ant" ng-click="$ctrl.prev();"></button>
+                            </span>
+                            <span class="paginacion-paginas">
+                                <span>{{'PAGE' | xlat}} {{$ctrl.pagina}} {{'OF' | xlat}} {{$ctrl.paginas}}</span>
+                            </span>
+                            <span class="paginacion-go-to">{{'GO_TO' | xlat}}
+                                <input type="number" ng-model="$ctrl.pagina" ng-keyup="$ctrl.goToPagina();"
+                                       class="input-paginacion">
+                            </span>
+                            <span>
+                                <button class="delivery-paginacion-sig" ng-click="$ctrl.next();"></button>
+                                <button class="delivery-paginacion-ultima"ng-click="$ctrl.last();"></button>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+            <hr class="primary-line"/>
+
+            <div class="mv-col">
+                <div class="input">
+                    <label class="margin-top-small">A Cobrar</label>
+                    <input type="number" step="0.01" ng-model="$ctrl.a_cobrar"
+                           placeholder="A Cobrar" class="input-small">
+                </div>
+            </div>
+
+            <div class="mv-col">
+                <div class="input">
+                    <label class="margin-top-small">Forma de Pago</label>
+                    <select name="formaDePago1" ng-model="$ctrl.formaDePago1"
+                            ng-options="formaDePago as formaDePago.tipo for formaDePago in $ctrl.formasDePago">
+                    </select>
+                </div>
+
+                <div class="input">
+                    <label class="margin-top-small">Monto</label>
+                    <input type="number" step="0.01" ng-model="$ctrl.paga_con_x"
+                           placeholder="Monto 1" class="input-small">
+                </div>
+            </div>
+
+            <div class="mv-col">
+                <div class="input">
+                    <label class="margin-top-small">Forma de Pago</label>
+                    <select name="formaDePago2" ng-model="$ctrl.formaDePago2"
+                            ng-options="formaDePago as formaDePago.tipo for formaDePago in $ctrl.formasDePago">
+                    </select>
+                </div>
+
+                <div class="input">
+                    <label class="margin-top-small">Monto</label>
+                    <input type="number" step="0.01" ng-model="$ctrl.paga_con_y" class="input-small"
+                           ng-change="$ctrl.paga_con_x = $ctrl.total - ($ctrl.paga_con_y <= 0 ? 0 : $ctrl.paga_con_y); $ctrl.paga_con_y = ($ctrl.paga_con_y <= 0 ? 0 : $ctrl.paga_con_y);$ctrl.validateMonto();"/>
+                </div>
+            </div>
+
+            <hr class="primary-line"/>
+
             <div class="botonera">
                 <button type="button" class="boton-ok" ng-click="$ctrl.save();" title="Guardar">
                     <i class="fa fa-check" aria-hidden="true"></i>
