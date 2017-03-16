@@ -21,14 +21,12 @@
 
         var vm = this;
         vm.tipo_precio = '0';
-        vm.cliente = {};
+        vm.usuario = {};
         vm.producto = {};
         vm.detalle = {};
         vm.detalles = [];
         vm.total = 0.0;
         vm.forma_pago = '01';
-        vm.forma_de_pago_1 = '01';
-        vm.forma_de_pago_2 = '02';
         vm.desc_porc = 0;
         vm.desc_cant = 0;
         vm.a_cobrar = 0;
@@ -55,6 +53,7 @@
         vm.aCuenta = aCuenta;
         vm.comanda = comanda;
         vm.delivery = delivery;
+        vm.saveDelivery = saveDelivery;
 
 
         var elemCaja = angular.element(document.querySelector('#cobros'));
@@ -96,7 +95,9 @@
         vm.origenesCobro = [
             {origen_id: 1, nombre:'Salon'},
             {origen_id: 2, nombre:'Delivery'},
-            {origen_id: 3, nombre:'Mesa'},
+            {origen_id: 3, nombre:'Mesa 1'},
+            {origen_id: 4, nombre:'Mesa 2'},
+            {origen_id: 5, nombre:'Mesa 5'},
         ];
 
         vm.origenCobro = vm.origenesCobro[0];
@@ -160,8 +161,6 @@
                 vm.paga_con = 0;
                 vm.vuelto = 0;
                 vm.total = 0;
-                vm.forma_de_pago_1 = '01';
-                vm.forma_de_pago_2 = '02';
                 vm.paga_con_x = 0;
                 vm.paga_con_y = 0;
                 vm.observaciones = '';
@@ -336,11 +335,8 @@
 
             vm.total = 0.0;
 
-
-
-            //if (vm.forma_pago == '08' || vm.forma_pago == '09' || vm.forma_pago == '10') {
-            if (vm.forma_pago_1 == '08' || vm.forma_pago_1 == '09' || vm.forma_pago_1 == '10' ||
-                vm.forma_pago_2 == '08' || vm.forma_pago_2 == '09' || vm.forma_pago_2 == '10') {
+            if (vm.formaDePago1.id == '08' || vm.formaDePago1.id == '09' || vm.formaDePago1.id == '10' ||
+                vm.formaDePago2.id == '08' || vm.formaDePago2.id == '09' || vm.formaDePago2.id == '10') {
 
                 for (var i = 0; i < vm.detalles.length; i++) {
                     vm.total = parseFloat(vm.total) + parseFloat(vm.detalles[i].precio_total);
@@ -413,15 +409,15 @@
 
             MvUtilsGlobals.startWaiting();
             //var usuario_id = -1;
-            if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
-                vm.usuario_id = vm.cliente.usuario_id;
+            if (vm.usuario !== undefined && vm.usuario.usuario_id !== undefined) {
+                vm.usuario_id = vm.usuario.usuario_id;
             } else {
-                if (vm.cliente.nombre !== '') {
-                    if (MvUtils.validateEmail(vm.cliente.nombre)) {
-                        vm.cliente = {
+                if (vm.usuario.nombre !== '') {
+                    if (MvUtils.validateEmail(vm.usuario.nombre)) {
+                        vm.usuario = {
                             nombre: '',
                             apellido: '',
-                            mail: vm.cliente.nombre,
+                            mail: vm.usuario.nombre,
                             nacionalidad_id: '',
                             tipo_doc: 0,
                             nro_doc: '',
@@ -429,7 +425,7 @@
                             marcado: 0,
                             fecha_nacimiento: ''
                         };
-                        UserService.create(vm.cliente).then(function (data) {
+                        UserService.create(vm.usuario).then(function (data) {
                             vm.usuario_id = data;
                             finalizarVenta();
                         });
@@ -447,10 +443,10 @@
         function finalizarVenta() {
             var forma_pagos = [];
             if(vm.paga_con_x > 0 && vm.paga_con_x !== null){
-                forma_pagos.push({forma_pago: vm.forma_de_pago_1, importe: vm.paga_con_x});
+                forma_pagos.push({forma_pago: vm.formaDePago1.id, importe: vm.paga_con_x});
             }
             if(vm.paga_con_y > 0 && vm.paga_con_y !== null){
-                forma_pagos.push({forma_pago: vm.forma_de_pago_2, importe: vm.paga_con_y});
+                forma_pagos.push({forma_pago: vm.formaDePago2.id, importe: vm.paga_con_y});
             }
             console.log(forma_pagos);
             //console.log(vm.detalles);
@@ -476,7 +472,7 @@
                     StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
                         MvUtils.showMessage('success', 'Venta realizada con éxito.');
                         vm.detalles = [];
-                        vm.cliente = {};
+                        vm.usuario = {};
 
                         vm.forma_pago = '01';
                         vm.desc_porc = 0;
@@ -485,8 +481,6 @@
                         vm.paga_con = 0;
                         vm.vuelto = 0;
                         vm.total = 0;
-                        vm.forma_de_pago_1 = '01';
-                        vm.forma_de_pago_2 = '02';
                         vm.paga_con_x = 0;
                         vm.paga_con_y = 0;
 
@@ -515,7 +509,7 @@
         }
 
         function encomienda() {
-            if (vm.cliente == undefined || vm.cliente.usuario_id == undefined) {
+            if (vm.usuario == undefined || vm.usuario.usuario_id == undefined) {
                 MvUtils.showMessage('error', 'Debe seleccionar un cliente para poder generar una encomienda');
                 return;
             }
@@ -528,6 +522,124 @@
 
         function delivery() {
             vm.showDelivery = true;
+        }
+
+        function saveDelivery() {
+            console.log(vm.usuario);
+            console.log(vm.usuario.nombre);
+            //TODO: guardar los datos del cliente que realiza el pedido del delivery
+            if(vm.usuario.apellido == undefined){
+                MvUtils.showMessage('error', 'El apellido es obligatorio');
+                return;
+            }
+            if(vm.usuario.nombre == undefined){
+                MvUtils.showMessage('error', 'El nombre es obligatorio');
+                return;
+            }
+            if(vm.usuario.telefono == undefined){
+                MvUtils.showMessage('error', 'El teléfono es obligatorio');
+                return;
+            }
+            if(vm.usuario.mail == undefined){
+                MvUtils.showMessage('error', 'El mail es obligatorio');
+                return;
+            } else {
+                if(!MvUtils.validateEmail(vm.usuario.mail)){
+                    MvUtils.showMessage('error', 'El mail ingresado no tiene un formato valido');
+                    return;
+                }
+            }
+            if(vm.usuario.direcciones == undefined){
+                MvUtils.showMessage('error', 'La dirección es obligatorio');
+                return;
+            } else {
+                if(vm.usuario.direcciones[0].calle == undefined){
+                    MvUtils.showMessage('error', 'La dirección es obligatorio');
+                    return;
+                }
+                if(vm.usuario.direcciones[0].nro == undefined){
+                    MvUtils.showMessage('error', 'El número es obligatorio');
+                    return;
+                }
+            }
+
+            if (vm.detalles.length < 1) {
+                MvUtils.showMessage('error', 'No hay productos agregados');
+                return;
+            }
+
+            vm.usuario.rol_id = 3;
+            vm.usuario.status = 1;
+            //Creo el usuario cliente
+            UserService.create(vm.usuario).then(function(data){
+                console.log(data);
+                console.log(vm.usuario);
+
+                //Generar la comanda
+                var detalles = [];
+
+                for(var i = 0; i <= vm.detalles.length - 1; i++) {
+                    var detalle = {};
+                    detalle.producto_id = vm.detalles[i].producto_id;
+                    detalle.status = 0;
+                    detalle.comentarios = vm.detalles[i].observaciones;
+                    detalle.cantidad = vm.detalles[i].cantidad;
+                    detalle.precio = vm.detalles[i].precio_total;
+                    detalle.kits = [];
+
+                    var kit = {};
+                    kit = {
+                        comanda_detalle_id: 0,
+                        selected: false,
+                        opcional: 1,
+                        producto_id: vm.detalles[i].producto_id,
+                        cantidad: vm.detalles[i].cantidad,
+                        precio: vm.detalles[i].precio_total
+                    }
+                    detalle.kits.push(kit);
+
+                    detalles.push(detalle);
+                }
+                console.log(detalles);
+
+                var comanda = {
+                    usuario_id: data.usuario_id,
+                    origen_id: vm.origenCobro.origen_id,
+                    total: vm.a_cobrar,
+                    status: 0,
+                    detalles: detalles
+                };
+
+                console.log(comanda);
+
+                ComandasService.save(comanda).then(function(data){
+                    console.log(data);
+                    vm.forma_pago = '01';
+                    vm.desc_porc = 0;
+                    vm.desc_cant = 0;
+                    vm.a_cobrar = 0;
+                    vm.paga_con = 0;
+                    vm.vuelto = 0;
+                    vm.total = 0;
+                    vm.paga_con_x = 0;
+                    vm.paga_con_y = 0;
+                    vm.observaciones = '';
+                    vm.detalles = [];
+                    vm.detalle = {};
+                    vm.producto = {};
+                    vm.formaDePago1 = vm.formasDePago[0];
+                    vm.formaDePago2 = vm.formasDePago[1];
+                    vm.showDelivery = false;
+
+                }).catch(function(data){
+                    console.log(data);
+                });
+
+            }).catch(function(data){
+               console.log(data);
+            });
+
+
         }
 
         // Funciones para Autocomplete
@@ -580,8 +692,6 @@
              vm.paga_con = 0;
              vm.vuelto = 0;
              vm.total = 0;
-             vm.forma_de_pago_1 = '01';
-             vm.forma_de_pago_2 = '02';
              vm.paga_con_x = 0;
              vm.paga_con_y = 0;
 
