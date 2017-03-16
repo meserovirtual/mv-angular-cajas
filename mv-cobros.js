@@ -571,7 +571,7 @@
             vm.usuario.rol_id = 3;
             vm.usuario.status = 1;
             //Creo el usuario cliente
-            UserService.create(vm.usuario).then(function(data){
+            UserService.save(vm.usuario).then(function(data){
                 console.log(data);
                 console.log(vm.usuario);
 
@@ -627,6 +627,7 @@
                     vm.detalles = [];
                     vm.detalle = {};
                     vm.producto = {};
+                    vm.usuario = {};
                     vm.formaDePago1 = vm.formasDePago[0];
                     vm.formaDePago2 = vm.formasDePago[1];
                     vm.showDelivery = false;
@@ -636,7 +637,7 @@
                 });
 
             }).catch(function(data){
-               console.log(data);
+                console.log(data);
             });
 
 
