@@ -507,6 +507,237 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
         }
     }
 
+
+    function getEnvios($params)
+    {
+        $db = self::$instance->db;
+        $results = $db->rawQuery('SELECT
+    e.envio_id,
+    e.fecha,
+    e.fecha_entrega,
+    e.usuario_id,
+    e.forma_pago,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    e.cliente_id,
+    c.nombre nombreCliente,
+    c.apellido apellidoCliente,
+    e.total,
+    e.calle,
+    e.nro,
+    e.cp,
+    e.provincia_id,
+    e.ciudad,
+    e.empresa,
+    e.nro_guia,
+    e.status,
+    d.enviod_detalle_id,
+    d.producto_id,
+    COALESCE(NULLIF(p.nombre, ""), "Costo de Envio") nombre,
+    d.cantidad,
+    d.precio,
+    e.descuento
+FROM
+    envios e
+        LEFT JOIN
+    envios_detalles d ON e.envio_id = d.envio_id
+        LEFT JOIN
+    usuarios u ON e.usuario_id = u.usuario_id
+        LEFT JOIN
+    usuarios c ON e.cliente_id = c.usuario_id
+        LEFT JOIN
+    productos p ON d.producto_id = p.producto_id ' . (($params['all'] == 'true') ? ' WHERE e.status in(0,1) ' : ' WHERE e.status = 0 ') . ' ORDER BY e.fecha;');
+
+        $final = array();
+        foreach ($results as $row) {
+
+            if (!isset($final[$row["envio_id"]])) {
+                $final[$row["envio_id"]] = array(
+                    'envio_id' => $row["envio_id"],
+                    'fecha' => $row["fecha"],
+                    'fecha_entrega' => $row["fecha_entrega"],
+                    'usuario_id' => $row["usuario_id"],
+                    'usuario' => $row["nombreUsuario"] . ' ' . $row["apellidoUsuario"],
+                    'cliente_id' => $row["cliente_id"],
+                    'cliente' => $row["nombreCliente"] . ' ' . $row["apellidoCliente"],
+                    'forma_pago' => $row["forma_pago"],
+                    'total' => $row["total"],
+                    'calle' => $row["calle"],
+                    'nro' => $row["nro"],
+                    'cp' => $row["cp"],
+                    'provincia_id' => $row["provincia_id"],
+                    'ciudad' => $row["ciudad"],
+                    'empresa' => $row["empresa"],
+                    'nro_guia' => $row["nro_guia"],
+                    'status' => $row["status"],
+                    'descuento' => $row["descuento"],
+                    'detalles' => array()
+                );
+            }
+            $have_det = false;
+            if ($row["envio_detalle_id"] !== null) {
+
+                if (sizeof($final[$row['envio_id']]['detalles']) > 0) {
+                    foreach ($final[$row['envio_id']]['detalles'] as $cat) {
+                        if ($cat['envio_detalle_id'] == $row["envio_detalle_id"]) {
+                            $have_det = true;
+                        }
+                    }
+                } else {
+                    $final[$row['envio_id']]['detalles'][] = array(
+                        'envio_detalle_id' => $row['envio_detalle_id'],
+                        'producto_id' => $row['producto_id'],
+                        'cantidad' => $row['cantidad'],
+                        'precio' => $row['precio'],
+                        'nombre' => $row['nombre']
+                    );
+
+                    $have_det = true;
+                }
+
+                if (!$have_det) {
+                    array_push($final[$row['envio_id']]['detalles'], array(
+                        'envio_detalle_id' => $row['envio_detalle_id'],
+                        'producto_id' => $row['producto_id'],
+                        'cantidad' => $row['cantidad'],
+                        'precio' => $row['precio'],
+                        'nombre' => $row['nombre']
+                    ));
+                }
+            }
+
+        }
+
+        echo json_encode(array_values($final));
+    }
+
+
+    function createEnvio($params)
+    {
+        $db = self::$instance->db;
+        $db->startTransaction();
+        $item_decoded = self::checkEnvio(json_decode($params["envio"]));
+
+        $data = array(
+            'usuario_id' => $item_decoded->usuario_id,
+            'cliente_id' => $item_decoded->cliente_id,
+            'forma_pago' => $item_decoded->forma_pago,
+            'total' => $item_decoded->total,
+            'calle' => $item_decoded->calle,
+            'nro' => $item_decoded->nro,
+            'cp' => $item_decoded->cp,
+            'provincia_id' => $item_decoded->provincia_id,
+            'ciudad' => $item_decoded->ciudad,
+            'empresa' => $item_decoded->empresa,
+            'nro_guia' => $item_decoded->nro_guia,
+            'status' => $item_decoded->status,
+            'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10),
+            'descuento' => $item_decoded->descuento
+        );
+
+        $result = $db->insert('envios', $data);
+        if ($result > -1) {
+            foreach ($item_decoded->detalles as $detalle) {
+                if (!self::createEnvioDetalles($detalle, $result, $db)) {
+                    $db->rollback();
+                    header('HTTP/1.0 500 Internal Server Error');
+                    echo $db->getLastError();
+                    return;
+                }
+            }
+
+            $db->commit();
+            header('HTTP/1.0 200 Ok');
+            echo json_encode($result);
+        } else {
+            $db->rollback();
+            header('HTTP/1.0 500 Internal Server Error');
+            echo $db->getLastError();
+        }
+    }
+
+    function updateEnvio($params)
+    {
+        $db = self::$instance->db;
+        $db->startTransaction();
+        $item_decoded = self::checkEnvio(json_decode($params["envio"]));
+
+        $db->where('envio_id', $item_decoded->envio_id);
+        $data = array(
+            'usuario_id' => $item_decoded->usuario_id,
+            'cliente_id' => $item_decoded->cliente_id,
+            'forma_pago' => $item_decoded->forma_pago,
+            'total' => $item_decoded->total,
+            'calle' => $item_decoded->calle,
+            'nro' => $item_decoded->nro,
+            'cp' => $item_decoded->cp,
+            'provincia_id' => $item_decoded->provincia_id,
+            'ciudad' => $item_decoded->ciudad,
+            'empresa' => $item_decoded->empresa,
+            'nro_guia' => $item_decoded->nro_guia,
+            'status' => $item_decoded->status,
+            'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10),
+            'descuento' => $item_decoded->descuento
+        );
+
+        $result = $db->update('envios', $data);
+        if ($result) {
+            $db->commit();
+            header('HTTP/1.0 200 Ok');
+            echo json_encode($result);
+        } else {
+            $db->rollback();
+            header('HTTP/1.0 500 Internal Server Error');
+            echo $db->getLastError();
+        }
+    }
+
+    function createEnvioDetalles($detalle, $envio_id, $db)
+    {
+        $item_decoded = self::checkEnvioDetalle($detalle);
+        $data = array(
+            'envio_id' => $envio_id,
+            'producto_id' => $item_decoded->producto_id,
+            'cantidad' => $item_decoded->cantidad,
+            'precio' => $item_decoded->precio_unidad
+        );
+        $result = $db->insert('envios_detalles', $data);
+        return $result > 0;
+    }
+
+    function checkEnvio($envio)
+    {
+        $envio->fecha_entrega = (!array_key_exists("fecha_entrega", $envio)) ? '0000-00-00' : $envio->fecha_entrega;
+        $envio->usuario_id = (!array_key_exists("usuario_id", $envio)) ? 0 : $envio->usuario_id;
+        $envio->cliente_id = (!array_key_exists("cliente_id", $envio)) ? 0 : $envio->cliente_id;
+        $envio->forma_pago = (!array_key_exists("forma_pago", $envio)) ? 0 : $envio->forma_pago;
+        $envio->total = (!array_key_exists("total", $envio)) ? 0.0 : $envio->total;
+        $envio->calle = (!array_key_exists("calle", $envio)) ? '' : $envio->calle;
+        $envio->nro = (!array_key_exists("nro", $envio)) ? 0 : $envio->nro;
+        $envio->cp = (!array_key_exists("cp", $envio)) ? 0 : $envio->cp;
+        $envio->provincia_id = (!array_key_exists("provincia_id", $envio)) ? 0 : $envio->provincia_id;
+        $envio->ciudad = (!array_key_exists("ciudad", $envio)) ? '' : $envio->ciudad;
+        $envio->empresa = (!array_key_exists("empresa", $envio)) ? '' : $envio->empresa;
+        $envio->nro_guia = (!array_key_exists("nro_guia", $envio)) ? 0 : $envio->nro_guia;
+        $envio->status = (!array_key_exists("status", $envio)) ? 0 : $envio->status;
+        $envio->descuento = (!array_key_exists("descuento", $envio)) ? 0 : $envio->descuento;
+
+        return $envio;
+    }
+
+    function checkEnvioDetalle($envio_detalle)
+    {
+        $envio_detalle->envio_id = (!array_key_exists("envio_id", $envio_detalle)) ? '' : $envio_detalle->envio_id;
+        $envio_detalle->producto_id = (!array_key_exists("producto_id", $envio_detalle)) ? '' : $envio_detalle->producto_id;
+        $envio_detalle->cantidad = (!array_key_exists("cantidad", $envio_detalle)) ? 0 : $envio_detalle->cantidad;
+        $envio_detalle->precio_unidad = (!array_key_exists("precio_unidad", $envio_detalle)) ? '' : $envio_detalle->precio_unidad;
+
+        return $envio_detalle;
+    }
+    /****************************************************************************************************/
+
+
+/*
     function createEncomienda($params)
     {
         $db = self::$instance->db;
@@ -751,6 +982,7 @@ FROM
         $encomienda_detalle->precio_unidad = (!array_key_exists("precio_unidad", $encomienda_detalle)) ? '' : $encomienda_detalle->precio_unidad;
         return $encomienda_detalle;
     }
+*/
 }
 
 
