@@ -115,7 +115,7 @@
         vm.formaDePago2 = vm.formasDePago[1];
 
 
-        function comanda() {
+        function createComandaDetalle() {
             //TODO: Hacer que genere la comanda
             var detalles = [];
 
@@ -143,16 +143,25 @@
             }
             console.log(detalles);
 
+            return detalles;
+        }
+
+        function createComanda() {
             var comanda = {
                 origen_id: vm.origenCobro.origen_id,
                 total: vm.a_cobrar,
                 status: 0,
-                detalles: detalles
+                detalles: []
             };
+            comanda.detalles = createComandaDetalle();
 
             console.log(comanda);
+            return comanda;
+        }
 
-            ComandasService.save(comanda).then(function(data){
+        function comanda() {
+
+            ComandasService.save(createComanda()).then(function(data){
                 console.log(data);
                 vm.forma_pago = '01';
                 vm.desc_porc = 0;
@@ -525,6 +534,25 @@
         }
 
 
+        function createEnvio(usuario) {
+            var envio = {
+                fecha_entrega: new Date(),
+                usuario_id: UserService.getFromToken().data.id,
+                cliente_id: usuario.usuario_id,
+                total: vm.a_cobrar,
+                calle: usuario.direcciones[0].calle,
+                nro: usuario.direcciones[0].nro,
+                cp: '',
+                forma_pago: vm.formaDePago1.id,
+                status: 0,
+                descuento: 0,
+                detalles: []
+            };
+            envio.detalles = createEnvioDetalle();
+
+            return envio;
+        }
+
         function createEnvioDetalle() {
             var detalles = [];
 
@@ -588,26 +616,8 @@
             //Creo el usuario cliente
             UserService.save(vm.usuario).then(function(data){
                 vm.usuario.usuario_id = data.usuario_id;
-                console.log(vm.usuario);
 
-                var envio = {
-                    fecha_entrega: new Date(),
-                    usuario_id: UserService.getFromToken().data.id,
-                    cliente_id: data.usuario_id,
-                    total: vm.a_cobrar,
-                    calle: vm.usuario.direcciones[0].calle,
-                    nro: vm.usuario.direcciones[0].nro,
-                    cp: '',
-                    forma_pago: vm.formaDePago1.id,
-                    status: 0,
-                    descuento: 0,
-                    detalles: []
-                };
-
-                envio.detalles = createEnvioDetalle();
-                console.log(envio);
-
-                EnviosService.save(envio).then(function(data){
+                EnviosService.save(createEnvio(vm.usuario)).then(function(data){
                     console.log(data);
                 }).catch(function(data){
                     console.log(data);
