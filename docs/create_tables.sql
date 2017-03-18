@@ -40,6 +40,7 @@ CREATE TABLE envios (
   nro_guia varchar(20) DEFAULT '',
   forma_pago varchar(2) DEFAULT '01',
   status int(1) DEFAULT 0 COMMENT '0- Pendiente, 1- Enviada, 2- Entregada',
+  descuento decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (envio_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -53,3 +54,5 @@ CREATE TABLE envios_detalles (
   PRIMARY KEY (envio_detalle_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+#Esto en caso de que alguna tabla tenga problemas con el autoincrement
+ALTER TABLE arielces_mvtest.usuarios MODIFY usuario_id int(11) AUTO_INCREMENT PRIMARY KEY;

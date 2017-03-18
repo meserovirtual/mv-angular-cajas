@@ -15,9 +15,9 @@
 
 
     MvCobrosController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService',
-        'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService'];
+        'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService', 'EnviosService'];
     function MvCobrosController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService,
-                                MovimientoStockFinal, StockVars, HelperService, ComandasService) {
+                                MovimientoStockFinal, StockVars, HelperService, ComandasService, EnviosService) {
 
         var vm = this;
         vm.tipo_precio = '0';
@@ -524,9 +524,24 @@
             vm.showDelivery = true;
         }
 
+
+        function createEnvioDetalle() {
+            var detalles = [];
+
+            for(var i = 0; i <= vm.detalles.length - 1; i++) {
+                var detalle = {};
+                detalle.envio_id = 0;
+                detalle.producto_id = vm.detalles[i].producto_id;
+                detalle.cantidad = vm.detalles[i].cantidad;
+                detalle.precio = vm.detalles[i].precio_total;
+
+                detalles.push(detalle);
+            }
+
+            return detalles;
+        }
+
         function saveDelivery() {
-            console.log(vm.usuario);
-            console.log(vm.usuario.nombre);
             //TODO: guardar los datos del cliente que realiza el pedido del delivery
             if(vm.usuario.apellido == undefined){
                 MvUtils.showMessage('error', 'El apellido es obligatorio');
@@ -572,69 +587,95 @@
             vm.usuario.status = 1;
             //Creo el usuario cliente
             UserService.save(vm.usuario).then(function(data){
-                console.log(data);
+                vm.usuario.usuario_id = data.usuario_id;
                 console.log(vm.usuario);
 
-                //Generar la comanda
-                var detalles = [];
-
-                for(var i = 0; i <= vm.detalles.length - 1; i++) {
-                    var detalle = {};
-                    detalle.producto_id = vm.detalles[i].producto_id;
-                    detalle.status = 0;
-                    detalle.comentarios = vm.detalles[i].observaciones;
-                    detalle.cantidad = vm.detalles[i].cantidad;
-                    detalle.precio = vm.detalles[i].precio_total;
-                    detalle.kits = [];
-
-                    var kit = {};
-                    kit = {
-                        comanda_detalle_id: 0,
-                        selected: false,
-                        opcional: 1,
-                        producto_id: vm.detalles[i].producto_id,
-                        cantidad: vm.detalles[i].cantidad,
-                        precio: vm.detalles[i].precio_total
-                    }
-                    detalle.kits.push(kit);
-
-                    detalles.push(detalle);
-                }
-                console.log(detalles);
-
-                var comanda = {
-                    usuario_id: data.usuario_id,
-                    origen_id: vm.origenCobro.origen_id,
+                var envio = {
+                    fecha_entrega: new Date(),
+                    usuario_id: UserService.getFromToken().data.id,
+                    cliente_id: data.usuario_id,
                     total: vm.a_cobrar,
+                    calle: vm.usuario.direcciones[0].calle,
+                    nro: vm.usuario.direcciones[0].nro,
+                    cp: '',
+                    forma_pago: vm.formaDePago1.id,
                     status: 0,
-                    detalles: detalles
+                    descuento: 0,
+                    detalles: []
                 };
 
-                console.log(comanda);
+                envio.detalles = createEnvioDetalle();
+                console.log(envio);
 
-                ComandasService.save(comanda).then(function(data){
+                EnviosService.save(envio).then(function(data){
                     console.log(data);
-                    vm.forma_pago = '01';
-                    vm.desc_porc = 0;
-                    vm.desc_cant = 0;
-                    vm.a_cobrar = 0;
-                    vm.paga_con = 0;
-                    vm.vuelto = 0;
-                    vm.total = 0;
-                    vm.paga_con_x = 0;
-                    vm.paga_con_y = 0;
-                    vm.observaciones = '';
-                    vm.detalles = [];
-                    vm.detalle = {};
-                    vm.producto = {};
-                    vm.usuario = {};
-                    vm.formaDePago1 = vm.formasDePago[0];
-                    vm.formaDePago2 = vm.formasDePago[1];
-                    vm.showDelivery = false;
-
                 }).catch(function(data){
                     console.log(data);
                 });
+
+
+                /*
+                 //Generar la comanda
+                 var detalles = [];
+
+                 for(var i = 0; i <= vm.detalles.length - 1; i++) {
+                 var detalle = {};
+                 detalle.producto_id = vm.detalles[i].producto_id;
+                 detalle.status = 0;
+                 detalle.comentarios = vm.detalles[i].observaciones;
+                 detalle.cantidad = vm.detalles[i].cantidad;
+                 detalle.precio = vm.detalles[i].precio_total;
+                 detalle.kits = [];
+
+                 var kit = {};
+                 kit = {
+                 comanda_detalle_id: 0,
+                 selected: false,
+                 opcional: 1,
+                 producto_id: vm.detalles[i].producto_id,
+                 cantidad: vm.detalles[i].cantidad,
+                 precio: vm.detalles[i].precio_total
+                 }
+                 detalle.kits.push(kit);
+
+                 detalles.push(detalle);
+                 }
+                 console.log(detalles);
+
+                 var comanda = {
+                 usuario_id: data.usuario_id,
+                 origen_id: vm.origenCobro.origen_id,
+                 total: vm.a_cobrar,
+                 status: 0,
+                 detalles: detalles
+                 };
+
+                 console.log(comanda);
+
+                 ComandasService.save(comanda).then(function(data){
+                 console.log(data);
+                 vm.forma_pago = '01';
+                 vm.desc_porc = 0;
+                 vm.desc_cant = 0;
+                 vm.a_cobrar = 0;
+                 vm.paga_con = 0;
+                 vm.vuelto = 0;
+                 vm.total = 0;
+                 vm.paga_con_x = 0;
+                 vm.paga_con_y = 0;
+                 vm.observaciones = '';
+                 vm.detalles = [];
+                 vm.detalle = {};
+                 vm.producto = {};
+                 vm.usuario = {};
+                 vm.formaDePago1 = vm.formasDePago[0];
+                 vm.formaDePago2 = vm.formasDePago[1];
+                 vm.showDelivery = false;
+
+                 }).catch(function(data){
+                 console.log(data);
+                 });
+                 */
 
             }).catch(function(data){
                 console.log(data);

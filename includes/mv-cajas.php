@@ -699,7 +699,7 @@ FROM
             'envio_id' => $envio_id,
             'producto_id' => $item_decoded->producto_id,
             'cantidad' => $item_decoded->cantidad,
-            'precio' => $item_decoded->precio_unidad
+            'precio' => $item_decoded->precio
         );
         $result = $db->insert('envios_detalles', $data);
         return $result > 0;
@@ -730,7 +730,7 @@ FROM
         $envio_detalle->envio_id = (!array_key_exists("envio_id", $envio_detalle)) ? '' : $envio_detalle->envio_id;
         $envio_detalle->producto_id = (!array_key_exists("producto_id", $envio_detalle)) ? '' : $envio_detalle->producto_id;
         $envio_detalle->cantidad = (!array_key_exists("cantidad", $envio_detalle)) ? 0 : $envio_detalle->cantidad;
-        $envio_detalle->precio_unidad = (!array_key_exists("precio_unidad", $envio_detalle)) ? '' : $envio_detalle->precio_unidad;
+        $envio_detalle->precio = (!array_key_exists("precio", $envio_detalle)) ? '' : $envio_detalle->precio;
 
         return $envio_detalle;
     }
