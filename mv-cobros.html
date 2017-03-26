@@ -168,43 +168,55 @@
             <h2>Delivery #</h2>
 
             <div class="mv-col">
-                <div class="input" data-tip="Apellido">
-                    <input id="apellido" type="text" ng-model="$ctrl.usuario.apellido" placeholder="{{'LAST_NAME'|xlat}}"
-                           maxlength="20"/>
+                <div class="input">
+                    <label class="margin-top-small">Apellido</label>
+                    <input id="apellido" type="text" ng-model="$ctrl.usuario.apellido"
+                           placeholder="{{'LAST_NAME'|xlat}}" maxlength="20"/>
                 </div>
-                <div class="input" data-tip="Nombre">
-                    <input id="nombre" type="text" ng-model="$ctrl.usuario.nombre" placeholder="{{'NAME'|xlat}}"
-                           maxlength="30"/>
+                <div class="input">
+                    <label class="margin-top-small">Nombre</label>
+                    <input id="nombre" type="text" ng-model="$ctrl.usuario.nombre"
+                           placeholder="{{'NAME'|xlat}}" maxlength="30"/>
                 </div>
             </div>
             <div class="mv-col">
                 <div class="input" data-tip="Teléfono - (xxx)xxx-xxxx / xxx-xxx-xxxx">
-                    <input id="telefono" type="text" ng-model="$ctrl.usuario.telefono" placeholder="{{'PHONE'|xlat}}"
-                           autocomplete="off" maxlength="15"/>
+                    <label class="margin-top-small">Teléfono</label>
+                    <input id="telefono" type="text" ng-model="$ctrl.usuario.telefono"
+                           placeholder="{{'PHONE'|xlat}}" maxlength="15"/>
                 </div>
-                <div class="input" data-tip="Mail xxx@xxx.com">
-                    <input id="email" type="text" ng-model="$ctrl.usuario.mail" placeholder="{{'EMAIL'|xlat}}"
-                           autocomplete="off" maxlength="100"/>
-                </div>
-            </div>
-            <div class="mv-col">
-                <div class="input" data-tip="Dirección">
-                    <input id="direccion" type="text" ng-model="$ctrl.usuario.direcciones[0].calle" placeholder="{{'ADDRESS'|xlat}}"
-                           autocomplete="off" maxlength="100"/>
-                </div>
-                <div class="input" data-tip="Número">
-                    <input id="dir_nro" type="number" ng-model="$ctrl.usuario.direcciones[0].nro" placeholder="Número"
-                           autocomplete="off" max="99999" />
+                <div class="input">
+                    <label class="margin-top-small">Mail</label>
+                    <mv-autocomplete fields-to-show="'mail'"
+                                     selected-to="$ctrl.usuario"
+                                     search-fields="'mail'"
+                                     search-function="$ctrl.searchCliente(callback)"
+                                     clear='$ctrl.clear'
+                                     id="searchCliente"></mv-autocomplete>
                 </div>
             </div>
             <div class="mv-col">
-                <div class="input" data-tip="Piso">
-                    <input id="piso" type="text" ng-model="$ctrl.usuario.direcciones[0].piso" placeholder="Piso"
-                           autocomplete="off" maxlength="4"/>
+                <div class="input">
+                    <label class="margin-top-small">Dirección</label>
+                    <input id="direccion" type="text" ng-model="$ctrl.usuario.direcciones[0].calle"
+                           placeholder="{{'ADDRESS'|xlat}}" maxlength="100"/>
                 </div>
-                <div class="input" data-tip="Puerta">
-                    <input id="puerta" type="text" ng-model="$ctrl.usuario.direcciones[0].puerta" placeholder="Puerta"
-                           autocomplete="off" maxlength="4"/>
+                <div class="input">
+                    <label class="margin-top-small">Número</label>
+                    <input id="dir_nro" type="number" ng-model="$ctrl.usuario.direcciones[0].nro"
+                           placeholder="Número" max="99999" />
+                </div>
+            </div>
+            <div class="mv-col">
+                <div class="input">
+                    <label class="margin-top-small">Piso</label>
+                    <input id="piso" type="text" ng-model="$ctrl.usuario.direcciones[0].piso"
+                           placeholder="Piso" maxlength="4"/>
+                </div>
+                <div class="input">
+                    <label class="margin-top-small">Puerta</label>
+                    <input id="puerta" type="text" ng-model="$ctrl.usuario.direcciones[0].puerta"
+                           placeholder="Puerta" maxlength="4"/>
                 </div>
             </div>
 

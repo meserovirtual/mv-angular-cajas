@@ -647,7 +647,7 @@
         }
 
         // Funciones para Autocomplete
-        vm.searchClientes = searchClientes;
+        vm.searchCliente = searchCliente;
         vm.searchProducto = searchProducto;
 
         function searchProducto(callback) {
@@ -658,8 +658,12 @@
             });
         }
 
-        function searchClientes(callback) {
-            UserService.get().then(callback);
+        function searchCliente(callback) {
+            UserService.get(3).then(callback).then(function(data){
+                console.log(data);
+            }).catch(function(data){
+                console.log(data);
+            });
         }
 
         /**
