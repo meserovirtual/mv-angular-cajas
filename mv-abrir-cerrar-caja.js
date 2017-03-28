@@ -70,6 +70,18 @@
                 if(cerrarCaja) {
                     MvUtilsGlobals.startWaiting();
 
+                    var mailAdmins = [];
+
+                    UserService.get('0').then(function(data) {
+                        for(var i = 0; i <= data.length - 1; i++) {
+                            var mailAdmin = {mail: data[i].mail}
+                            mailAdmins.push(mailAdmin);
+                        }
+                    }).catch(function(data){
+                        console.log(data);
+                    });
+
+
                     var aReponer = [];
                     StockService.getAReponer(UserService.getFromToken().data.sucursal_id).then(function (reponerData){
                         aReponer = reponerData;
@@ -258,7 +270,8 @@
                         console.log('Se armo el mail');
                         var sucursalHeader = 'Sucursal:' + vm.sucursal_nombre + ' Caja: ' + UserService.getFromToken().data.caja_id + ' Fecha: ' + new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();
 
-                        ContactsService.sendMail(window.mailAdmin, window.mailAdmins, 'Cierre de Caja', sucursalHeader, mensaje).then(function (data) {
+                        //ContactsService.sendMail(window.mailAdmin, window.mailAdmins, 'Cierre de Caja', sucursalHeader, mensaje).then(function (data) {
+                        ContactsService.sendMail(window.mailAdmin, mailAdmins, 'Cierre de Caja', sucursalHeader, mensaje).then(function (data) {
                             console.log(data);
                             var detalles = vm.detalles.replace(/["']/g, " ");
                             CajasService.cerrarCaja(UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.saldoFinalReal, detalles).then(function (data) {
