@@ -15,9 +15,9 @@
 
 
     MvCobrosController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService',
-        'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService', 'EnviosService'];
+        'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService', 'EnviosService', 'MesasService'];
     function MvCobrosController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService,
-                                MovimientoStockFinal, StockVars, HelperService, ComandasService, EnviosService) {
+                                MovimientoStockFinal, StockVars, HelperService, ComandasService, EnviosService, MesasService) {
 
         var vm = this;
         vm.tipo_precio = '0';
@@ -93,11 +93,11 @@
 
 
         vm.origenesCobro = [
-            {origen_id: 1, nombre:'Salon'},
-            {origen_id: 2, nombre:'Delivery'},
-            {origen_id: 3, nombre:'Mesa 1'},
-            {origen_id: 4, nombre:'Mesa 2'},
-            {origen_id: 5, nombre:'Mesa 5'},
+            {origen_id: -1, nombre:'Salon'},
+            {origen_id: -2, nombre:'Delivery'},
+            //{origen_id: 3, nombre:'Mesa 1'},
+            //{origen_id: 4, nombre:'Mesa 2'},
+            //{origen_id: 5, nombre:'Mesa 5'},
         ];
 
         vm.origenCobro = vm.origenesCobro[0];
@@ -113,6 +113,17 @@
 
         vm.formaDePago1 = vm.formasDePago[0];
         vm.formaDePago2 = vm.formasDePago[1];
+
+
+        MesasService.get().then(function(mesas){
+            //console.log(mesas);
+            mesas.forEach(function(mesa){
+                vm.origenesCobro.push({origen_id: mesa.mesa_id, nombre: mesa.mesa});
+            });
+            //console.log(vm.origenesCobro);
+        }).catch(function(error){
+            console.log(error);
+        })
 
 
         function createComandaDetalle() {
@@ -151,6 +162,8 @@
                 origen_id: vm.origenCobro.origen_id,
                 total: vm.a_cobrar,
                 status: 0,
+                mesa_id: (vm.origenCobro.origen_id > 0) ? vm.origenCobro.origen_id : '-1',
+                usuario_id: -2,
                 detalles: []
             };
             comanda.detalles = createComandaDetalle();
@@ -159,7 +172,12 @@
             return comanda;
         }
 
+
         function comanda() {
+            if(vm.origenCobro.origen_id == -2) {
+                MvUtils.showMessage('warning', 'Esta opción solo es valida para Deliveries');
+                return;
+            }
 
             ComandasService.save(createComanda()).then(function(data){
                 console.log(data);
@@ -553,6 +571,8 @@
             };
             envio.detalles = createEnvioDetalle();
 
+            console.log(envio);
+
             return envio;
         }
 
@@ -574,7 +594,7 @@
 
         function saveDelivery() {
 
-            if(vm.origenCobro.origen_id != 2) {
+            if(vm.origenCobro.origen_id != -2) {
                 MvUtils.showMessage('error', 'El origen de ingreso debe ser Delivery');
                 return;
             }
@@ -624,13 +644,15 @@
             //Creo el usuario cliente
             UserService.save(vm.usuario).then(function(data){
                 vm.usuario.usuario_id = data.usuario_id;
-
+                console.log('Usuario creado');
                 //Creo el envio
                 EnviosService.save(createEnvio(vm.usuario)).then(function(data){
                     console.log(data);
+                    console.log('Envio creado');
                     //Creo la comanda
                     ComandasService.save(createComanda()).then(function(data){
                         console.log(data);
+                        console.log('Comanda creada');
                         //cleanVariables();
                     }).catch(function(data){
                         console.log(data);
