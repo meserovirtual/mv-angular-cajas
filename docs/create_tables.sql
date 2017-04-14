@@ -54,5 +54,14 @@ CREATE TABLE envios_detalles (
   PRIMARY KEY (envio_detalle_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+CREATE TABLE cuentas (
+  cuenta_id varchar(45) NOT NULL,
+  descripcion varchar(45) NOT NULL,
+  tipo int(11) NOT NULL,
+  PRIMARY KEY (cuenta_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 #Esto en caso de que alguna tabla tenga problemas con el autoincrement
 ALTER TABLE arielces_mvtest.usuarios MODIFY usuario_id int(11) AUTO_INCREMENT PRIMARY KEY;
