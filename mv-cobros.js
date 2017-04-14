@@ -483,8 +483,8 @@
             //return;
             //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
             //MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.forma_pago, '00', vm.total, vm.desc_cant, 'Venta de Caja', vm.detalles, vm.usuario_id, 1, vm.comentario,
-            MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, forma_pagos, '00', vm.total, vm.desc_cant, 'Venta de Caja', vm.detalles, vm.usuario_id, 1, vm.comentario,
-                function (data) {
+            MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, forma_pagos, '00', vm.total, vm.desc_cant, 'Venta de Caja', vm.detalles, vm.usuario_id, 1, vm.comentario)
+                .then(function (data) {
 
                     var helper_obj = {
                         asiento_id : data,
@@ -501,18 +501,9 @@
                     //console.log(MovimientoStockFinal.stocks_finales);
                     StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
                         MvUtils.showMessage('success', 'Venta realizada con éxito.');
-                        vm.detalles = [];
                         vm.usuario = {};
 
-                        vm.forma_pago = '01';
-                        vm.desc_porc = 0;
-                        vm.desc_cant = 0;
-                        vm.a_cobrar = 0;
-                        vm.paga_con = 0;
-                        vm.vuelto = 0;
-                        vm.total = 0;
-                        vm.paga_con_x = 0;
-                        vm.paga_con_y = 0;
+                        cleanVariables();
 
                         //ProductVars.clearCache = true;
                         //ProductService.get(function (data) {
@@ -535,6 +526,8 @@
                         MvUtilsGlobals.stopWaiting();
                     });
                     //console.log(data);
+                }).catch(function(error){
+                    console.log(error);
                 });
         }
 
@@ -653,7 +646,7 @@
                     ComandasService.save(createComanda()).then(function(data){
                         console.log(data);
                         console.log('Comanda creada');
-                        //cleanVariables();
+                        cleanVariables();
                     }).catch(function(data){
                         console.log(data);
                     });
@@ -758,7 +751,6 @@
              }
              */
         }
-
 
     }
 
