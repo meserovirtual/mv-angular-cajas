@@ -15,9 +15,10 @@
 
 
     MvCobrosController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService',
-        'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService', 'EnviosService', 'MesasService'];
+        'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService', 'EnviosService', 'MesasService', 'ComandaService'];
     function MvCobrosController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService,
-                                MovimientoStockFinal, StockVars, HelperService, ComandasService, EnviosService, MesasService) {
+                                MovimientoStockFinal, StockVars, HelperService, ComandasService, EnviosService, MesasService,
+                                ComandaService) {
 
         var vm = this;
         vm.tipo_precio = '0';
@@ -42,6 +43,7 @@
         vm.formaDePago2 = {};
         vm.observaciones = '';
         vm.showDelivery = false;
+        vm.comanda = {};
 
         vm.agregarDetalle = agregarDetalle;
         vm.removeDetalle = removeDetalle;
@@ -51,7 +53,7 @@
         vm.calcularTotal = calcularTotal;
         vm.validateMonto = validateMonto;
         vm.aCuenta = aCuenta;
-        vm.comanda = comanda;
+        vm.saveComanda = saveComanda;
         vm.delivery = delivery;
         vm.saveDelivery = saveDelivery;
 
@@ -91,17 +93,6 @@
             }
         });
 
-
-        vm.origenesCobro = [
-            {origen_id: -1, nombre:'Salon'},
-            {origen_id: -2, nombre:'Delivery'},
-            //{origen_id: 3, nombre:'Mesa 1'},
-            //{origen_id: 4, nombre:'Mesa 2'},
-            //{origen_id: 5, nombre:'Mesa 5'},
-        ];
-
-        vm.origenCobro = vm.origenesCobro[0];
-
         vm.formasDePago = [
             {id: '01', tipo:'Efectivo'},
             {id: '02', tipo:'Débito'},
@@ -114,17 +105,100 @@
         vm.formaDePago1 = vm.formasDePago[0];
         vm.formaDePago2 = vm.formasDePago[1];
 
+        loadOrigenesCobro();
 
-        MesasService.get().then(function(mesas){
-            //console.log(mesas);
-            mesas.forEach(function(mesa){
-                vm.origenesCobro.push({origen_id: mesa.mesa_id, nombre: mesa.mesa});
+        function loadOrigenesCobro() {
+            MesasService.get().then(function(mesas){
+                //console.log(mesas);
+                vm.origenesCobro = [
+                    {origen_id: -1, nombre:'Mostrador'},
+                    {origen_id: -2, nombre:'Delivery'},
+                ];
+                mesas.forEach(function(mesa){
+                    vm.origenesCobro.push({origen_id: mesa.mesa_id, nombre: mesa.mesa});
+                });
+                //console.log(vm.origenesCobro);
+                vm.origenCobro = vm.origenesCobro[0];
+            }).catch(function(error){
+                console.log(error);
+            })
+        }
+
+        if(ComandaService.comanda != undefined || ComandaService.comanda != {}) {
+            //console.log(ComandaService.comanda);
+            vm.comanda = ComandaService.comanda;
+
+            getOrigenDeCobro(ComandaService.comanda.origen_id);
+            getNumero(ComandaService.comanda);
+            getDetalle(ComandaService.comanda);
+        }
+
+        function getNumero(comanda) {
+            if(comanda.origen_id == -1) {
+                vm.numero = comanda.comanda_id;
+            } else if(comanda.origen_id == -2) {
+
+            }
+        }
+
+        function getOrigenDeCobro(origen_id) {
+            vm.origenesCobro = [];
+
+            MesasService.get().then(function(mesas){
+                vm.origenesCobro = [
+                    {origen_id: -1, nombre:'Mostrador'},
+                    {origen_id: -2, nombre:'Delivery'},
+                ];
+                mesas.forEach(function(mesa){
+                    vm.origenesCobro.push({origen_id: mesa.mesa_id, nombre: mesa.mesa});
+                });
+
+                for(var i=0; i < vm.origenesCobro.length - 1; i++) {
+                    if(vm.origenesCobro[i].origen_id == origen_id) {
+                        vm.origenCobro = vm.origenesCobro[i];
+                        return;
+                    }
+                }
+            }).catch(function(error){
+                console.log(error);
             });
-            //console.log(vm.origenesCobro);
-        }).catch(function(error){
-            console.log(error);
-        })
 
+        }
+
+        function getDetalle(comanda) {
+            console.log(comanda);
+            if(comanda.detalles != undefined) {
+                console.log('ddddd');
+                console.log(comanda.detalles);
+                console.log(comanda.detalles.length);
+
+
+                for(var i=0; i < comanda.detalles.length - 1; i++) {
+                    console.log(comanda.detalles[i]);
+                    vm.detalle = {
+                        producto_id: comanda.detalles[i].producto_id,
+                        //sku: prod.sku,
+                        sku: '',
+                        producto_nombre: comanda.detalles[i].nombre,
+                        cantidad: comanda.detalles[i].cantidad,
+                        //precio_unidad: ((prod.precios[vm.tipo_precio] != undefined) ? prod.precios[vm.tipo_precio].precio : prod.precios[0].precio),
+                        precio_unidad: comanda.detalles[i].precio / comanda.detalles[i].cantidad,
+                        //precio_total: parseInt(vm.cantidad) * parseFloat(((prod.precios[vm.tipo_precio] != undefined) ? prod.precios[vm.tipo_precio].precio : prod.precios[0].precio)),
+                        precio_total: comanda.detalles[i].precio,
+                        //stock: prod.stocks,
+                        //productos_kit: prod.kits,
+                        //productos_tipo: prod.producto_tipo,
+                        mp: false,
+                        //iva: prod.iva,
+                        observaciones: comanda.detalles[i].comentarios,
+                    };
+
+                    vm.detalles.push(vm.detalle);
+                }
+
+                console.log(vm.detalles);
+            }
+        }
 
         function createComandaDetalle() {
             //TODO: Hacer que genere la comanda
@@ -173,7 +247,7 @@
         }
 
 
-        function comanda() {
+        function saveComanda() {
             if(vm.origenCobro.origen_id == -2) {
                 MvUtils.showMessage('warning', 'Esta opción solo es valida para Deliveries');
                 return;
@@ -503,6 +577,15 @@
                         MvUtils.showMessage('success', 'Venta realizada con éxito.');
                         vm.usuario = {};
 
+                        vm.comanda.status = 5; //Comanda cerrada
+                        ComandasService.updateStatusComanda(vm.comanda).then(function(data){
+                            console.log(data);
+                            vm.comanda = {};
+                            ComandaService.comanda = {};
+                        }).catch(function(error){
+                            console.log(error);
+                        });
+
                         cleanVariables();
 
                         //ProductVars.clearCache = true;
@@ -751,6 +834,7 @@
              }
              */
         }
+
 
     }
 
