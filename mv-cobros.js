@@ -166,37 +166,31 @@
         }
 
         function getDetalle(comanda) {
-            console.log(comanda);
             if(comanda.detalles != undefined) {
-                console.log('ddddd');
-                console.log(comanda.detalles);
-                console.log(comanda.detalles.length);
+                var list = Object.getOwnPropertyNames(comanda.detalles);
 
-
-                for(var i=0; i < comanda.detalles.length - 1; i++) {
-                    console.log(comanda.detalles[i]);
+                list.forEach(function (item, index, array) {
                     vm.detalle = {
-                        producto_id: comanda.detalles[i].producto_id,
+                        producto_id: comanda.detalles[item].producto_id,
                         //sku: prod.sku,
                         sku: '',
-                        producto_nombre: comanda.detalles[i].nombre,
-                        cantidad: comanda.detalles[i].cantidad,
+                        producto_nombre: comanda.detalles[item].nombre,
+                        cantidad: comanda.detalles[item].cantidad,
                         //precio_unidad: ((prod.precios[vm.tipo_precio] != undefined) ? prod.precios[vm.tipo_precio].precio : prod.precios[0].precio),
-                        precio_unidad: comanda.detalles[i].precio / comanda.detalles[i].cantidad,
+                        precio_unidad: comanda.detalles[item].precio / comanda.detalles[item].cantidad,
                         //precio_total: parseInt(vm.cantidad) * parseFloat(((prod.precios[vm.tipo_precio] != undefined) ? prod.precios[vm.tipo_precio].precio : prod.precios[0].precio)),
-                        precio_total: comanda.detalles[i].precio,
+                        precio_total: comanda.detalles[item].precio,
                         //stock: prod.stocks,
                         //productos_kit: prod.kits,
                         //productos_tipo: prod.producto_tipo,
                         mp: false,
                         //iva: prod.iva,
-                        observaciones: comanda.detalles[i].comentarios,
+                        observaciones: comanda.detalles[item].comentarios,
                     };
 
                     vm.detalles.push(vm.detalle);
-                }
-
-                console.log(vm.detalles);
+                });
+                //console.log(vm.detalles);
             }
         }
 
