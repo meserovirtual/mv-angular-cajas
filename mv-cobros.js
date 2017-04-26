@@ -382,6 +382,7 @@
                     mp: false,
                     iva: prod.iva,
                     observaciones: vm.observaciones,
+                    status: 1
                 };
 
                 vm.detalles.push(vm.detalle);
