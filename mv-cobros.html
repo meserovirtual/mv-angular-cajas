@@ -10,6 +10,14 @@
                 </select>
             </div>
             <div class="input">
+                <label for="searchClienteMain">Cliente</label>
+                <mv-autocomplete fields-to-show="'nombre,apellido'"
+                                 selected-to="$ctrl.cliente"
+                                 search-fields="'nombre,apellido,mail'"
+                                 search-function="$ctrl.searchCliente(callback)"
+                                 id="searchClienteMain"></mv-autocomplete>
+            </div>
+            <div class="input">
                 <label>Número</label>
                 <input type="number" step="0.01" ng-model="$ctrl.numero" class="input-small"
                        placeholder="Número" id="numero">
