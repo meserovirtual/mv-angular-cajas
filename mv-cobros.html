@@ -32,8 +32,8 @@
             </div>
         </div>
 
-        <div  style="max-width: 1000px" class="form-flex-center">
-            <div  style="width:100%" class="input">
+        <div style="max-width: 1000px" class="form-flex-center">
+            <div style="width:100%" class="input">
                 <input type="text" style="width: calc(100% - 20px);" ng-model="$ctrl.observaciones" ng-maxlength="100"
                        placeholder="Observaciones">
             </div>
@@ -67,7 +67,8 @@
                     <td class="">{{row.cantidad}}</td>
                     <td class="">{{row.precio_total}}</td>
                     <td class="">
-                        <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeDetalle(row)" title="Quitar">
+                        <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeDetalle(row)"
+                                title="Quitar">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </button>
                     </td>
@@ -90,7 +91,7 @@
                             </span>
                             <span>
                                 <button class="paginacion-sig" ng-click="$ctrl.next();"></button>
-                                <button class="paginacion-ultima"ng-click="$ctrl.last();"></button>
+                                <button class="paginacion-ultima" ng-click="$ctrl.last();"></button>
                             </span>
                         </div>
                     </td>
@@ -159,6 +160,7 @@
             <button class="btn-agregar" mv-validator ng-click="$ctrl.saveComanda();">Confirmar</button>
             <button class="btn-agregar" mv-validator ng-click="$ctrl.save();">Cobrar</button>
             <button class="btn-agregar" ng-click="$ctrl.delivery();">Delivery</button>
+            <button class="btn-agregar" ng-click="$ctrl.aCuenta();">A Cuenta</button>
         </div>
 
     </form>
@@ -204,7 +206,7 @@
                 <div class="input">
                     <label class="margin-top-small">Número</label>
                     <input id="dir_nro" type="number" ng-model="$ctrl.usuario.direcciones[0].nro"
-                           placeholder="Número" max="99999" />
+                           placeholder="Número" max="99999"/>
                 </div>
             </div>
             <div class="mv-col">

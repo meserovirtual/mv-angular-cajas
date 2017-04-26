@@ -95,12 +95,12 @@
         });
 
         vm.formasDePago = [
-            {id: '01', tipo:'Efectivo'},
-            {id: '02', tipo:'Débito'},
-            {id: '03', tipo:'Crédito'},
-            {id: '04', tipo:'Transferencia CA'},
-            {id: '05', tipo:'Transferencia CC'},
-            {id: '08', tipo:'Mercado Pago'}
+            {id: '01', tipo: 'Efectivo'},
+            {id: '02', tipo: 'Débito'},
+            {id: '03', tipo: 'Crédito'},
+            {id: '04', tipo: 'Transferencia CA'},
+            {id: '05', tipo: 'Transferencia CC'},
+            {id: '08', tipo: 'Mercado Pago'}
         ];
 
         vm.formaDePago1 = vm.formasDePago[0];
@@ -109,23 +109,23 @@
         loadOrigenesCobro();
 
         function loadOrigenesCobro() {
-            MesasService.get().then(function(mesas){
+            MesasService.get().then(function (mesas) {
                 //console.log(mesas);
                 vm.origenesCobro = [
-                    {origen_id: -1, nombre:'Mostrador'},
-                    {origen_id: -2, nombre:'Delivery'},
+                    {origen_id: -1, nombre: 'Mostrador'},
+                    {origen_id: -2, nombre: 'Delivery'},
                 ];
-                mesas.forEach(function(mesa){
+                mesas.forEach(function (mesa) {
                     vm.origenesCobro.push({origen_id: mesa.mesa_id, nombre: mesa.mesa});
                 });
                 //console.log(vm.origenesCobro);
                 vm.origenCobro = vm.origenesCobro[0];
-            }).catch(function(error){
+            }).catch(function (error) {
                 console.log(error);
             })
         }
 
-        if(ComandaService.comanda != undefined || ComandaService.comanda != {}) {
+        if (ComandaService.comanda != undefined || ComandaService.comanda != {}) {
             console.log(ComandaService.comanda);
             vm.comanda = ComandaService.comanda;
 
@@ -143,9 +143,9 @@
         }
 
         function getNumero(comanda) {
-            if(comanda.origen_id == -1) {
+            if (comanda.origen_id == -1) {
                 vm.numero = comanda.comanda_id;
-            } else if(comanda.origen_id == -2) {
+            } else if (comanda.origen_id == -2) {
                 vm.numero = comanda.envio_id;
             }
         }
@@ -153,38 +153,38 @@
         function getOrigenDeCobro(origen_id) {
             vm.origenesCobro = [];
 
-            MesasService.get().then(function(mesas){
+            MesasService.get().then(function (mesas) {
                 vm.origenesCobro = [
-                    {origen_id: -1, nombre:'Mostrador'},
-                    {origen_id: -2, nombre:'Delivery'},
+                    {origen_id: -1, nombre: 'Mostrador'},
+                    {origen_id: -2, nombre: 'Delivery'},
                 ];
-                mesas.forEach(function(mesa){
+                mesas.forEach(function (mesa) {
                     vm.origenesCobro.push({origen_id: mesa.mesa_id, nombre: mesa.mesa});
                 });
 
                 var encontrado = false;
-                for(var i=0; i < vm.origenesCobro.length - 1; i++) {
-                    if(vm.origenesCobro[i].origen_id == origen_id) {
+                for (var i = 0; i < vm.origenesCobro.length - 1; i++) {
+                    if (vm.origenesCobro[i].origen_id == origen_id) {
                         vm.origenCobro = vm.origenesCobro[i];
                         encontrado = true;
                         return;
                     }
                 }
-                if(!encontrado)
+                if (!encontrado)
                     vm.origenCobro = vm.origenesCobro[0];
-            }).catch(function(error){
+            }).catch(function (error) {
                 console.log(error);
             });
 
         }
 
         function getDetalle(comanda) {
-            if(comanda.detalles != undefined) {
+            if (comanda.detalles != undefined) {
                 var list = Object.getOwnPropertyNames(comanda.detalles);
 
                 list.forEach(function (item, index, array) {
 
-                    StockService.getByParams("producto_id", ""+comanda.detalles[item].producto_id, "true").then(function(data){
+                    StockService.getByParams("producto_id", "" + comanda.detalles[item].producto_id, "true").then(function (data) {
                         var producto = Object.getOwnPropertyNames(data);
                         producto.forEach(function (item2, index2, array2) {
 
@@ -215,7 +215,7 @@
                             }
 
                         });
-                    }).catch(function(error){
+                    }).catch(function (error) {
                         console.log(error);
                     });
                 });
@@ -230,7 +230,7 @@
             //TODO: Hacer que genere la comanda
             var detalles = [];
 
-            for(var i = 0; i <= vm.detalles.length - 1; i++) {
+            for (var i = 0; i <= vm.detalles.length - 1; i++) {
                 var detalle = {};
                 detalle.producto_id = vm.detalles[i].producto_id;
                 detalle.status = 0;
@@ -275,15 +275,15 @@
 
 
         function saveComanda() {
-            if(vm.origenCobro.origen_id == -2) {
+            if (vm.origenCobro.origen_id == -2) {
                 MvUtils.showMessage('warning', 'Esta opción solo es valida para Deliveries');
                 return;
             }
 
-            ComandasService.save(createComanda()).then(function(data){
+            ComandasService.save(createComanda()).then(function (data) {
                 console.log(data);
                 cleanVariables();
-            }).catch(function(data){
+            }).catch(function (data) {
                 console.log(data);
             });
 
@@ -309,7 +309,7 @@
 
 
         function validateMonto() {
-            if(vm.paga_con_x < 0){
+            if (vm.paga_con_x < 0) {
                 MvUtils.showMessage('error', 'El valor ingresado es mayor al monto que se debe cobrar');
                 vm.paga_con_x = 0;
                 vm.paga_con_y = vm.total;
@@ -524,9 +524,9 @@
             vm.paga_con_y = 0;
 
             //vm.vuelto = (vm.paga_con > 0 && vm.paga_con !== null) ? vm.a_cobrar - vm.paga_con : 0;
-            if(vm.paga_con_x > 0 && vm.paga_con_x !== null)
+            if (vm.paga_con_x > 0 && vm.paga_con_x !== null)
                 vm.vuelto = vm.a_cobrar - vm.paga_con_x - ((vm.paga_con_y > 0 && vm.paga_con_y !== null) ? vm.paga_con_y : 0);
-            else if(vm.paga_con_y > 0 && vm.paga_con_y !== null)
+            else if (vm.paga_con_y > 0 && vm.paga_con_y !== null)
                 vm.vuelto = vm.a_cobrar - vm.paga_con_y - ((vm.paga_con_x > 0 && vm.paga_con_x !== null) ? vm.paga_con_x : 0);
             else
                 vm.vuelto = 0;
@@ -575,10 +575,10 @@
 
         function finalizarVenta() {
             var forma_pagos = [];
-            if(vm.paga_con_x > 0 && vm.paga_con_x !== null){
+            if (vm.paga_con_x > 0 && vm.paga_con_x !== null) {
                 forma_pagos.push({forma_pago: vm.formaDePago1.id, importe: vm.paga_con_x});
             }
-            if(vm.paga_con_y > 0 && vm.paga_con_y !== null){
+            if (vm.paga_con_y > 0 && vm.paga_con_y !== null) {
                 forma_pagos.push({forma_pago: vm.formaDePago2.id, importe: vm.paga_con_y});
             }
             console.log(forma_pagos);
@@ -590,14 +590,14 @@
                 .then(function (data) {
 
                     var helper_obj = {
-                        asiento_id : data,
-                        detalles : vm.detalles,
-                        despues : MovimientoStockFinal.stocks_finales
+                        asiento_id: data,
+                        detalles: vm.detalles,
+                        despues: MovimientoStockFinal.stocks_finales
                     };
 
                     console.log(helper_obj);
 
-                    HelperService.create(helper_obj).then(function(data){
+                    HelperService.create(helper_obj).then(function (data) {
                         console.log(data);
                     });
 
@@ -607,13 +607,13 @@
                         vm.usuario = {};
 
                         vm.comanda.status = 5; //Comanda cerrada
-                        ComandasService.updateStatusComanda(vm.comanda).then(function(data){
+                        ComandasService.updateStatusComanda(vm.comanda).then(function (data) {
                             console.log(data);
                             vm.comanda = {};
                             vm.numero = "";
                             vm.origenCobro = vm.origenesCobro[0];
                             ComandaService.comanda = {};
-                        }).catch(function(error){
+                        }).catch(function (error) {
                             console.log(error);
                         });
 
@@ -640,9 +640,9 @@
                         MvUtilsGlobals.stopWaiting();
                     });
                     //console.log(data);
-                }).catch(function(error){
-                    console.log(error);
-                });
+                }).catch(function (error) {
+                console.log(error);
+            });
         }
 
         function encomienda() {
@@ -686,7 +686,7 @@
         function createEnvioDetalle() {
             var detalles = [];
 
-            for(var i = 0; i <= vm.detalles.length - 1; i++) {
+            for (var i = 0; i <= vm.detalles.length - 1; i++) {
                 var detalle = {};
                 detalle.envio_id = 0;
                 detalle.producto_id = vm.detalles[i].producto_id;
@@ -701,41 +701,41 @@
 
         function saveDelivery() {
 
-            if(vm.origenCobro.origen_id != -2) {
+            if (vm.origenCobro.origen_id != -2) {
                 MvUtils.showMessage('error', 'El origen de ingreso debe ser Delivery');
                 return;
             }
             //TODO: guardar los datos del cliente que realiza el pedido del delivery
-            if(vm.usuario.apellido == undefined){
+            if (vm.usuario.apellido == undefined) {
                 MvUtils.showMessage('error', 'El apellido es obligatorio');
                 return;
             }
-            if(vm.usuario.nombre == undefined){
+            if (vm.usuario.nombre == undefined) {
                 MvUtils.showMessage('error', 'El nombre es obligatorio');
                 return;
             }
-            if(vm.usuario.telefono == undefined){
+            if (vm.usuario.telefono == undefined) {
                 MvUtils.showMessage('error', 'El teléfono es obligatorio');
                 return;
             }
-            if(vm.usuario.mail == undefined){
+            if (vm.usuario.mail == undefined) {
                 MvUtils.showMessage('error', 'El mail es obligatorio');
                 return;
             } else {
-                if(!MvUtils.validateEmail(vm.usuario.mail)){
+                if (!MvUtils.validateEmail(vm.usuario.mail)) {
                     MvUtils.showMessage('error', 'El mail ingresado no tiene un formato valido');
                     return;
                 }
             }
-            if(vm.usuario.direcciones == undefined){
+            if (vm.usuario.direcciones == undefined) {
                 MvUtils.showMessage('error', 'La dirección es obligatorio');
                 return;
             } else {
-                if(vm.usuario.direcciones[0].calle == undefined){
+                if (vm.usuario.direcciones[0].calle == undefined) {
                     MvUtils.showMessage('error', 'La dirección es obligatorio');
                     return;
                 }
-                if(vm.usuario.direcciones[0].nro == undefined){
+                if (vm.usuario.direcciones[0].nro == undefined) {
                     MvUtils.showMessage('error', 'El número es obligatorio');
                     return;
                 }
@@ -749,27 +749,27 @@
             vm.usuario.rol_id = 3;
             vm.usuario.status = 1;
             //Creo el usuario cliente
-            UserService.save(vm.usuario).then(function(data){
+            UserService.save(vm.usuario).then(function (data) {
                 vm.usuario.usuario_id = data.usuario_id;
                 console.log('Usuario creado');
                 //Creo el envio
-                EnviosService.save(createEnvio(vm.usuario)).then(function(data){
+                EnviosService.save(createEnvio(vm.usuario)).then(function (data) {
                     console.log(data);
                     console.log('Envio creado');
                     //Creo la comanda
-                    ComandasService.save(createComanda(data.envio_id)).then(function(data){
+                    ComandasService.save(createComanda(data.envio_id)).then(function (data) {
                         console.log(data);
                         console.log('Comanda creada');
                         cleanVariables();
-                    }).catch(function(data){
+                    }).catch(function (data) {
                         console.log(data);
                     });
 
-                }).catch(function(data){
+                }).catch(function (data) {
                     console.log(data);
                 });
 
-            }).catch(function(data){
+            }).catch(function (data) {
                 console.log(data);
             });
 
@@ -782,15 +782,15 @@
         function searchProducto(callback) {
             StockService.get().then(callback).then(function (data) {
                 console.log(data);
-            }).catch(function(data){
+            }).catch(function (data) {
                 console.log(data);
             });
         }
 
         function searchCliente(callback) {
-            UserService.get(3).then(callback).then(function(data){
+            UserService.get(3).then(callback).then(function (data) {
                 console.log(data);
-            }).catch(function(data){
+            }).catch(function (data) {
                 console.log(data);
             });
         }
@@ -799,71 +799,49 @@
          * Cobro a Cuenta del cliente
          */
         function aCuenta() {
-            /*
-             if (vm.detalles.length < 1) {
-             MvUtils.showMessage('error', 'No hay productos seleccionados');
-             return;
-             }
+            //console.log(vm.cliente.usuario_id);
+            if (vm.cliente == undefined || vm.cliente.usuario_id == undefined || vm.cliente.usuario_id < 0) {
+                MvUtils.showMessage('error', 'Debe seleccionar un cliente');
+                return;
+            }
 
-             MvUtilsGlobals.startWaiting();
-             //var usuario_id = -1;
-             if (vm.cliente !== undefined && vm.cliente.usuario_id !== undefined) {
-             vm.usuario_id = vm.cliente.usuario_id;
+            if (vm.detalles.length < 1) {
+                MvUtils.showMessage('error', 'No hay productos seleccionados');
+                return;
+            }
 
-             //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
-             MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, '07', '00', vm.total, vm.desc_cant, 'Venta Productos - Ingreso a Deudores', vm.detalles, vm.usuario_id, 1, '',
-             function (data) {
-             //console.log(MovimientoStockFinal.stocks_finales);
-             //ConsultaStockService.updateStock(MovimientoStockFinal.stocks_finales, function (data) {
-             StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
-             vm.cliente.saldo = vm.cliente.saldo - parseFloat(vm.total);
-             UserService.update(vm.cliente).then(function (data) {
-             //if (!isNaN(data) && data > -1) {
-             vm.detalles = [];
-             vm.cliente = {};
+            //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
+            MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, '07', '00', vm.total, vm.desc_cant, 'Venta Productos - Ingreso a Deudores', vm.detalles, vm.cliente.usuario_id, 1, '').then(
+                function (data) {
+                    //console.log(MovimientoStockFinal.stocks_finales);
+                    StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
 
-             vm.forma_pago = '01';
-             vm.desc_porc = 0;
-             vm.desc_cant = 0;
-             vm.a_cobrar = 0;
-             vm.paga_con = 0;
-             vm.vuelto = 0;
-             vm.total = 0;
-             vm.paga_con_x = 0;
-             vm.paga_con_y = 0;
+                        vm.cliente.saldo = vm.cliente.saldo - parseFloat(vm.total);
+                        UserService.update(vm.cliente, function (data) {
+                            if (!isNaN(data) && data > -1) {
+                                vm.detalles = [];
+                                vm.cliente = {};
 
-             MvUtils.showMessage('success', 'Venta realizada con éxito.');
-             //} else {
-             //    MvUtils.showMessage('error', 'Error al realizar la venta');
-             //}
-             }).catch(function(data){
-             console.log(data);
-             MvUtils.showMessage('error', 'Error al realizar la venta');
-             });
+                                vm.forma_pago = '01';
+                                vm.desc_porc = 0;
+                                vm.desc_cant = 0;
+                                vm.a_cobrar = 0;
+                                vm.paga_con = 0;
+                                vm.vuelto = 0;
+                                vm.total = 0;
+                                vm.comentario = '';
+                                MvUtils.showMessage('success', 'Venta realizada con éxito.');
+                            } else {
+                                MvUtils.showMessage('error', 'Error al realizar la venta');
+                            }
 
-             vm.producto = {};
-             var el = document.getElementById('searchCliente').getElementsByTagName('input');
-             if (el[0] != null) {
-             el[0].value = '';
-             }
+                        });
 
-             vm.tipo_precio = '0';
 
-             StockVars.clearCache = true;
-             StockService.get(function (data) {
-             });
-
-             $rootScope.$broadcast('refreshResumenCaja');
-             MvUtilsGlobals.stopWaiting();
-
-             });
-             //console.log(data);
-             });
-             } else {
-             MvUtils.showMessage('error', 'Debe seleccionar un cliente');
-             return;
-             }
-             */
+                        //console.log(data);
+                    });
+                    //console.log(data);
+                });
         }
 
 
