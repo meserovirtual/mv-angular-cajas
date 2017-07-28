@@ -2,7 +2,7 @@
 
 <div class="container form-container container-bgk height-wrapper">
     <form id="cobrosForm" class="container-form" form-id="mv-cobros" ng-class="{'form-lista':$ctrl.showDelivery}">
-        <div class="form-flex-center" style="max-width: 1000px; justify-content: space-between; flex-wrap: wrap">
+        <div class="form-flex-center" style="justify-content: space-between; flex-wrap: wrap">
             <div class="input">
                 <label>Origen Ingreso</label>
                 <select name="origenCobro" id="origenCobro" ng-model="$ctrl.origenCobro" class="input-small"
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div style="max-width: 1000px" class="form-flex-center">
+        <div class="form-flex-center">
             <div style="width:100%" class="input">
                 <input type="text" style="width: calc(100% - 20px);" ng-model="$ctrl.observaciones" ng-maxlength="100"
                        placeholder="Observaciones">
@@ -56,7 +56,7 @@
 
 
         <div class="margin-top">
-            <table style="max-width: 1000px">
+            <table>
                 <thead>
                 <tr>
                     <th>Destino</th>

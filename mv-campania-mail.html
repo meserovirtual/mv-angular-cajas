@@ -1,0 +1,81 @@
+<div class="container container-bgk container-padding">
+    <h1 class="secciones">Campañas Mail</h1>
+    <form id="campaniaForm" class="container-form" form-id="mv-campania">
+        <div class="mv-col">
+            <div class="input">
+                <h3>Escriba la publicidad (La campaña será enviada a todos sus clientes)</h3>
+            </div>
+        </div>
+
+        <div class="mv-col ">
+            <div class="input">
+                <label>Titulo del mail</label>
+                <input type="text" class="" ng-model="$ctrl.campania.titulo" />
+            </div>
+
+            <div class="input">
+                <label>Mensaje 1</label>
+                <input type="text" class="" ng-model="$ctrl.campania.mensaje1" />
+            </div>
+
+            <div class="input">
+                <label>Mensaje 2</label>
+                <input type="text" class="" ng-model="$ctrl.campania.mensaje2" />
+            </div>
+        </div>
+
+        <div class="mv-col">
+            <div class="input">
+                <h3>* Ingrese un minimo de 4 productos y un maximo de 8</h3>
+            </div>
+        </div>
+
+        <div class="mv-col">
+            <div class="input">
+                <label>Producto</label>
+                <mv-autocomplete fields-to-show="'nombre'"
+                                 selected-to="$ctrl.producto"
+                                 search-fields="'nombre,sku'"
+                                 search-function="$ctrl.searchProducto(callback)"
+                                 clear='$ctrl.clear'
+                                 id="searchProducto"
+                                 ng-blur="$ctrl.calc_disponible();"></mv-autocomplete>
+            </div>
+            <div class="input">
+                <button class="boton-ok" mv-validator ng-click="$ctrl.addProducto();" style="margin-top: 40px;margin-left: 10px;">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="mv-col">
+            <div class="margin-top">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Quitar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in $ctrl.productos">
+                        <td class="">{{row.nombre}}</td>
+                        <td class="">{{row.precios[0].precio | currency}}</td>
+                        <td class="">
+                            <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeProducto(row)" title="Quitar">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="botonera">
+            <button class="btn-agregar" mv-validator ng-click="$ctrl.sendMail();">Enviar Mail</button>
+        </div>
+
+    </form>
+</div>
