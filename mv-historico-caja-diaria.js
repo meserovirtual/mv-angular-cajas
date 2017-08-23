@@ -77,10 +77,18 @@
                     vm.cajaGeneralSucursal = data[0].importe;
                     //CajasService.getResultado('1.1.1.3' + vm.sucursal_id, function (data) {
                     CajasService.getResultado('1.1.1.3' + sucursal.sucursal_id).then(function (data) {
-                        console.log(data);
-                        vm.cajaGeneralSucursal = parseFloat(vm.cajaGeneralSucursal) + parseFloat(data.data[0].total);
-                    }).catch(function(data){
-                        console.log(data);
+                        //console.log(data);
+                        if(data.status == 200) {
+                            if(data.data.length > 0) {
+                                vm.cajaGeneralSucursal = parseFloat(vm.cajaGeneralSucursal) + parseFloat(data.data[0].total);
+                            } else {
+                                vm.cajaGeneralSucursal = 0.00;
+                            }
+                        } else {
+                            MvUtils.showMessage('error', "Error recuperando datos");
+                        }
+                    }).catch(function(error){
+                        console.log(error);
                     });
                 }
             }).catch(function(data){
@@ -116,7 +124,7 @@
             vm.saldoFinal = parseFloat(caja.saldo_inicial);
 
             CajasService.getCajaDiariaFromTo(sucursal.sucursal_id, 1, caja.asiento_inicio_id, caja.asiento_cierre_id).then(function (data) {
-                console.log(data);
+                //console.log(data);
                 var asiento = [];
                 for (var i = 0; i < data.data.length; i++) {
                     if (data.data[i].cuenta_id.indexOf('1.1.1.0') > -1) {

@@ -498,7 +498,8 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
         $results = $db->rawQuery('select * from resultados where cuenta_id = "' . $params['cuenta_id'] . '" AND mes = Month(last_day(date_sub(now(),interval 30 day)))
         AND anio = Year(last_day(date_sub(now(),interval 30 day)))');
 
-        if ($db->count > 0) {
+        //if ($db->count > 0) {
+        if ($results > -1) {
             header('HTTP/1.0 200 Ok');
             echo json_encode($results);
         } else {
