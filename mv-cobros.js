@@ -233,7 +233,7 @@
             for (var i = 0; i <= vm.detalles.length - 1; i++) {
                 var detalle = {};
                 detalle.producto_id = vm.detalles[i].producto_id;
-                detalle.status = 0;
+                detalle.status = 1;
                 detalle.comentarios = vm.detalles[i].observaciones;
                 detalle.cantidad = vm.detalles[i].cantidad;
                 detalle.precio = vm.detalles[i].precio_total;
@@ -261,7 +261,7 @@
             var comanda = {
                 origen_id: vm.origenCobro.origen_id,
                 total: vm.a_cobrar,
-                status: 0,
+                status: 1,
                 mesa_id: (vm.origenCobro.origen_id > 0) ? vm.origenCobro.origen_id : '-1',
                 usuario_id: -2,
                 detalles: [],
