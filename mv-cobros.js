@@ -282,7 +282,18 @@
 
             ComandasService.save(createComanda()).then(function (data) {
                 console.log(data);
-                cleanVariables();
+                if(data != undefined) {
+                    if(data > 0) {
+                        cleanVariables();
+                        MvUtils.showMessage('success', 'La comanda se creo satisfactoriamente');
+                    } else {
+                        MvUtils.showMessage('error', 'Error guardando la comanda');
+                        console.log(data);
+                    }
+                } else {
+                    MvUtils.showMessage('error', 'Error guardando la comanda');
+                    console.log(data);
+                }
             }).catch(function (data) {
                 console.log(data);
             });
