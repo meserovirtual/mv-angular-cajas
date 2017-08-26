@@ -311,12 +311,14 @@
 
                 detalles.push(detalle);
             }
-            console.log(detalles);
+            //console.log(detalles);
 
             return detalles;
         }
 
         function createComanda(envio_id) {
+            console.log(ComandaService.comanda);
+
             var comanda = {
                 origen_id: vm.origenCobro.origen_id,
                 total: vm.a_cobrar,
@@ -327,6 +329,11 @@
                 envio_id: envio_id
             };
             comanda.detalles = createComandaDetalle();
+
+            if(ComandaService.comanda != undefined) {
+                if (ComandaService.comanda.comanda_id != undefined)
+                    comanda.comanda_id = ComandaService.comanda.comanda_id;
+            }
 
             console.log(comanda);
             return comanda;
