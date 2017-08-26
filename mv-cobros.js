@@ -671,7 +671,15 @@
                         MvUtils.showMessage('success', 'Venta realizada con éxito.');
                         vm.usuario = {};
 
-                        vm.comanda.status = 5; //Comanda cerrada
+                        console.log(vm.comanda);
+                        if(vm.comanda.comanda_id == undefined) {
+                            vm.comanda = ComandaService.comanda;
+                            vm.comanda.status = 5; //Comanda cerrada
+                        } else {
+                            vm.comanda.status = 5; //Comanda cerrada
+                        }
+                        console.log(vm.comanda);
+
                         ComandasService.updateStatusComanda(vm.comanda).then(function (data) {
                             console.log(data);
                             vm.comanda = {};
