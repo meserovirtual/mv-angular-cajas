@@ -45,6 +45,7 @@
         vm.observaciones = '';
         vm.showDelivery = false;
         vm.comanda = {};
+        vm.mesa = {};
 
         vm.agregarDetalle = agregarDetalle;
         vm.removeDetalle = removeDetalle;
@@ -57,6 +58,7 @@
         vm.saveComanda = saveComanda;
         vm.delivery = delivery;
         vm.saveDelivery = saveDelivery;
+        vm.validateMesa = validateMesa;
 
 
         var elemCaja = angular.element(document.querySelector('#cobros'));
@@ -179,6 +181,7 @@
         }
 
         function getDetalle(comanda) {
+            vm.detalles = [];
             if (comanda.detalles != undefined) {
                 var list = Object.getOwnPropertyNames(comanda.detalles);
 
@@ -223,6 +226,62 @@
 
                 console.log(vm.detalles);
                 console.log(ComandaService.comanda);
+            }
+        }
+
+
+        function validateMesa() {
+            //console.log(vm.origenCobro);
+            if(vm.origenCobro.origen_id > 0) {
+                MesasService.get().then(function(data){
+                    console.log(data);
+                    var encontrado = false;
+                    var mesas = Object.getOwnPropertyNames(data);
+                    mesas.forEach(function (item, index, array) {
+                        if(data[item].mesa_id == vm.origenCobro.origen_id) {
+                            console.log(data[item]);
+                            if(data[item].status == 1) {
+                                encontrado = true;
+                                vm.mesa = data[item];
+                                MvUtils.showMessage('info', 'Mesa abierta');
+                                getOrigenDeCobro(data[item].mesa_id);
+                                var comanda = {};
+                                var encontrado2 = false;
+                                ComandasService.get().then(function(data2){
+                                    //console.log(data2);
+                                    var comandas = Object.getOwnPropertyNames(data2);
+                                    comandas.forEach(function (item2, index2, array2) {
+                                        if(data2[item2].comanda_id == data[item].comanda_id) {
+                                            //console.log(data2[item2]);
+                                            comanda = data2[item2];
+                                            encontrado2 = true;
+                                        }
+                                    });
+                                    if(encontrado2) {
+                                        ComandaService.comanda = comanda;
+                                    } else {
+                                        ComandaService.comanda = {};
+                                    }
+                                    getNumero(ComandaService.comanda);
+                                    getDetalle(ComandaService.comanda);
+                                    getTotal(ComandaService.comanda);
+                                }).catch(function(error){
+                                    console.log(error);
+                                });
+                            }
+                        }
+                    });
+                    if(!encontrado) {
+                        vm.mesa = {};
+                        vm.detalles = [];
+                        ComandaService.comanda = {};
+                        getNumero(ComandaService.comanda);
+                        getDetalle(ComandaService.comanda);
+                        getTotal(ComandaService.comanda);
+                    }
+                }).catch(function(error){
+                    console.log(error);
+                });
             }
         }
 
@@ -545,7 +604,6 @@
         }
 
         function save() {
-            console.log('save');
             if (vm.detalles.length < 1) {
                 MvUtils.showMessage('error', 'No hay productos seleccionados');
                 return;
@@ -580,8 +638,6 @@
 
             }
             finalizarVenta();
-
-
         }
 
         function finalizarVenta() {
@@ -592,7 +648,6 @@
             if (vm.paga_con_y > 0 && vm.paga_con_y !== null) {
                 forma_pagos.push({forma_pago: vm.formaDePago2.id, importe: vm.paga_con_y});
             }
-            console.log(forma_pagos);
             //console.log(vm.detalles);
             //return;
             //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
@@ -600,18 +655,17 @@
             MovimientosService.armarMovimiento('001', '00', UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, forma_pagos, '00', vm.total, vm.desc_cant, 'Venta de Caja', vm.detalles, vm.usuario_id, 1, vm.comentario)
                 .then(function (data) {
 
-                    var helper_obj = {
-                        asiento_id: data,
-                        detalles: vm.detalles,
-                        despues: MovimientoStockFinal.stocks_finales
-                    };
-
-                    console.log(helper_obj);
-
-                    HelperService.create(helper_obj).then(function (data) {
-                        console.log(data);
-                    });
-
+                    /*
+                     var helper_obj = {
+                     asiento_id: data,
+                     detalles: vm.detalles,
+                     despues: MovimientoStockFinal.stocks_finales
+                     };
+                     console.log(helper_obj);
+                     HelperService.create(helper_obj).then(function (data) {
+                     console.log(data);
+                     });
+                     */
                     //console.log(MovimientoStockFinal.stocks_finales);
                     StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
                         MvUtils.showMessage('success', 'Venta realizada con éxito.');
@@ -624,6 +678,16 @@
                             vm.numero = "";
                             vm.origenCobro = vm.origenesCobro[0];
                             ComandaService.comanda = {};
+
+                            vm.mesa.comanda_id = null;
+                            vm.mesa.usuario_id = null;
+                            vm.mesa.status = 0;
+                            console.log(vm.mesa);
+                            MesasService.update(vm.mesa).then(function(data){
+                                console.log(data);
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
                         }).catch(function (error) {
                             console.log(error);
                         });
@@ -652,8 +716,8 @@
                     });
                     //console.log(data);
                 }).catch(function (error) {
-                console.log(error);
-            });
+                    console.log(error);
+                });
         }
 
         function encomienda() {

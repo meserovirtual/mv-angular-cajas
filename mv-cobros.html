@@ -6,7 +6,8 @@
             <div class="input">
                 <label>Origen Ingreso</label>
                 <select name="origenCobro" id="origenCobro" ng-model="$ctrl.origenCobro" class="input-small"
-                        ng-options="origenCobro as origenCobro.nombre for origenCobro in $ctrl.origenesCobro">
+                        ng-options="origenCobro as origenCobro.nombre for origenCobro in $ctrl.origenesCobro"
+                        ng-change="$ctrl.validateMesa();">
                 </select>
             </div>
             <div class="input">
