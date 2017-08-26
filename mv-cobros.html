@@ -72,9 +72,9 @@
                 <tr ng-repeat="row in $ctrl.detalles">
                     <td class="">{{$ctrl.origenCobro.nombre}}</td>
                     <td class="">{{row.producto_nombre}}</td>
-                    <td class="">{{row.precio_unidad}}</td>
+                    <td class="">{{row.precio_unidad | currency}}</td>
                     <td class="">{{row.cantidad}}</td>
-                    <td class="">{{row.precio_total}}</td>
+                    <td class="">{{row.precio_total | currency}}</td>
                     <td class="">
                         <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeDetalle(row)"
                                 title="Quitar">
