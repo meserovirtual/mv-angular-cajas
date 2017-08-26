@@ -682,20 +682,55 @@
 
                         ComandasService.updateStatusComanda(vm.comanda).then(function (data) {
                             console.log(data);
-                            vm.comanda = {};
-                            vm.numero = "";
-                            vm.origenCobro = vm.origenesCobro[0];
-                            ComandaService.comanda = {};
 
-                            vm.mesa.comanda_id = null;
-                            vm.mesa.usuario_id = null;
-                            vm.mesa.status = 0;
-                            console.log(vm.mesa);
-                            MesasService.update(vm.mesa).then(function(data){
-                                console.log(data);
-                            }).catch(function (error) {
-                                console.log(error);
-                            });
+                            if(vm.mesa.mesa_id == undefined) {
+                                MesasService.get().then(function(data){
+                                    console.log(data);
+                                    var encontrado = false;
+                                    var mesas = Object.getOwnPropertyNames(data);
+                                    mesas.forEach(function (item, index, array) {
+                                        if(data[item].mesa_id == vm.comanda.mesa_id) {
+                                            console.log(data[item]);
+                                            vm.mesa = data[item];
+                                            encontrado = true;
+                                            return;
+                                        }
+                                    });
+                                    if(encontrado) {
+                                        vm.mesa.comanda_id = null;
+                                        vm.mesa.usuario_id = null;
+                                        vm.mesa.status = 0;
+                                        console.log(vm.mesa);
+
+                                        MesasService.update(vm.mesa).then(function(data){
+                                            console.log(data);
+                                            vm.comanda = {};
+                                            vm.numero = "";
+                                            vm.origenCobro = vm.origenesCobro[0];
+                                            ComandaService.comanda = {};
+                                        }).catch(function (error) {
+                                            console.log(error);
+                                        });
+                                    }
+                                }).catch(function (error) {
+                                    console.log(error);
+                                });
+                            } else {
+                                vm.mesa.comanda_id = null;
+                                vm.mesa.usuario_id = null;
+                                vm.mesa.status = 0;
+                                console.log(vm.mesa);
+
+                                MesasService.update(vm.mesa).then(function(data){
+                                    console.log(data);
+                                    vm.comanda = {};
+                                    vm.numero = "";
+                                    vm.origenCobro = vm.origenesCobro[0];
+                                    ComandaService.comanda = {};
+                                }).catch(function (error) {
+                                    console.log(error);
+                                });
+                            }
                         }).catch(function (error) {
                             console.log(error);
                         });
