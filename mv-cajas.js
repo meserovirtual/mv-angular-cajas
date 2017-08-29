@@ -37,6 +37,8 @@
         service.getTotalByCuenta = getTotalByCuenta;
         service.getDetalleByCuenta = getDetalleByCuenta;
         service.getResultado = getResultado;
+        service.crearFactura = crearFactura;
+
         return service;
 
         function getTotalByCuenta(cuenta, sucursal_id) {
@@ -250,6 +252,47 @@
                     return data;
                 })
                 .catch(function (data) {
+                    ErrorHandler(data);
+                });
+        }
+
+        function crearFactura(cbteTipo, docTipo, docNro, impNeto, impTotal) {
+            /*
+             CbteTipo
+             1 Factura A
+             6 Factura B
+
+             DocTipo
+             80	CUIT
+             86	CUIL
+             87	CDI
+
+             DocNro
+             ImpNeto
+             ImpTotal
+             */
+
+            if(docTipo === 0){
+                docTipo = 87
+            }else if(docTipo === 1){
+                docTipo = 80
+            }else if(docTipo === 2){
+                docTipo = 86
+            }
+
+            return $http.post('bower_components/mv-angular-cajas/includes/afip/index.php', {
+                CbteTipo: cbteTipo,
+                DocTipo: docTipo,
+                DocNro: docNro,
+                ImpNeto: impNeto,
+                ImpTotal: impTotal
+            })
+                .then(function (data) {
+                    console.log(data);
+                    return data;
+                })
+                .catch(function (data) {
+                    console.log(data);
                     ErrorHandler(data);
                 });
         }

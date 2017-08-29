@@ -16,10 +16,11 @@
 
     MvCobrosController.$inject = ['StockService', 'UserService', 'MvUtils', 'MvUtilsGlobals', '$scope', '$rootScope', 'MovimientosService',
         'MovimientoStockFinal', 'StockVars', 'HelperService', 'ComandasService', 'EnviosService', 'MesasService', 'ComandaService',
-        'ProductService'];
+        'ProductService', 'CajasService', '$window', 'FacturaService'];
+
     function MvCobrosController(StockService, UserService, MvUtils, MvUtilsGlobals, $scope, $rootScope, MovimientosService,
                                 MovimientoStockFinal, StockVars, HelperService, ComandasService, EnviosService, MesasService,
-                                ComandaService, ProductService) {
+                                ComandaService, ProductService, CajasService, $window, FacturaService) {
 
         var vm = this;
         vm.tipo_precio = '0';
@@ -46,6 +47,7 @@
         vm.showDelivery = false;
         vm.comanda = {};
         vm.mesa = {};
+        vm.mostrarFactura = false;
 
         vm.agregarDetalle = agregarDetalle;
         vm.removeDetalle = removeDetalle;
@@ -112,7 +114,6 @@
 
         function loadOrigenesCobro() {
             MesasService.get().then(function (mesas) {
-                //console.log(mesas);
                 vm.origenesCobro = [
                     {origen_id: -1, nombre: 'Mostrador'},
                     {origen_id: -2, nombre: 'Delivery'},
@@ -120,7 +121,6 @@
                 mesas.forEach(function (mesa) {
                     vm.origenesCobro.push({origen_id: mesa.mesa_id, nombre: mesa.mesa});
                 });
-                //console.log(vm.origenesCobro);
                 vm.origenCobro = vm.origenesCobro[0];
             }).catch(function (error) {
                 console.log(error);
@@ -128,7 +128,7 @@
         }
 
         if (ComandaService.comanda != undefined || ComandaService.comanda != {}) {
-            console.log(ComandaService.comanda);
+            //console.log(ComandaService.comanda);
             vm.comanda = ComandaService.comanda;
 
             getOrigenDeCobro(ComandaService.comanda.origen_id);
@@ -234,12 +234,12 @@
             //console.log(vm.origenCobro);
             if(vm.origenCobro.origen_id > 0) {
                 MesasService.get().then(function(data){
-                    console.log(data);
+                    //console.log(data);
                     var encontrado = false;
                     var mesas = Object.getOwnPropertyNames(data);
                     mesas.forEach(function (item, index, array) {
                         if(data[item].mesa_id == vm.origenCobro.origen_id) {
-                            console.log(data[item]);
+                            //console.log(data[item]);
                             if(data[item].status == 1) {
                                 encontrado = true;
                                 vm.mesa = data[item];
@@ -317,7 +317,7 @@
         }
 
         function createComanda(envio_id) {
-            console.log(ComandaService.comanda);
+            //console.log(ComandaService.comanda);
 
             var comanda = {
                 origen_id: vm.origenCobro.origen_id,
@@ -335,7 +335,7 @@
                     comanda.comanda_id = ComandaService.comanda.comanda_id;
             }
 
-            console.log(comanda);
+            //console.log(comanda);
             return comanda;
         }
 
@@ -347,7 +347,7 @@
             }
 
             ComandasService.save(createComanda()).then(function (data) {
-                console.log(data);
+               // console.log(data);
                 if(data != undefined) {
                     if(data > 0) {
                         cleanVariables();
@@ -655,6 +655,12 @@
             if (vm.paga_con_y > 0 && vm.paga_con_y !== null) {
                 forma_pagos.push({forma_pago: vm.formaDePago2.id, importe: vm.paga_con_y});
             }
+            //cbteTipo, docTipo, docNro, impNeto, impTotal
+            /*
+             1 Factura A
+             6 Factura B
+             */
+
             //console.log(vm.detalles);
             //return;
             //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, usuario_id, usuario_id, comentario, callback)
@@ -673,6 +679,26 @@
                      console.log(data);
                      });
                      */
+
+                    // FACTURA
+
+                    CajasService.crearFactura(6, vm.cliente.tipo_doc, vm.cliente.nro_doc, vm.total, (vm.total * 1.21)).then(function (data) {
+                        var currentPath = window.location.href.substr(0, window.location.href.indexOf('#') + 1);
+
+                        var factura = {
+                            cliente: vm.cliente,
+                            detalles: vm.detalles,
+                            response: data.data,
+                            total: vm.total
+                        };
+
+                        FacturaService.set(factura);
+                        vm.mostrarFactura = true;
+
+                    });
+
+                    // FIN FACTURA
+
                     //console.log(MovimientoStockFinal.stocks_finales);
                     StockService.update(MovimientoStockFinal.stocks_finales).then(function (data) {
                         MvUtils.showMessage('success', 'Venta realizada con éxito.');
