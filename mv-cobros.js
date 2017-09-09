@@ -349,13 +349,16 @@
             ComandasService.save(createComanda()).then(function (data) {
                // console.log(data);
                 if(data != undefined) {
+                    cleanVariables();
+                    MvUtils.showMessage('success', 'La comanda se creo satisfactoriamente');
+                    /*
                     if(data > 0) {
                         cleanVariables();
                         MvUtils.showMessage('success', 'La comanda se creo satisfactoriamente');
                     } else {
                         MvUtils.showMessage('error', 'Error guardando la comanda');
                         console.log(data);
-                    }
+                    }*/
                 } else {
                     MvUtils.showMessage('error', 'Error guardando la comanda');
                     console.log(data);
