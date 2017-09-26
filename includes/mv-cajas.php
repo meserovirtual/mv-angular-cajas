@@ -47,7 +47,7 @@ class Cajas extends Main
     FROM
         movimientos m
     WHERE
-        m.cuenta_id = "' . $params['cuenta_id'] . '" and m.sucursal_id=' . $params['sucursal_id'] . ';');
+        m.cuenta_id = "' . $params['cuenta_id'] . '" and m.sucursal_id=' . $params['sucursal_id'] . ' AND m.empresa_id = ' . getEmpresa() . ';');
 
         echo json_encode($results);
     }
@@ -94,7 +94,7 @@ WHERE
     (m.cuenta_id LIKE '1.1.1.2%'
         OR m.cuenta_id = '1.1.1.10'
         OR m.cuenta_id = '1.1.4.01')
-        AND (fecha BETWEEN '" . $fecha_desde . "' and '" . $fecha_hasta . "');";
+        AND (fecha BETWEEN '" . $fecha_desde . "' and '" . $fecha_hasta . "') AND m.empresa_id = " . getEmpresa() . ";";
 
 
 //or m.cuenta_id = '1.1.7.01'
@@ -141,7 +141,7 @@ WHERE
         $SQL = "select movimiento_id, asiento_id, fecha, c.cuenta_id, c.descripcion, usuario_id, importe, 0 general, 0 control, 0 ca, 0 cc, 0 me,
 0 detalles
 from movimientos m inner join cuentas c on m.cuenta_id = c.cuenta_id
-where " . $where . " and (fecha between '" . $fecha_desde . "' and '" . $fecha_hasta . "');";
+where " . $where . " and (fecha between '" . $fecha_desde . "' and '" . $fecha_hasta . "') AND m.empresa_id = " . getEmpresa() . ";";
 
         $results = $db->rawQuery($SQL);
 
@@ -222,7 +222,7 @@ FROM
     movimientos m
         INNER JOIN
     detallesmovimientos d ON m.movimiento_id = d.movimiento_id
-WHERE m.sucursal_id = " . $params['sucursal_id'] . " and asiento_id >= " . $lastCaja['asiento_inicio_id'] . "
+WHERE m.sucursal_id = " . $params['sucursal_id'] . " and asiento_id >= " . $lastCaja['asiento_inicio_id'] . " AND m.empresa_id = " . getEmpresa() . "
 GROUP BY m.movimiento_id , m.asiento_id , m.fecha , m.cuenta_id , m.usuario_id , m.importe , m.sucursal_id , m.pos_id , d.detalle_movimiento_id , d.detalle_tipo_id , d.valor , texto
 ORDER BY m.movimiento_id, m.asiento_id, m.cuenta_id asc;";
 
@@ -308,13 +308,13 @@ ORDER BY m.movimiento_id, m.asiento_id, m.cuenta_id asc;";
             $SQL = "SELECT movimiento_id, asiento_id, fecha, cuenta_id, usuario_id, importe, 0 detalles
                 FROM movimientos m WHERE m.sucursal_id = " . $params['sucursal_id'] . " AND m.pos_id = " . $params['pos_id'] . " AND
                 (m.cuenta_id LIKE '1.1.1.%' or m.cuenta_id = '1.1.2.01' OR m.cuenta_id LIKE '4.1.1.%')
-                AND (asiento_id >= " . $params['asiento_id_inicio'] . " and asiento_id < " . $asiento_fin . ")
+                AND (asiento_id >= " . $params['asiento_id_inicio'] . " and asiento_id < " . $asiento_fin . " AND m.empresa_id = " . getEmpresa() . ")
                 ORDER BY movimiento_id;";
         } else {
             $SQL = "SELECT movimiento_id, asiento_id, fecha, cuenta_id, usuario_id, importe, 0 detalles
                 FROM movimientos m WHERE m.sucursal_id = " . $params['sucursal_id'] . " AND m.pos_id = " . $params['pos_id'] . " AND
                 (m.cuenta_id LIKE '1.1.1.%' or m.cuenta_id = '1.1.2.01' OR m.cuenta_id LIKE '4.1.1.%')
-                AND (asiento_id >= " . $params['asiento_id_inicio'] . ")
+                AND (asiento_id >= " . $params['asiento_id_inicio'] . ") AND m.empresa_id = " . getEmpresa() . "
                 ORDER BY movimiento_id;";
         }
 
@@ -326,7 +326,7 @@ ORDER BY m.movimiento_id, m.asiento_id, m.cuenta_id asc;";
                         WHEN (detalle_tipo_id = 3) THEN (select concat(nombre, ' ', apellido) from usuarios where usuario_id = valor)
                     ELSE valor END detalle
                     FROM detallesmovimientos
-                    WHERE detalle_tipo_id in (2,3,8,9,10,13) and movimiento_id =  " . $row['movimiento_id'] . ";";
+                    WHERE detalle_tipo_id in (2,3,8,9,10,13) and movimiento_id =  " . $row['movimiento_id'] . " ;";
             $detalles = $db->rawQuery($SQL);
 
             $row["detalles"] = $detalles;
@@ -348,7 +348,7 @@ from
     movimientos m
 where
     m.cuenta_id = '1.1.1.0" . $params['sucursal_id'] . "' and pos_id = '" . $params['pos_id'] . "'
-        and m.asiento_id >= " . $lastCaja['asiento_inicio_id'] . ";";
+        and m.asiento_id >= " . $lastCaja['asiento_inicio_id'] . " AND m.empresa_id = " . getEmpresa() . ";";
         $results = $db->rawQuery($SQL);
 
         echo json_encode($results);
@@ -375,7 +375,7 @@ where
         $db->rawQuery("update cajas set detalles='" . $params['detalles'] . "', asiento_cierre_id = (Select max(asiento_id) from movimientos) where
 sucursal_id = " . $params['sucursal_id'] . " and
 pos_id = " . $params['pos_id'] . " and
-caja_id =" . $lastCaja["caja_id"] . ";");
+caja_id =" . $lastCaja["caja_id"] . " AND m.empresa_id = " . getEmpresa() . ";");
 
 
 //    for ($i = 0; $i <= 3; $i++) {
@@ -383,6 +383,7 @@ caja_id =" . $lastCaja["caja_id"] . ";");
             "moneda_id" => 1,
             "valor_real" => $params['importe'],
             "valor_esperado" => $params['importe'],
+            "empresa_id" => getEmpresa(),
             "caja_id" => $lastCaja["caja_id"]);
         $db->insert("cajas_detalles", $data);
 
@@ -410,9 +411,9 @@ caja_id =" . $lastCaja["caja_id"] . ";");
 //    $results = $db->rawQuery("select (select c.detalles from cajas c where c.caja_id = caja_id) detalles, valor_real from cajas_detalles where caja_id = (select max(caja_id) from cajas where sucursal_id = " . $sucursal_id . ");");
         $results = $db->rawQuery("select
 (select c.detalles from cajas c
-where c.caja_id = (select max(caja_id) from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $params['pos_id'] . ")) detalles,
+where c.caja_id = (select max(caja_id) from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $params['pos_id'] . " AND empresa_id = " . getEmpresa() . ")) detalles,
 valor_real from cajas_detalles where caja_id = (select max(caja_id)
-from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $params['pos_id'] . ");");
+from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $params['pos_id'] . ") AND empresa_id = " . getEmpresa() . ";");
 
         echo json_encode($results);
 
@@ -426,7 +427,7 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
     function getLastCaja($sucursal_id, $pos_id)
     {
         $db = self::$instance->db;
-        $results = $db->rawQuery("select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=" . $sucursal_id . " and pos_id =" . $pos_id . ") and sucursal_id=" . $sucursal_id . " and pos_id =" . $pos_id . ";");
+        $results = $db->rawQuery("select * from cajas where caja_id = (select max(caja_id) from cajas where sucursal_id=" . $sucursal_id . " AND empresa_id = " . getEmpresa() . " and pos_id =" . $pos_id . ") and sucursal_id=" . $sucursal_id . " and pos_id =" . $pos_id . ";");
 
         if ($db->count > 0) {
             return $results[0];
@@ -456,7 +457,8 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
             'asiento_inicio_id' => $lastCaja['asiento_cierre_id'] + 1,
             'saldo_inicial' => $params['importe'],
             'sucursal_id' => $params['sucursal_id'],
-            'pos_id' => $params['pos_id']
+            'pos_id' => $params['pos_id'],
+            'empresa_id' => getEmpresa()
         );
 
         $id = $db->insert('cajas', $data);
@@ -474,6 +476,7 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
         $db = new MysqliDb();
         $db->where('sucursal_id', $sucursal_id);
         $db->where('pos_id', $pos_id);
+        $db->where('empresa_id', getEmpresa());
         $results = $db->get('cajas');
 
         echo json_encode($results);
@@ -484,7 +487,7 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
     {
         $db = self::$instance->db;
         //$results = $db->get('cajas');
-        $results = $db->rawQuery('SELECT * FROM cajas ORDER BY fecha DESC');
+        $results = $db->rawQuery('SELECT * FROM cajas WHERE empresa_id = ' . getEmpresa() . ' ORDER BY fecha DESC');
 
         echo json_encode($results);
 
@@ -495,7 +498,7 @@ from cajas where sucursal_id =" . $params['sucursal_id'] . " and pos_id =" . $pa
     {
         $db = self::$instance->db;
 
-        $results = $db->rawQuery('select * from resultados where cuenta_id = "' . $params['cuenta_id'] . '" AND mes = Month(last_day(date_sub(now(),interval 30 day)))
+        $results = $db->rawQuery('select * from resultados where empresa_id = ' . getEmpresa() . ' and cuenta_id = "' . $params['cuenta_id'] . '" AND mes = Month(last_day(date_sub(now(),interval 30 day)))
         AND anio = Year(last_day(date_sub(now(),interval 30 day)))');
 
         //if ($db->count > 0) {
@@ -547,7 +550,7 @@ FROM
         LEFT JOIN
     usuarios c ON e.cliente_id = c.usuario_id
         LEFT JOIN
-    productos p ON d.producto_id = p.producto_id ' . (($params['all'] == 'true') ? ' WHERE e.status in(0,1) ' : ' WHERE e.status = 0 ') . ' ORDER BY e.fecha;');
+    productos p ON d.producto_id = p.producto_id ' . (($params['all'] == 'true') ? ' WHERE e.status in(0,1) AND e.empresa_id = ' . getEmpresa() : ' WHERE e.status = 0 AND e.empresa_id = ' . getEmpresa() ) . ' ORDER BY e.fecha;');
 
         $final = array();
         foreach ($results as $row) {
@@ -633,7 +636,8 @@ FROM
             'nro_guia' => $item_decoded->nro_guia,
             'status' => $item_decoded->status,
             'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10),
-            'descuento' => $item_decoded->descuento
+            'descuento' => $item_decoded->descuento,
+            'empresa_id' => getEmpresa()
         );
 
         $result = $db->insert('envios', $data);
@@ -678,7 +682,8 @@ FROM
             'nro_guia' => $item_decoded->nro_guia,
             'status' => $item_decoded->status,
             'fecha_entrega' => substr($item_decoded->fecha_entrega, 0, 10),
-            'descuento' => $item_decoded->descuento
+            'descuento' => $item_decoded->descuento,
+            'empresa_id' => getEmpresa()
         );
 
         $result = $db->update('envios', $data);
